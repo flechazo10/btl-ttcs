@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đặt Vé Xe Tiến Sơn</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">
+            <h2>NHÀ XE TIẾN SƠN</h2>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#" class="active">Trang chủ</a></li>
+                <li><a href="#">Giới thiệu</a></li>
+                <li><a href="#">Tin tức</a></li>
+                <li><a href="#">Tuyển dụng</a></li>
+                <li><a href="#">Liên hệ</a></li>
+            </ul>
+        </nav>
+        
+        <div class="header-right">
+            <div class="lang">🇻🇳</div>
+            
+            <div class="auth-guest" id="authGuest">
+                <button class="btn-text" id="btnLogin" onclick="window.location.href='login.html'">Đăng nhập</button>
+                <span class="divider">/</span>
+                <button class="btn-text" id="btnRegister" onclick="window.location.href='register.html'">Đăng ký</button>
+            </div>
+
+            <div class="auth-user" id="authUser" style="display: none;">
+                <span class="greeting">HI <span id="userNameDisplay">MUỐIBUON2</span></span>
+                <span class="divider">|</span>
+                <button class="btn-outline" id="btnLogout">Đăng xuất</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="hero-banner">
+        <img src="https://xevananh.com/_next/image?url=https%3A%2F%2Fcms.mobihome.vn%2FData%2F119%2Fmedia%2F%2FBanner%2F%2FLarge%2FBanner%20Website%20(1).png&w=1920&q=75" alt="Banner Nhà Xe Tiến Sơn">
+    </div>
+
+    <div class="search-container">
+        <div class="trip-type">
+            <label><input type="radio" name="trip" checked> Một chiều</label>
+            <label><input type="radio" name="trip"> Khứ hồi</label>
+        </div>
+        
+        <form id="searchForm" class="search-box">
+            <div class="input-group">
+                <label>Điểm đi</label>
+                <select id="startProvince" required></select>
+            </div>
+            
+            <div class="swap-icon">⇄</div>
+
+            <div class="input-group">
+                <label>Điểm đến</label>
+                <select id="endProvince" required></select>
+            </div>
+
+            <div class="input-group">
+                <label>Ngày đi</label>
+                <input type="date" id="departureDate" required>
+            </div>
+
+            <button type="submit" class="btn-search">🔍 Tìm Ngay</button>
+        </form>
+    </div>
+
+    <script src="js/index.js"></script>
+</body>
+</html>

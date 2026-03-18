@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập - Nhà xe Tiến Sơn</title>
+    <link rel="stylesheet" href="css/auth.css">
+    
+    <style>
+        body {
+            /* Trỏ tới file ảnh bạn vừa tải về trong thư mục images */
+            background-image: url('images/login.jpg');
+        }
+        
+        /* Chỉnh lại một chút nút Quên mật khẩu cho đẹp */
+        .forgot-pwd {
+            text-align: right;
+            margin-bottom: 20px;
+        }
+        .forgot-pwd a {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 14px;
+            text-decoration: underline;
+        }
+        .forgot-pwd a:hover {
+            color: #fce4d6;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="auth-wrapper">
+        <h2>WELCOME BACK</h2>
+        <p class="subtitle">Đăng nhập để tiếp tục đặt vé tại Tiến Sơn</p>
+
+        <form id="loginForm">
+            <div class="input-group">
+                <input type="text" id="username" placeholder="Nhập tên đăng nhập hoặc Email" required>
+            </div>
+            <div class="input-group">
+                <input type="password" id="password" placeholder="Nhập mật khẩu" required>
+            </div>
+            
+            <div class="forgot-pwd">
+                <a href="forgot-password.html" id="forgotPwdLink">Quên mật khẩu?</a>
+            </div>
+            
+            <button type="submit" class="btn-submit">ĐĂNG NHẬP (SIGN IN)</button>
+        </form>
+
+        <div class="auth-links">
+            <p>Chưa có tài khoản? <a href="register.html">Tạo tài khoản mới</a></p>
+            <p style="margin-top: 10px;"><a href="index.html" style="text-decoration: none;">← Quay lại Trang chủ</a></p>
+        </div>
+    </div>
+    <script src="js/login.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng ký tài khoản</title>
+    <link rel="stylesheet" href="css/auth.css">
+</head>
+<body>
+
+    <div class="auth-wrapper">
+        <h2>WELCOME</h2>
+        <p class="subtitle">Tạo tài khoản mới để đặt vé dễ dàng hơn</p>
+
+        <form id="registerForm">
+            <div class="input-group">
+                <input type="text" id="fullName" placeholder="Họ và tên" required>
+            </div>
+            <div class="input-group">
+                <input type="text" id="username" placeholder="Tên đăng nhập" required>
+            </div>
+            <div class="input-group">
+                <input type="email" id="email" placeholder="Email" required>
+            </div>
+            <div class="input-group">
+                <input type="tel" id="phone" placeholder="Số điện thoại" required>
+            </div>
+            <div class="input-group">
+                <input type="password" id="password" placeholder="Mật khẩu" required>
+            </div>
+            
+            <button type="submit" class="btn-submit">ĐĂNG KÝ (SIGN UP)</button>
+        </form>
+
+        <div class="auth-links">
+            <p>Đã có tài khoản? <a href="login.html">Đăng nhập ngay</a></p>
+            <p style="margin-top: 10px;"><a href="index.html" style="text-decoration: none;">← Quay lại Trang chủ</a></p>
+        </div>
+    </div>
+   <script src="js/register.js"></script>
+</body>
+</html>
