@@ -6,24 +6,30 @@ import com.booking.entity.User;
 import com.booking.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.security.crypto.password.PasswordEncoder; // MỚI THÊM
 
 @Service
 public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     // --- LOGIC ĐĂNG KÝ ---
     public void registerUser(UserRequest request) {
-        // 1. Kiểm tra xem username đã tồn tại trong DB chưa
+        // 1. Kiểm tra xem username và email đã tồn tại trong DB chưa
         if (userRepository.findByUsername(request.getUsername()) != null) {
             throw new RuntimeException("Tên đăng nhập đã tồn tại! Vui lòng chọn tên khác.");
+        }
+        if (userRepository.findByEmail(request.getEmail()) != null) {
+            throw new RuntimeException("Email này đã được đăng ký! Vui lòng sử dụng Email khác.");
         }
 
         // 2. Chuyển dữ liệu từ DTO sang Entity để lưu
         User user = new User();
         user.setUsername(request.getUsername());
-        user.setPassword(request.getPassword()); // (Thực tế đi làm sẽ cần mã hóa mật khẩu ở đây)
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setFullName(request.getFullName());
         user.setEmail(request.getEmail());
         user.setPhone(request.getPhone());
@@ -43,8 +49,8 @@ public class UserService {
             user = userRepository.findByEmail(request.getUsername());
         }
 
-        // 3. Kiểm tra mật khẩu
-        if (user == null || !user.getPassword().equals(request.getPassword())) {
+        // MỚI THÊM: Dùng hàm matches() của BCrypt để so sánh mật khẩu gốc với mật khẩu đã mã hóa trong DB
+        if (user == null || !passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw new RuntimeException("Tài khoản hoặc mật khẩu không chính xác!");
         }
 
@@ -61,7 +67,7 @@ public class UserService {
             throw new RuntimeException("Không tìm thấy tài khoản nào đăng ký với Email này!");
         }
         // Cập nhật mật khẩu mới và lưu lại
-        user.setPassword(newPassword);
+        user.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(user);
     }
     // Hàm kiểm tra Email có khớp với Username không
