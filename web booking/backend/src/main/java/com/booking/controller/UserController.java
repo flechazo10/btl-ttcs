@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.booking.service.EmailService;
+import com.booking.dto.response.UserResponse;
 
 @RestController
 @RequestMapping("/api/users")
@@ -31,13 +32,27 @@ public class UserController {
     }
 
     // --- API ĐĂNG NHẬP MỚI THÊM ---
+    // API Đăng nhập
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
         try {
+            // 1. Gọi Service để check tài khoản (Nếu sai nó sẽ văng ra lỗi ở đây luôn)
             User user = userService.loginUser(request);
-            // Trả về dữ liệu của user để Frontend lưu lại (hiển thị tên)
-            return ResponseEntity.ok(user); 
-        } catch (Exception e) {
+            
+            // 2. Chuyển đổi từ Entity (có password) sang DTO (không có password)
+            UserResponse responseInfo = new UserResponse(
+                user.getId(),
+                user.getUsername(),
+                user.getFullName(),
+                user.getEmail(),
+                user.getPhone(),
+                user.getRole()
+            );
+
+            // 3. Trả về cho Frontend DTO an toàn này
+            return ResponseEntity.ok(responseInfo);
+            
+        } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }

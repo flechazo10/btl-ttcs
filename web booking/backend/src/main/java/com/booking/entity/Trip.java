@@ -31,4 +31,6 @@ public class Trip {
     private BigDecimal price;
 
     private String status;
+    @Column(name = "booked_seats")
+    private Integer bookedSeats = 0;
 }

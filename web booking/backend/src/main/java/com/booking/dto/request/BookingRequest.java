@@ -1,23 +1,28 @@
 package com.booking.dto.request;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class BookingRequest {
     
-    // Frontend chỉ cần gửi ID của chuyến xe, không cần gửi nguyên cả một Object Trip
     private Long tripId; 
     
-    // Thông tin khách điền trên Form HTML
-    private String customerName;
-    private String customerPhone;
-    private String customerEmail;
+    // Đồng bộ tên biến với Entity cho dễ map dữ liệu
+    private String passengerName;
+    private String passengerPhone;
+    private String customerEmail; 
     
-    // Số lượng ghế khách muốn đặt
-    private Integer numberOfTickets;
+    // --- ĐÃ ĐỔI TÊN & THÊM MỚI ---
+    private Integer totalTickets; 
     
-    // Ghi chú thêm (nếu có)
+    private String pickupLocation;  // Điểm đón (VD: Bến xe Nước Ngầm)
+    private String dropoffLocation; // Điểm trả (VD: Bến xe phía Bắc)
+    
     private String note;
 }
