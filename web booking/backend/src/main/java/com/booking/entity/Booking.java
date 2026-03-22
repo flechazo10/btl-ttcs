@@ -36,4 +36,8 @@ public class Booking {
 
     @Column(name = "booking_time")
     private LocalDateTime bookingTime;
+
+    // --- MỚI THÊM VÀO ĐÂY ---
+    @Column(name = "total_tickets")
+    private Integer totalTickets = 1;
 }

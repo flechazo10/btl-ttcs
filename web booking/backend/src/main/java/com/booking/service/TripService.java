@@ -27,30 +27,39 @@ public class TripService {
         response.setArrivalTime(trip.getArrivalTime());
         response.setStatus(trip.getStatus());
 
-        // 1. Xử lý lỗi dòng 28: Ép kiểu BigDecimal trong DB sang Double cho Frontend
+        // 1. Xử lý giá tiền
         if (trip.getPrice() != null) {
             response.setPrice(trip.getPrice().doubleValue());
         }
 
-        // 2. Xử lý lỗi dòng 33-37: Lấy tên tỉnh thông qua Bến xe (Station)
+        // 2. Lấy tên Tỉnh
         if (trip.getRoute() != null) {
-            // Lấy Tỉnh đi
             if (trip.getRoute().getStartStation() != null && trip.getRoute().getStartStation().getProvince() != null) {
                 response.setStartProvinceName(trip.getRoute().getStartStation().getProvince().getName());
             }
-            // Lấy Tỉnh đến
             if (trip.getRoute().getEndStation() != null && trip.getRoute().getEndStation().getProvince() != null) {
                 response.setEndProvinceName(trip.getRoute().getEndStation().getProvince().getName());
             }
         }
         
-        // 3. Lấy Biển số và Loại xe từ Bus (Xe khách)
+        // 3. Lấy Biển số, Loại xe và TÍNH TOÁN SỐ GHẾ TRỐNG
+        int total = 0;
         if (trip.getBus() != null) {
             response.setLicensePlate(trip.getBus().getLicensePlate());
             if (trip.getBus().getBusType() != null) {
                 response.setBusTypeName(trip.getBus().getBusType().getName());
+                // Lấy tổng số ghế từ bảng BusType
+                total = trip.getBus().getBusType().getTotalSeats();
             }
         }
+        
+        // Lấy số ghế đã đặt (Nếu bị null ở DB thì mặc định là 0)
+        int booked = (trip.getBookedSeats() != null) ? trip.getBookedSeats() : 0;
+        
+        // Gắn vào Response gửi về cho Frontend
+        response.setTotalSeats(total);
+        response.setBookedSeats(booked);
+        response.setAvailableSeats(total - booked); // Phép tính quan trọng nhất!
         
         return response;
     }

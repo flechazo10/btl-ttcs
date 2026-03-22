@@ -16,4 +16,7 @@ public class TripResponse {
     private LocalDateTime arrivalTime;   // Thời gian đến
     private Double price;             // Giá vé
     private String status;            // Trạng thái (Còn vé, Hết vé)
+    private Integer totalSeats;      // Tổng số ghế của loại xe
+    private Integer bookedSeats;     // Số ghế đã bị đặt
+    private Integer availableSeats;  // Số ghế còn trống (Tính toán = Tổng - Đã đặt)
 }
