@@ -45,6 +45,7 @@ CREATE TABLE trip (
     arrival_time DATETIME,
     price DECIMAL(10,2),
     status VARCHAR(50),
+    booked_seats INT NOT NULL DEFAULT 0, 
     FOREIGN KEY (route_id) REFERENCES route(id),
     FOREIGN KEY (bus_id) REFERENCES bus(id)
 );
@@ -69,6 +70,8 @@ CREATE TABLE booking (
     dropoff_location VARCHAR(255),
     total_amount DECIMAL(10,2),
     booking_time DATETIME,
+    total_tickets INT NOT NULL DEFAULT 1, 
+    status VARCHAR(50) NOT NULL DEFAULT 'PENDING', 
     FOREIGN KEY (user_id) REFERENCES user(id)
 );
 
@@ -81,4 +84,14 @@ CREATE TABLE ticket (
     ticket_status VARCHAR(50),
     FOREIGN KEY (booking_id) REFERENCES booking(id),
     FOREIGN KEY (trip_id) REFERENCES trip(id)
+);
+
+CREATE TABLE payment (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    booking_id VARCHAR(50) NOT NULL,
+    amount DECIMAL(10,2) NOT NULL,             
+    transaction_no VARCHAR(100),               
+    payment_time DATETIME,                     
+    status VARCHAR(50) NOT NULL,               
+    FOREIGN KEY (booking_id) REFERENCES booking(id)
 );

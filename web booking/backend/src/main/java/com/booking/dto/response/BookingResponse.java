@@ -1,19 +1,27 @@
 package com.booking.dto.response;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class BookingResponse {
-    private Long id;
-    private String customerName;
-    private String customerPhone;
-    private String tripRoute;         // Nối sẵn chuỗi "Hà Nội - Thanh Hóa" cho Frontend dễ in ra
+    
+    // ⚠️ ĐÃ SỬA LỖI: ID phải là String để khớp với VARCHAR(50) trong Database
+    private String id; 
+    
+    private String passengerName;
+    private String passengerPhone;
+    private String tripRoute;         
     private LocalDateTime departureTime; 
-    private Integer numberOfTickets;  // Số lượng vé
-    private Double totalPrice;        // Tổng tiền (Backend tự tính và trả về)
-    private String status;            // Đã thanh toán, Chờ thanh toán, Đã hủy
-    private LocalDateTime bookingDate;// Ngày thực hiện đặt vé
+    
+    private Integer totalTickets;     // Đã đổi tên
+    private Double totalAmount;       // Đã đổi tên (Thay cho totalPrice)
+    private String status;            
+    private LocalDateTime bookingTime;// Đã đổi tên (Thay cho bookingDate)
 }

@@ -31,4 +31,8 @@ public class Trip {
     private BigDecimal price;
 
     private String status;
+
+    // --- MỚI THÊM VÀO ĐÂY ---
+    @Column(name = "booked_seats")
+    private Integer bookedSeats = 0; 
 }
