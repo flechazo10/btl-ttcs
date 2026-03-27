@@ -37,9 +37,15 @@ public class Booking {
     @Column(name = "booking_time")
     private LocalDateTime bookingTime;
 
+<<<<<<< HEAD
     @Column(name = "total_tickets")
     private Integer totalTickets = 1;
 
     // --- CỘT MỚI: Trạng thái đơn hàng (PENDING, PAID, CANCELLED) ---
     private String status = "PENDING"; 
+=======
+    // --- MỚI THÊM VÀO ĐÂY ---
+    @Column(name = "total_tickets")
+    private Integer totalTickets = 1;
+>>>>>>> 081ce1dc46ec4448ba85e8bd6bb9c69d39cc27c6
 }
