@@ -45,11 +45,7 @@ CREATE TABLE trip (
     arrival_time DATETIME,
     price DECIMAL(10,2),
     status VARCHAR(50),
-<<<<<<< HEAD
-    booked_seats INT NOT NULL DEFAULT 0, 
-=======
     booked_seats INT NOT NULL DEFAULT 0, -- CỘT MỚI ĐƯỢC THÊM VÀO ĐÂY (BẢNG TRIP)
->>>>>>> 081ce1dc46ec4448ba85e8bd6bb9c69d39cc27c6
     FOREIGN KEY (route_id) REFERENCES route(id),
     FOREIGN KEY (bus_id) REFERENCES bus(id)
 );
@@ -74,12 +70,8 @@ CREATE TABLE booking (
     dropoff_location VARCHAR(255),
     total_amount DECIMAL(10,2),
     booking_time DATETIME,
-<<<<<<< HEAD
-    total_tickets INT NOT NULL DEFAULT 1, 
     status VARCHAR(50) NOT NULL DEFAULT 'PENDING', 
-=======
     total_tickets INT NOT NULL DEFAULT 1, -- CỘT MỚI ĐƯỢC THÊM VÀO ĐÂY (BẢNG BOOKING)
->>>>>>> 081ce1dc46ec4448ba85e8bd6bb9c69d39cc27c6
     FOREIGN KEY (user_id) REFERENCES user(id)
 );
 
