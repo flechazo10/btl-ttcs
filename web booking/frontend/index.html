@@ -1,75 +1,184 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đặt Vé Xe TSH</title> 
-    <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Đặt Vé Xe TSH</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
     <header class="navbar">
-        <div class="logo">
-            <h2>NHÀ XE TSH</h2>
-        </div>
-        <nav>
-            <ul>
-                <li><a href="#" class="active">Trang chủ</a></li>
-                <li><a href="#">Giới thiệu</a></li>
-                <li><a href="#">Tin tức</a></li>
-                <li><a href="#">Tuyển dụng</a></li>
-                <li><a href="#">Liên hệ</a></li>
-            </ul>
-        </nav>
-        
-        <div class="header-right">
-            <div class="lang">🇻🇳</div>
-            
-            <div class="auth-guest" id="authGuest">
-                <button class="btn-text" id="btnLogin" onclick="window.location.href='login.html'">Đăng nhập</button>
-                <span class="divider">/</span>
-                <button class="btn-text" id="btnRegister" onclick="window.location.href='register.html'">Đăng ký</button>
-            </div>
+      <div class="logo">
+        <h2>NHÀ XE TSH</h2>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#" class="active">Trang chủ</a></li>
+          <li><a href="#">Giới thiệu</a></li>
+          <li><a href="#">Tin tức</a></li>
+          <li><a href="#">Tuyển dụng</a></li>
+          <li><a href="#">Liên hệ</a></li>
+        </ul>
+      </nav>
 
-            <div class="auth-user" id="authUser" style="display: none;">
-                <span class="greeting">HI <span id="userNameDisplay"></span></span>
-                <span class="divider">|</span>
-                <button class="btn-outline" id="btnLogout">Đăng xuất</button>
-            </div>
+      <div class="header-right">
+        <div class="lang">🇻🇳</div>
+        <div class="auth-guest" id="authGuest">
+          <button
+            class="btn-text"
+            id="btnLogin"
+            onclick="window.location.href = 'login.html'"
+          >
+            Đăng nhập
+          </button>
+          <span class="divider">/</span>
+          <button
+            class="btn-text"
+            id="btnRegister"
+            onclick="window.location.href = 'register.html'"
+          >
+            Đăng ký
+          </button>
         </div>
+        <div class="auth-user" id="authUser" style="display: none">
+          <span class="greeting">HI <span id="userNameDisplay"></span></span>
+          <span class="divider">|</span>
+          <button class="btn-outline" id="btnLogout">Đăng xuất</button>
+        </div>
+      </div>
     </header>
 
     <div class="hero-banner">
-        <img src="images/hinh_xe_tsh.png" alt="Banner Nhà Xe TSH">
+      <img
+        src="https://bizweb.dktcdn.net/100/512/250/files/z5768108137147-045345ce0bd57739faa1645d4c59f596.jpg?v=1724659700457"
+        alt="Banner Nhà Xe TSH"
+      />
     </div>
 
     <div class="search-container">
-        <div class="trip-type">
-            <label><input type="radio" name="trip" checked> Một chiều</label>
-            <label><input type="radio" name="trip"> Khứ hồi</label>
+      <div class="trip-type">
+        <label><input type="radio" name="trip" checked /> Một chiều</label>
+        <label><input type="radio" name="trip" /> Khứ hồi</label>
+      </div>
+      <form id="searchForm" class="search-box">
+        <div class="input-group">
+          <label>Điểm đi</label>
+          <select id="startProvince"></select>
         </div>
-        
-        <form id="searchForm" class="search-box">
-            <div class="input-group">
-                <label>Điểm đi</label>
-                <select id="startProvince" required></select>
-            </div>
-            
-            <div class="swap-icon">⇄</div>
-
-            <div class="input-group">
-                <label>Điểm đến</label>
-                <select id="endProvince" required></select>
-            </div>
-
-            <div class="input-group">
-                <label>Ngày đi</label>
-                <input type="date" id="departureDate" required>
-            </div>
-
-            <button type="submit" class="btn-search">🔍 Tìm Ngay</button>
-        </form>
+        <div class="swap-icon">⇄</div>
+        <div class="input-group">
+          <label>Điểm đến</label>
+          <select id="endProvince"></select>
+        </div>
+        <div class="input-group">
+          <label>Ngày đi</label>
+          <input type="date" id="departureDate" required />
+        </div>
+        <button type="submit" class="btn-search">🔍 Tìm Ngay</button>
+        <!-- THÊM DÒNG NÀY -->
+        <button type="button" class="btn-reset" onclick="resetSearch()">
+          ✕ Xóa
+        </button>
+      </form>
     </div>
 
+    <!-- KẾT QUẢ TÌM KIẾM -->
+    <section class="results-section" id="resultsSection" style="display: none">
+      <div class="results-header">
+        <h3 id="resultsTitle"></h3>
+        <span class="results-count" id="resultsCount"></span>
+      </div>
+      <div class="results-loading" id="resultsLoading" style="display: none">
+        <div class="spinner"></div>
+        <p>Đang tìm chuyến xe...</p>
+      </div>
+      <div class="results-empty" id="resultsEmpty" style="display: none">
+        <p>😔 Không tìm thấy chuyến xe phù hợp.</p>
+      </div>
+
+      <!-- Tab ngày -->
+      <div class="date-tabs" id="dateTabs"></div>
+
+      <div class="results-body">
+        <!-- Bộ lọc bên trái -->
+        <aside class="filter-panel" id="filterPanel" style="display: none">
+          <div class="filter-header">
+            <span>BỘ LỌC</span>
+            <button class="filter-reset" onclick="resetFilters()">
+              Đặt lại bộ lọc
+            </button>
+          </div>
+
+          <div class="filter-group">
+            <div class="filter-label">Loại xe</div>
+            <div id="busTypeFilter"></div>
+          </div>
+
+          <div class="filter-group">
+            <div class="filter-label">Giờ chạy</div>
+            <div class="range-row">
+              <input
+                type="range"
+                id="rangeHourMin"
+                min="0"
+                max="23"
+                value="0"
+                oninput="
+                  updateRangeLabel('hourMin', this.value);
+                  applyFilters();
+                "
+              />
+              <input
+                type="range"
+                id="rangeHourMax"
+                min="0"
+                max="23"
+                value="23"
+                oninput="
+                  updateRangeLabel('hourMax', this.value);
+                  applyFilters();
+                "
+              />
+            </div>
+            <div class="range-labels">
+              <span id="labelHourMin">00:00</span>
+              <span id="labelHourMax">23:59</span>
+            </div>
+          </div>
+
+          <div class="filter-group">
+            <div class="filter-label">Lượng ghế trống</div>
+            <input
+              type="range"
+              id="rangeSeats"
+              min="0"
+              max="60"
+              value="0"
+              oninput="
+                updateRangeLabel('seats', this.value);
+                applyFilters();
+              "
+            />
+            <div class="range-labels">
+              <span>0</span>
+              <span id="labelSeats">0</span>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Danh sách chuyến -->
+        <div class="trip-list" id="tripList"></div>
+      </div>
+    </section>
+
+    <!-- TUYẾN XE PHỔ BIẾN -->
+    <section class="popular-section">
+      <h2 class="popular-title">Tuyến xe phổ biến</h2>
+      <div class="popular-list" id="popularList">
+        <div class="popular-loading">Đang tải...</div>
+      </div>
+    </section>
+
     <script src="js/index.js"></script>
-</body>
+  </body>
 </html>
