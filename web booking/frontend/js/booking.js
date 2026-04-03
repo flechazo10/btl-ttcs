@@ -1,8 +1,3 @@
-/**
- * Ghế trống hiển thị lấy từ API (trip.availableSeats).
- * Backend hiện tính: total_seats (bus_type) - trip.booked_seats.
- * Nếu cần đúng công thức total_seats - COUNT(ticket.id), phải sửa backend (không nằm trong 3 file này).
- */
 (function () {
   const API_BASE = "http://localhost:8080/api";
   const STORAGE_KEY = "bookingSelectedTrip";
@@ -33,7 +28,12 @@
       test: (d) => d.replace(/^0/, "").length >= 10,
       err: "Số Anh: thường 10–11 chữ số (có thể bỏ số 0 đầu).",
     },
-    "+33": { min: 9, max: 9, test: (d) => /^[1-9]\d{8}$/.test(d), err: "Số Pháp: 9 chữ số (không gồm 0 đầu)." },
+    "+33": {
+      min: 9,
+      max: 9,
+      test: (d) => /^[1-9]\d{8}$/.test(d),
+      err: "Số Pháp: 9 chữ số (không gồm 0 đầu).",
+    },
     "+49": { min: 10, max: 12, err: "Số Đức: 10–12 chữ số." },
     "+39": { min: 9, max: 11, err: "Số Ý: 9–11 chữ số." },
     "+34": { min: 9, max: 9, err: "Số Tây Ban Nha: 9 chữ số." },
@@ -52,7 +52,12 @@
     "+30": { min: 10, max: 10, err: "Số Hy Lạp: 10 chữ số." },
     "+351": { min: 9, max: 9, err: "Số Bồ Đào Nha: 9 chữ số." },
     "+353": { min: 9, max: 10, err: "Số Ireland: 9–10 chữ số." },
-    "+7": { min: 10, max: 10, test: (d) => /^9\d{9}$/.test(d), err: "Số Nga di động: 10 chữ số, bắt đầu 9." },
+    "+7": {
+      min: 10,
+      max: 10,
+      test: (d) => /^9\d{9}$/.test(d),
+      err: "Số Nga di động: 10 chữ số, bắt đầu 9.",
+    },
     "+380": { min: 9, max: 9, err: "Số Ukraine: 9 chữ số." },
     "+90": { min: 10, max: 10, err: "Số Thổ Nhĩ Kỳ: 10 chữ số." },
     "+972": { min: 9, max: 9, err: "Số Israel: 9 chữ số." },
@@ -60,25 +65,64 @@
     "+966": { min: 9, max: 9, err: "Số Ả Rập Xê Út: 9 chữ số." },
     "+20": { min: 10, max: 10, err: "Số Ai Cập: 10 chữ số." },
     "+27": { min: 9, max: 9, err: "Số Nam Phi: 9 chữ số." },
-    "+91": { min: 10, max: 10, test: (d) => /^[6-9]\d{9}$/.test(d), err: "Số Ấn Độ: 10 chữ số, bắt đầu 6–9." },
+    "+91": {
+      min: 10,
+      max: 10,
+      test: (d) => /^[6-9]\d{9}$/.test(d),
+      err: "Số Ấn Độ: 10 chữ số, bắt đầu 6–9.",
+    },
     "+92": { min: 10, max: 10, err: "Số Pakistan: 10 chữ số." },
     "+880": { min: 10, max: 11, err: "Số Bangladesh: 10–11 chữ số." },
     "+94": { min: 9, max: 9, err: "Số Sri Lanka: 9 chữ số." },
-    "+86": { min: 11, max: 11, test: (d) => /^1\d{10}$/.test(d), err: "Số Trung Quốc di động: 11 chữ số, bắt đầu 1." },
+    "+86": {
+      min: 11,
+      max: 11,
+      test: (d) => /^1\d{10}$/.test(d),
+      err: "Số Trung Quốc di động: 11 chữ số, bắt đầu 1.",
+    },
     "+852": { min: 8, max: 8, err: "Số Hồng Kông: 8 chữ số." },
     "+853": { min: 8, max: 8, err: "Số Ma Cao: 8 chữ số." },
-    "+886": { min: 9, max: 9, test: (d) => /^9\d{8}$/.test(d), err: "Số Đài Loan: 9 chữ số, di động thường bắt đầu 9." },
-    "+81": { min: 10, max: 11, err: "Số Nhật: 10–11 chữ số (bỏ số 0 đầu tiên nếu có)." },
+    "+886": {
+      min: 9,
+      max: 9,
+      test: (d) => /^9\d{8}$/.test(d),
+      err: "Số Đài Loan: 9 chữ số, di động thường bắt đầu 9.",
+    },
+    "+81": {
+      min: 10,
+      max: 11,
+      err: "Số Nhật: 10–11 chữ số (bỏ số 0 đầu tiên nếu có).",
+    },
     "+82": { min: 9, max: 11, err: "Số Hàn Quốc: 9–11 chữ số." },
-    "+65": { min: 8, max: 8, test: (d) => /^[689]\d{7}$/.test(d), err: "Số Singapore: 8 chữ số, bắt đầu 6/8/9." },
+    "+65": {
+      min: 8,
+      max: 8,
+      test: (d) => /^[689]\d{7}$/.test(d),
+      err: "Số Singapore: 8 chữ số, bắt đầu 6/8/9.",
+    },
     "+60": { min: 9, max: 10, err: "Số Malaysia: 9–10 chữ số." },
-    "+66": { min: 9, max: 9, test: (d) => /^[689]\d{8}$/.test(d), err: "Số Thái Lan: 9 chữ số, bắt đầu 6/8/9." },
-    "+63": { min: 10, max: 10, test: (d) => /^9\d{9}$/.test(d), err: "Số Philippines: 10 chữ số, di động thường bắt đầu 9." },
+    "+66": {
+      min: 9,
+      max: 9,
+      test: (d) => /^[689]\d{8}$/.test(d),
+      err: "Số Thái Lan: 9 chữ số, bắt đầu 6/8/9.",
+    },
+    "+63": {
+      min: 10,
+      max: 10,
+      test: (d) => /^9\d{9}$/.test(d),
+      err: "Số Philippines: 10 chữ số, di động thường bắt đầu 9.",
+    },
     "+62": { min: 10, max: 13, err: "Số Indonesia: 10–13 chữ số." },
     "+855": { min: 8, max: 9, err: "Số Campuchia: 8–9 chữ số." },
     "+856": { min: 8, max: 10, err: "Số Lào: 8–10 chữ số." },
     "+95": { min: 8, max: 10, err: "Số Myanmar: 8–10 chữ số." },
-    "+61": { min: 9, max: 9, test: (d) => /^4\d{8}$/.test(d), err: "Số Úc di động: 9 chữ số, bắt đầu 4." },
+    "+61": {
+      min: 9,
+      max: 9,
+      test: (d) => /^4\d{8}$/.test(d),
+      err: "Số Úc di động: 9 chữ số, bắt đầu 4.",
+    },
     "+64": { min: 8, max: 10, err: "Số New Zealand: 8–10 chữ số." },
     "+52": { min: 10, max: 10, err: "Số Mexico: 10 chữ số." },
     "+55": { min: 10, max: 11, err: "Số Brazil: 10–11 chữ số." },
@@ -171,15 +215,13 @@
   }
 
   function clearFieldErrors() {
-    ["errFullName", "errPhone", "errSeats"].forEach(
-      (id) => {
-        const el = document.getElementById(id);
-        if (el) {
-          el.hidden = true;
-          el.textContent = "";
-        }
-      },
-    );
+    ["errFullName", "errPhone", "errSeats"].forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.hidden = true;
+        el.textContent = "";
+      }
+    });
     document
       .querySelectorAll(".form-input--invalid")
       .forEach((n) => n.classList.remove("form-input--invalid"));
@@ -192,7 +234,9 @@
     const input = document.getElementById(inputId);
     const err = document.getElementById(errId);
     if (input) {
-      input.classList.add(isSelect ? "form-select--invalid" : "form-input--invalid");
+      input.classList.add(
+        isSelect ? "form-select--invalid" : "form-input--invalid",
+      );
     }
     if (err) {
       err.textContent = msg;
@@ -256,8 +300,7 @@
     document.getElementById("sumDepart").textContent = formatTime(
       trip.departureTime,
     );
-    document.getElementById("sumPlate").textContent =
-      trip.licensePlate || "—";
+    document.getElementById("sumPlate").textContent = trip.licensePlate || "—";
 
     const avail = getAvailableSeats(trip);
     const seatsInput = document.getElementById("seatQty");
@@ -304,11 +347,8 @@
 
     const subtotal = avail <= 0 ? 0 : unitPrice * qty;
     document.getElementById("lineUnitDetail").textContent =
-      avail <= 0
-        ? "—"
-        : `${formatMoney(unitPrice)} × ${qty}`;
-    document.getElementById("subtotalLine").textContent =
-      formatMoney(subtotal);
+      avail <= 0 ? "—" : `${formatMoney(unitPrice)} × ${qty}`;
+    document.getElementById("subtotalLine").textContent = formatMoney(subtotal);
     document.getElementById("grandTotal").textContent = formatMoney(subtotal);
   }
 
@@ -350,7 +390,9 @@
     const phoneCheck = validateNationalPhone(code, phoneRaw);
     if (!phoneCheck.ok) {
       setFieldError("phoneNumber", "errPhone", phoneCheck.msg);
-      document.getElementById("phoneCode").classList.add("form-select--invalid");
+      document
+        .getElementById("phoneCode")
+        .classList.add("form-select--invalid");
       ok = false;
     }
 
@@ -472,7 +514,9 @@
       document.getElementById("errSeats").hidden = true;
       updateTotals();
     });
-    document.getElementById("seatQty")?.addEventListener("change", updateTotals);
+    document
+      .getElementById("seatQty")
+      ?.addEventListener("change", updateTotals);
     document
       .getElementById("bookingForm")
       ?.addEventListener("submit", submitBooking);
