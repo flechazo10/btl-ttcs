@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Thông tin đặt vé — NHÀ XE TSH</title>
+    <link rel="stylesheet" href="css/booking.css" />
+  </head>
+  <body class="booking-page">
+    <div class="booking-inner">
+      <nav class="checkout-steps" aria-label="Tiến trình đặt vé">
+        <div class="step-item step-item--active">
+          <div class="step-circle">1</div>
+          <div class="step-label">Thông tin đặt vé</div>
+        </div>
+        <div class="step-item">
+          <div class="step-circle">2</div>
+          <div class="step-label">Thanh toán</div>
+        </div>
+        <div class="step-item">
+          <div class="step-circle">3</div>
+          <div class="step-label">Hoàn tất</div>
+        </div>
+      </nav>
+
+      <div id="bookingError" class="booking-error" style="display: none"></div>
+
+      <div id="bookingLoading" class="booking-loading">
+        Đang tải thông tin chuyến…
+      </div>
+
+      <div id="bookingLayout" class="booking-layout" style="display: none">
+        <div id="staleDataBanner" class="form-banner-warn" hidden></div>
+        <aside class="booking-sidebar">
+          <div class="side-card">
+            <div class="side-card__title">Vé của bạn</div>
+            <div class="ticket-meta">
+              Chiều đi · <span id="sumDate">—</span>
+            </div>
+            <div class="ticket-route" id="sumRoute">—</div>
+            <div class="ticket-row">
+              <span>Khởi hành</span>
+              <span id="sumDepart">—</span>
+            </div>
+            <div class="ticket-row">
+              <span>Biển số xe</span>
+              <span id="sumPlate">—</span>
+            </div>
+            <div class="ticket-row">
+              <span>Số lượng ghế</span>
+              <div class="seats-input-wrap">
+                <input
+                  type="number"
+                  id="seatQty"
+                  class="form-input"
+                  min="1"
+                  value="1"
+                  inputmode="numeric"
+                  aria-label="Số ghế"
+                />
+              </div>
+            </div>
+            <p
+              class="ticket-meta"
+              id="sumSeatNote"
+              style="margin-top: 6px; margin-bottom: 0"
+            ></p>
+            <div class="ticket-price-line">
+              <strong>Giá vé:</strong>
+              <span id="lineUnitDetail">—</span>
+            </div>
+          </div>
+
+          <div class="side-card">
+            <div class="side-card__title">Tổng thanh toán</div>
+            <div class="total-row">
+              <span>Giá vé chiều đi</span>
+              <span id="subtotalLine">—</span>
+            </div>
+            <div class="total-row total-row--grand">
+              <span>Tổng tiền</span>
+              <span class="total-value" id="grandTotal">—</span>
+            </div>
+          </div>
+        </aside>
+
+        <main>
+          <form id="bookingForm" class="form-card" novalidate>
+            <h1 class="form-card__title">Thông tin liên hệ</h1>
+
+            <div class="form-group">
+              <label for="fullName">Họ tên <span class="req">*</span></label>
+              <input
+                type="text"
+                id="fullName"
+                class="form-input"
+                name="fullName"
+                placeholder="Họ tên"
+                autocomplete="name"
+                required
+                maxlength="255"
+              />
+              <p class="field-error" id="errFullName" hidden></p>
+            </div>
+
+            <div class="form-group">
+              <label for="phoneNumber"
+                >Số điện thoại <span class="req">*</span></label
+              >
+              <div class="phone-row">
+                <select id="phoneCode" class="form-select" aria-label="Mã vùng">
+                  <option value="+84">(VN) +84</option>
+                  <option value="+1">(US/CA) +1</option>
+                  <option value="+44">(UK) +44</option>
+                  <option value="+33">(FR) +33</option>
+                  <option value="+49">(DE) +49</option>
+                  <option value="+39">(IT) +39</option>
+                  <option value="+34">(ES) +34</option>
+                  <option value="+31">(NL) +31</option>
+                  <option value="+32">(BE) +32</option>
+                  <option value="+41">(CH) +41</option>
+                  <option value="+43">(AT) +43</option>
+                  <option value="+45">(DK) +45</option>
+                  <option value="+46">(SE) +46</option>
+                  <option value="+47">(NO) +47</option>
+                  <option value="+358">(FI) +358</option>
+                  <option value="+48">(PL) +48</option>
+                  <option value="+420">(CZ) +420</option>
+                  <option value="+36">(HU) +36</option>
+                  <option value="+40">(RO) +40</option>
+                  <option value="+30">(GR) +30</option>
+                  <option value="+351">(PT) +351</option>
+                  <option value="+353">(IE) +353</option>
+                  <option value="+7">(RU/KZ) +7</option>
+                  <option value="+380">(UA) +380</option>
+                  <option value="+90">(TR) +90</option>
+                  <option value="+972">(IL) +972</option>
+                  <option value="+971">(AE) +971</option>
+                  <option value="+966">(SA) +966</option>
+                  <option value="+20">(EG) +20</option>
+                  <option value="+27">(ZA) +27</option>
+                  <option value="+91">(IN) +91</option>
+                  <option value="+92">(PK) +92</option>
+                  <option value="+880">(BD) +880</option>
+                  <option value="+94">(LK) +94</option>
+                  <option value="+86">(CN) +86</option>
+                  <option value="+852">(HK) +852</option>
+                  <option value="+853">(MO) +853</option>
+                  <option value="+886">(TW) +886</option>
+                  <option value="+81">(JP) +81</option>
+                  <option value="+82">(KR) +82</option>
+                  <option value="+65">(SG) +65</option>
+                  <option value="+60">(MY) +60</option>
+                  <option value="+66">(TH) +66</option>
+                  <option value="+63">(PH) +63</option>
+                  <option value="+62">(ID) +62</option>
+                  <option value="+855">(KH) +855</option>
+                  <option value="+856">(LA) +856</option>
+                  <option value="+95">(MM) +95</option>
+                  <option value="+61">(AU) +61</option>
+                  <option value="+64">(NZ) +64</option>
+                  <option value="+52">(MX) +52</option>
+                  <option value="+55">(BR) +55</option>
+                  <option value="+54">(AR) +54</option>
+                  <option value="+56">(CL) +56</option>
+                  <option value="+57">(CO) +57</option>
+                </select>
+                <input
+                  type="tel"
+                  id="phoneNumber"
+                  class="form-input"
+                  name="phone"
+                  placeholder="Số điện thoại"
+                  autocomplete="tel"
+                  required
+                />
+              </div>
+              <p class="field-error" id="errPhone" hidden></p>
+            </div>
+
+            <div class="form-group">
+              <label for="noteField">Ghi chú</label>
+              <input
+                type="text"
+                id="noteField"
+                class="form-input"
+                name="note"
+                placeholder="Ghi chú"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="pickupDetail">Nhập điểm đón chi tiết</label>
+              <input
+                type="text"
+                id="pickupDetail"
+                class="form-input"
+                name="pickup"
+                placeholder="Điểm đón chi tiết"
+                maxlength="255"
+              />
+              <p class="field-error" id="errPickup" hidden></p>
+            </div>
+
+            <div class="form-group">
+              <label for="dropoffDetail">Nhập điểm trả chi tiết</label>
+              <input
+                type="text"
+                id="dropoffDetail"
+                class="form-input"
+                name="dropoff"
+                placeholder="Điểm trả chi tiết"
+                maxlength="255"
+              />
+              <p class="field-error" id="errDropoff" hidden></p>
+            </div>
+            <p class="field-error" id="errSeats" hidden></p>
+
+            <div class="form-actions">
+              <button type="submit" class="btn-continue" id="btnContinue">
+                Tiếp tục
+                <span class="arrow" aria-hidden="true">→</span>
+              </button>
+            </div>
+          </form>
+        </main>
+      </div>
+    </div>
+
+    <script src="js/booking.js"></script>
+  </body>
+</html>

@@ -1,0 +1,365 @@
+/* Trang đặt vé */
+
+:root {
+  --blue: #1a5fb4;
+  --blue-dark: #154a90;
+  --orange: #e85d04;
+  --orange-ring: #f48c06;
+  --bg-page: #eceff4;
+  --card-border: #e1e4e8;
+  --text: #2d3338;
+  --text-muted: #8b949e;
+  --white: #fff;
+}
+
+.booking-page {
+  min-height: 100vh;
+  background: var(--bg-page);
+  font-family: Inter, Roboto, "Segoe UI", Arial, sans-serif;
+  color: var(--text);
+  padding-bottom: 48px;
+}
+
+.booking-page * {
+  box-sizing: border-box;
+}
+
+.booking-inner {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 28px 20px 0;
+}
+
+/* Progress */
+.checkout-steps {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 0;
+  margin-bottom: 32px;
+  padding: 0 16px;
+}
+
+.step-item {
+  flex: 1;
+  max-width: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  text-align: center;
+}
+
+.step-item::after {
+  content: "";
+  position: absolute;
+  top: 18px;
+  left: calc(50% + 22px);
+  width: calc(100% - 44px);
+  height: 2px;
+  background: #d0d7de;
+  z-index: 0;
+}
+
+.step-item:last-child::after {
+  display: none;
+}
+
+.step-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 15px;
+  position: relative;
+  z-index: 1;
+  background: var(--white);
+  border: 2px solid #d0d7de;
+  color: var(--text-muted);
+}
+
+.step-item--active .step-circle {
+  background: var(--orange);
+  border-color: var(--orange-ring);
+  color: var(--white);
+}
+
+.step-label {
+  margin-top: 10px;
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.35;
+}
+
+.step-item--active .step-label {
+  color: var(--text);
+  font-weight: 600;
+}
+
+/* Grid */
+.booking-layout {
+  display: grid;
+  grid-template-columns: minmax(280px, 1fr) minmax(0, 2fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.booking-layout > .form-banner-warn {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 900px) {
+  .booking-layout {
+    grid-template-columns: 1fr;
+  }
+  .step-item::after {
+    display: none;
+  }
+}
+
+/* Cards */
+.side-card {
+  background: #ffffff;
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  padding: 18px 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.side-card__title {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 14px;
+  color: var(--text);
+}
+
+.ticket-meta {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.ticket-route {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--blue);
+  margin-bottom: 14px;
+  line-height: 1.4;
+}
+
+.ticket-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  margin-bottom: 8px;
+  gap: 12px;
+}
+
+.ticket-row span:first-child {
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.ticket-row span:last-child {
+  text-align: right;
+  font-weight: 500;
+}
+
+.ticket-price-line {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--card-border);
+  font-size: 13px;
+}
+
+.ticket-price-line strong {
+  color: var(--text);
+}
+
+/* Total box */
+.total-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.total-row--grand {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--card-border);
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.total-row--grand .total-value {
+  color: var(--blue);
+  font-size: 17px;
+}
+
+/* Main form card */
+.form-card {
+  background: #ffffff;
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  padding: 24px 28px 32px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.form-card__title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--blue);
+  margin-bottom: 22px;
+}
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-group label,
+.form-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.form-group label .req {
+  color: #c92a2a;
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--card-border);
+  border-radius: 6px;
+  font-size: 14px;
+  color: var(--text);
+  background: var(--white);
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder {
+  color: #adb5bd;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: var(--blue);
+  box-shadow: 0 0 0 2px rgba(26, 95, 180, 0.15);
+}
+
+.phone-row {
+  display: flex;
+  gap: 10px;
+}
+
+.phone-row .form-select {
+  min-width: 140px;
+  max-width: 200px;
+  flex-shrink: 0;
+}
+
+.phone-row .form-input {
+  flex: 1;
+}
+
+.form-textarea {
+  min-height: 72px;
+  resize: vertical;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 28px;
+}
+
+.btn-continue {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 28px;
+  background: var(--blue);
+  color: var(--white);
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.btn-continue:hover {
+  background: var(--blue-dark);
+}
+
+.btn-continue:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.btn-continue .arrow {
+  font-size: 18px;
+  line-height: 1;
+}
+
+/* States */
+.booking-error {
+  background: #fff5f5;
+  border: 1px solid #feb2b2;
+  color: #c53030;
+  padding: 14px 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.booking-loading {
+  text-align: center;
+  padding: 48px;
+  color: var(--text-muted);
+}
+
+.seats-input-wrap {
+  max-width: 140px;
+}
+
+.seats-input-wrap .form-input {
+  text-align: center;
+  font-weight: 600;
+}
+
+.form-input--invalid,
+.form-select--invalid {
+  border-color: #c92a2a !important;
+}
+
+.field-error {
+  font-size: 12px;
+  color: #c92a2a;
+  margin-top: 6px;
+}
+
+.form-banner-warn {
+  background: #fff8e6;
+  border: 1px solid #f5d67a;
+  color: #8a6d1d;
+  padding: 10px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  margin-bottom: 16px;
+}
