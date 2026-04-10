@@ -62,18 +62,39 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
       }
 
+      // Ảnh mặc định cho card tuyến xe
+      const defaultImages = [
+        "https://bizweb.dktcdn.net/100/512/250/files/z5768108137147-045345ce0bd57739faa1645d4c59f596.jpg?v=1724659700457",
+        "https://bizweb.dktcdn.net/100/512/250/files/z5768108137147-045345ce0bd57739faa1645d4c59f596.jpg?v=1724659700457",
+        "https://bizweb.dktcdn.net/100/512/250/files/z5768108137147-045345ce0bd57739faa1645d4c59f596.jpg?v=1724659700457",
+        "https://bizweb.dktcdn.net/100/512/250/files/z5768108137147-045345ce0bd57739faa1645d4c59f596.jpg?v=1724659700457",
+      ];
+
+      const today = new Date().toLocaleDateString("vi-VN", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+      });
+
       popularList.innerHTML = uniqueRoutes
-        .map(
-          (t) => `
+        .map((t, i) => {
+          const img = t.imageUrl || defaultImages[i % defaultImages.length];
+          return `
         <div class="popular-card" onclick="quickSearch('${t.startProvinceName}', '${t.endProvinceName}')">
-          <div class="popular-card__img">🚌</div>
+          <div class="popular-card__img">
+            <img src="${img}" alt="${t.startProvinceName} → ${t.endProvinceName}" />
+          </div>
           <div class="popular-card__body">
             <div class="popular-card__route">${t.startProvinceName} → ${t.endProvinceName}</div>
-            <button class="btn-book">Đặt vé ngay</button>
+            <div class="popular-card__date">
+              <span class="popular-card__date-label">Ngày đi</span>
+              <span class="popular-card__date-value">📅 ${today}</span>
+            </div>
+            <button class="btn-book popular-card__btn">Đặt vé ngay</button>
           </div>
         </div>
-      `,
-        )
+      `;
+        })
         .join("");
     })
     .catch((err) => console.error("Lỗi load tuyến:", err));
@@ -141,13 +162,8 @@ async function doSearch(start, end, date) {
     document.getElementById("resultsLoading").style.display = "none";
     document.getElementById("resultsTitle").textContent = `${start} → ${end}`;
 
-    // Render tab ngày (hôm nay + 3 ngày tới)
     renderDateTabs(date, start, end);
-
-    // Render bộ lọc loại xe
     renderBusTypeFilter(trips);
-
-    // Render danh sách với filter hiện tại
     applyFilters();
   } catch (err) {
     console.error("Lỗi:", err);
@@ -189,7 +205,6 @@ function changeDate(date) {
   currentSearch.date = date;
   document.getElementById("departureDate").value = date;
 
-  // Cập nhật tab active
   document.querySelectorAll(".date-tab").forEach((btn) => {
     btn.classList.toggle("active", btn.getAttribute("onclick").includes(date));
   });
@@ -216,18 +231,14 @@ function renderBusTypeFilter(trips) {
 function applyFilters() {
   const { start, end, date } = currentSearch;
 
-  // Lọc loại xe được chọn
   const checkedTypes = [
     ...document.querySelectorAll("#busTypeFilter input:checked"),
   ].map((i) => i.value);
 
-  // Lọc giờ chạy
   const minHour = parseInt(document.getElementById("rangeHourMin")?.value ?? 0);
   const maxHour = parseInt(
     document.getElementById("rangeHourMax")?.value ?? 23,
   );
-
-  // Lọc ghế trống
   const minSeats = parseInt(document.getElementById("rangeSeats")?.value ?? 0);
 
   let filtered = allTripsCache.filter((t) => {
@@ -298,6 +309,7 @@ function handleBooking(tripId) {
   }
   window.location.href = `booking.html?tripId=${tripId}`;
 }
+
 function updateRangeLabel(type, value) {
   if (type === "hourMin")
     document.getElementById("labelHourMin").textContent =
