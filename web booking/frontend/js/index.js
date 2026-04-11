@@ -9,12 +9,17 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("userNameDisplay").innerText = currentUsername;
   }
 
-  // 2. ĐĂNG XUẤT
-  document.getElementById("btnLogout")?.addEventListener("click", () => {
+// 2. ĐĂNG XUẤT trong index.js
+document.getElementById("btnLogout")?.addEventListener("click", (e) => {
+    e.preventDefault(); // 🌟 THÊM DÒNG NÀY ĐỂ CHẶN NHẢY TRANG #
+    
+    console.log("Đang đăng xuất..."); // Thêm dòng này để kiểm tra xem nó có chạy vào đây không
     localStorage.removeItem("isLoggedIn");
     localStorage.removeItem("currentUsername");
-    window.location.reload();
-  });
+    localStorage.removeItem("userId"); // Xóa luôn cả userId cho sạch
+    
+    window.location.href = "index.html"; // Chuyển về trang chủ thay vì reload
+});
 
   // 3. LOAD TỈNH THÀNH VÀO SELECT
   fetch("http://localhost:8080/api/provinces")
