@@ -10,6 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BookingRequest {
+    private Long userId; // Thêm trường này để nhận ID người dùng từ Frontend
     
     private Long tripId; 
     

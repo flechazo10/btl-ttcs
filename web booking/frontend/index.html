@@ -40,11 +40,21 @@
             Đăng ký
           </button>
         </div>
-        <div class="auth-user" id="authUser" style="display: none">
-          <span class="greeting">HI <span id="userNameDisplay"></span></span>
-          <span class="divider">|</span>
-          <button class="btn-outline" id="btnLogout">Đăng xuất</button>
-        </div>
+      <div class="auth-user" id="authUser" style="display: none">
+  <span class="greeting">HI <span id="userNameDisplay"></span></span>
+  <span class="divider">|</span>
+  
+  <div class="user-dropdown">
+    <button class="btn-outline" style="background: #005baa; color: white; border: none; padding: 8px 20px; border-radius: 20px;">
+      Tài khoản <i class="fa-solid fa-chevron-down" style="font-size: 10px; margin-left: 5px;"></i>
+    </button>
+    <div class="dropdown-content">
+      <a href="history.html"><i class="fa-solid fa-clock-rotate-left"></i> Lịch sử đặt vé</a>
+      <hr>
+      <a href="#" id="btnLogout"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</a>
+    </div>
+  </div>
+</div>
       </div>
     </header>
 

@@ -1,0 +1,96 @@
+:root {
+    --primary-color: #005baa;
+    --success-color: #28a745;
+    --bg-color: #f4f7f6;
+}
+
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background-color: var(--bg-color);
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+header {
+    margin-bottom: 30px;
+}
+
+.btn-back {
+    text-decoration: none;
+    color: var(--primary-color);
+    font-weight: bold;
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
+/* Style cho từng nhóm ngày */
+.history-group {
+    margin-bottom: 30px;
+}
+
+.date-header {
+    background: #e9ecef;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-weight: bold;
+    color: #495057;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.date-header i { margin-right: 10px; color: var(--primary-color); }
+
+/* Style cho từng tấm vé (Card) */
+.ticket-card {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-left: 5px solid var(--success-color);
+}
+
+.ticket-info h3 {
+    margin: 0 0 10px 0;
+    color: #333;
+    font-size: 18px;
+}
+
+.ticket-details {
+    font-size: 14px;
+    color: #666;
+}
+
+.ticket-details span { margin-right: 15px; }
+
+.ticket-price {
+    text-align: right;
+}
+
+.amount {
+    display: block;
+    font-size: 20px;
+    font-weight: bold;
+    color: #e53935;
+}
+
+.status-badge {
+    background: #d4edda;
+    color: #155724;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.no-data { text-align: center; padding: 50px; color: #888; }
