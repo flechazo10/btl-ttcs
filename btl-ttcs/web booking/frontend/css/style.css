@@ -1,0 +1,719 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background-color: #f5f5f5;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 50px;
+  background-color: white;
+}
+
+.navbar .logo h2 {
+  color: #1a428a;
+}
+
+.navbar nav ul {
+  list-style: none;
+  display: flex;
+  gap: 30px;
+}
+
+.navbar nav ul li a {
+  text-decoration: none;
+  color: #555;
+  font-weight: bold;
+}
+
+.navbar nav ul li a.active {
+  color: #1a428a;
+  border-bottom: 2px solid #1a428a;
+  padding-bottom: 5px;
+}
+
+.hero-banner img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.search-container {
+  background-color: white;
+  width: 80%;
+  max-width: 1000px;
+  margin: -60px auto 50px auto;
+  position: relative;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  padding: 20px 30px;
+}
+
+.trip-type {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+  font-weight: bold;
+  color: #333;
+}
+
+.search-box {
+  display: flex;
+  align-items: stretch;
+  gap: 15px;
+}
+
+.input-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.input-group label {
+  font-size: 13px;
+  color: #777;
+  margin-bottom: 5px;
+}
+
+.input-group select,
+.input-group input {
+  border: none;
+  border-bottom: 1px solid #ccc;
+  padding: 8px 0;
+  font-size: 16px;
+  outline: none;
+  font-weight: bold;
+}
+
+.swap-icon {
+  font-size: 20px;
+  color: #ff8c00;
+  cursor: pointer;
+  padding-top: 20px;
+}
+
+.btn-search {
+  background-color: #1a428a;
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 15px;
+  align-self: stretch;
+}
+
+.btn-search:hover {
+  background-color: #112b5e;
+}
+
+.btn-reset {
+  background: #c62828;
+  color: #fff;
+  border: 2px solid #c62828;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  align-self: stretch;
+  margin-top: 15px;
+}
+
+.btn-reset:hover {
+  background: #b71c1c;
+  border-color: #b71c1c;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.auth-guest,
+.auth-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-text {
+  background: none;
+  border: none;
+  color: #1a428a;
+  font-weight: bold;
+  font-size: 15px;
+  cursor: pointer;
+  padding: 5px;
+  transition: color 0.2s ease;
+}
+
+.btn-text:hover {
+  color: #ff8c00;
+}
+
+.divider {
+  color: #ccc;
+  font-size: 16px;
+}
+
+.greeting {
+  color: #1a428a;
+  font-weight: bold;
+  font-size: 15px;
+  text-transform: uppercase;
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1.5px solid #1a428a;
+  color: #1a428a;
+  padding: 6px 18px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-outline:hover {
+  background: #1a428a;
+  color: white;
+}
+
+.results-section {
+  max-width: 900px;
+  margin: 32px auto 60px;
+  padding: 0 16px;
+}
+
+.results-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.results-header h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.results-count {
+  background: #e8f4fd;
+  color: #1565c0;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+.results-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48px 0;
+  gap: 14px;
+  color: #666;
+}
+
+.spinner {
+  width: 36px;
+  height: 36px;
+  border: 4px solid #e0e0e0;
+  border-top-color: #1565c0;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.results-empty {
+  text-align: center;
+  padding: 48px 0;
+  color: #888;
+}
+
+.trip-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.btn-book {
+  background: #1565c0;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 9px 24px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-book:hover:not(:disabled) {
+  background: #0d47a1;
+}
+
+.btn-book:disabled {
+  background: #bdbdbd;
+  cursor: not-allowed;
+}
+
+/* ====== TAB NGÀY ====== */
+.date-tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #e0e0e0;
+}
+.date-tab {
+  background: none;
+  border: none;
+  padding: 12px 24px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #666;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+  transition: all 0.2s;
+}
+.date-tab:hover {
+  color: #1a428a;
+}
+.date-tab.active {
+  color: #1a428a;
+  border-bottom-color: #1a428a;
+}
+
+/* ====== LAYOUT KẾT QUẢ ====== */
+.results-body {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+/* ====== BỘ LỌC ====== */
+.filter-panel {
+  width: 220px;
+  flex-shrink: 0;
+  background: #fff;
+  border-radius: 12px;
+  padding: 16px;
+  border: 1px solid #e5e9f0;
+}
+.filter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+.filter-reset {
+  background: none;
+  border: none;
+  color: #1a428a;
+  font-size: 0.8rem;
+  cursor: pointer;
+  font-weight: 600;
+}
+.filter-reset:hover {
+  text-decoration: underline;
+}
+.filter-group {
+  margin-bottom: 20px;
+}
+.filter-label {
+  font-weight: 700;
+  font-size: 0.85rem;
+  margin-bottom: 10px;
+  color: #333;
+}
+.filter-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: #444;
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+.range-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.range-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  color: #666;
+  margin-top: 4px;
+}
+input[type="range"] {
+  width: 100%;
+  accent-color: #1a428a;
+}
+
+/* ====== CARD CHUYẾN XE ====== */
+.trip-list {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.trip-card2 {
+  background: #fff;
+  border: 1px solid #e5e9f0;
+  border-radius: 12px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition:
+    box-shadow 0.2s,
+    transform 0.2s;
+}
+.trip-card2:hover {
+  box-shadow: 0 6px 20px rgba(21, 101, 192, 0.12);
+  transform: translateY(-2px);
+}
+.trip-card2--full {
+  opacity: 0.6;
+}
+
+.trip-card2__logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  min-width: 64px;
+}
+.trip-card2__logo img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  border-radius: 8px;
+}
+.trip-card2__name {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #1a428a;
+  text-align: center;
+}
+
+.trip-card2__info {
+  flex: 1;
+}
+.trip-card2__type {
+  display: inline-block;
+  background: #e8f4fd;
+  color: #1565c0;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-bottom: 6px;
+}
+.trip-card2__route {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+.trip-card2__time {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #1a1a2e;
+}
+.trip-card2__duration {
+  color: #999;
+  font-size: 0.85rem;
+}
+.trip-card2__depart {
+  font-size: 0.78rem;
+  color: #888;
+}
+
+.trip-card2__seats {
+  font-size: 0.85rem;
+  color: #555;
+  min-width: 110px;
+  text-align: center;
+}
+.trip-card2__seats .orange {
+  color: #e65100;
+  font-weight: 700;
+}
+.trip-card2__seats .red {
+  color: #c62828;
+  font-weight: 700;
+}
+
+.trip-card2__right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  min-width: 120px;
+}
+.trip-card2__price {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1a1a2e;
+}
+
+/* ====== TUYẾN XE PHỔ BIẾN ====== */
+.popular-section {
+  max-width: 1100px;
+  margin: 40px auto 60px;
+  padding: 0 16px;
+}
+
+.popular-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #1a1a2e;
+}
+
+.popular-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.popular-loading {
+  color: #888;
+  text-align: center;
+  padding: 24px 0;
+}
+
+.popular-card {
+  background: #fff;
+  border: 1px solid #e5e9f0;
+  border-radius: 14px;
+  overflow: hidden;
+  cursor: pointer;
+  transition:
+    box-shadow 0.2s,
+    transform 0.2s;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.popular-card:hover {
+  box-shadow: 0 8px 24px rgba(21, 101, 192, 0.15);
+  transform: translateY(-3px);
+}
+
+.popular-card__img {
+  width: 100%;
+  height: 160px;
+  overflow: hidden;
+  background: #e8f4fd;
+}
+
+.popular-card__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.popular-card:hover .popular-card__img img {
+  transform: scale(1.04);
+}
+
+.popular-card__body {
+  padding: 14px 16px 16px;
+}
+
+.popular-card__route {
+  font-weight: 700;
+  font-size: 1rem;
+  color: #1a1a2e;
+  margin-bottom: 10px;
+}
+
+.popular-card__date {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin-bottom: 12px;
+  background: #fafafa;
+}
+
+.popular-card__date-label {
+  font-size: 0.72rem;
+  color: #e65100;
+  font-weight: 600;
+}
+
+.popular-card__date-value {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #1a1a2e;
+}
+
+.popular-card__btn {
+  width: 100%;
+  padding: 11px;
+  font-size: 0.95rem;
+  border-radius: 8px;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .trip-card2 {
+    flex-direction: column;
+    gap: 16px;
+  }
+  .trip-card2__right {
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: space-between;
+  }
+  .popular-list {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+/* FOOTER */
+.footer {
+  background: #f5f5f5;
+  padding: 40px 200px;
+  margin-top: 40px;
+  font-family: Arial, sans-serif;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* CHIA ĐỀU 4 CỘT */
+  gap: 60px; /* tăng khoảng cách giữa các cột */
+}
+
+.footer-col h3 {
+  font-size: 18px;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.footer-col ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-col ul li {
+  margin-bottom: 8px;
+  color: #555;
+  cursor: pointer;
+}
+
+.footer-col ul li:hover {
+  color: #007bff;
+}
+
+.footer-col p {
+  margin: 6px 0;
+  color: #555;
+}
+
+.company h3 {
+  color: #0b4da2;
+}
+.footer a {
+  text-decoration: none; /* bỏ gạch chân */
+  color: #555; /* cùng màu với text */
+  transition: color 0.2s;
+}
+
+.footer a:hover {
+  color: #007bff; /* hover giống các dòng khác */
+}
+/* Container của dropdown */
+.user-dropdown {
+  position: relative;
+  display: inline-block;
+  /* Thêm dòng này để mở rộng vùng hover xuống dưới */
+  padding-bottom: 10px; 
+  margin-bottom: -10px;
+}
+
+/* Nội dung menu thả xuống */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  /* Đảm bảo menu dính sát vào đáy của vùng dropdown */
+  top: 100%; 
+  background-color: #ffffff;
+  min-width: 180px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+  z-index: 1000;
+  border-radius: 8px;
+  /* XÓA dòng margin-top: 5px cũ đi để không còn khoảng hở */
+  border: 1px solid #eee;
+}
+
+/* Các mục bên trong menu - Thêm icon cho đẹp */
+.dropdown-content a {
+  color: #333;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Khoảng cách giữa icon và chữ */
+  font-size: 14px;
+  text-align: left;
+  transition: background 0.3s;
+}
+
+.dropdown-content a:hover {
+  background-color: #f1f1f1;
+  color: #005baa;
+}
+
+/* ✨ HIỆU ỨNG QUAN TRỌNG: Di chuột vào container thì hiện menu */
+.user-dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* "Cây cầu tàng hình" - Giúp chuột di chuyển từ nút xuống menu mà không bị ngắt kết nối */
+.user-dropdown::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 20px; /* Độ cao bao phủ khoảng trống */
+  bottom: -15px;
+  left: 0;
+  background: transparent; /* Tàng hình nhưng vẫn nhận hover */
+}

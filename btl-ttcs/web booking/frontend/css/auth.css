@@ -1,0 +1,106 @@
+/* --- css/auth.css --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    /* Cài đặt hình nền full màn hình */
+    background-image: url('https://png.pngtree.com/thumb_back/fh260/background/20230703/pngtree-majestic-snowy-mountain-summit-with-scenic-skyline-3d-visualization-image_3760966.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.auth-wrapper {
+    width: 100%;
+    max-width: 450px;
+    /* Hiệu ứng kính mờ (Glassmorphism) */
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    padding: 40px 30px;
+    text-align: center;
+    color: white;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+}
+
+.auth-wrapper h2 {
+    font-size: 28px;
+    margin-bottom: 10px;
+    font-weight: normal;
+}
+
+.auth-wrapper p.subtitle {
+    font-size: 14px;
+    margin-bottom: 30px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.input-group {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 15px 20px;
+    border-radius: 25px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(0, 0, 0, 0.2);
+    color: white;
+    font-size: 15px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+/* Đổi màu chữ gợi ý (placeholder) thành màu trắng mờ */
+.input-group input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.input-group input:focus {
+    border-color: rgba(255, 255, 255, 0.8);
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.btn-submit {
+    width: 100%;
+    padding: 15px;
+    border-radius: 25px;
+    border: none;
+    background-color: #fce4d6; /* Màu cam nhạt giống ảnh */
+    color: #333;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background 0.3s;
+}
+
+.btn-submit:hover {
+    background-color: #f8c8b0;
+}
+
+.auth-links {
+    margin-top: 25px;
+    font-size: 14px;
+}
+
+.auth-links a {
+    color: white;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.auth-links a:hover {
+    color: #fce4d6;
+}

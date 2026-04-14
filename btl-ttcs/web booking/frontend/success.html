@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hoàn tất đặt vé — NHÀ XE TSH</title>
+    <link rel="stylesheet" href="css/booking.css" />
+    <style>
+        .success-card {
+            background: #fff;
+            border-radius: 8px;
+            padding: 40px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+            max-width: 600px;
+            margin: 40px auto;
+            text-align: center;
+        }
+        .success-icon {
+            background-color: #4caf50;
+            color: white;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            margin: 0 auto 20px auto;
+        }
+        .success-card h2 { color: #4caf50; margin-bottom: 30px; font-size: 24px;}
+        .success-card h3 { color: #555; font-size: 16px; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px;}
+        
+        .transaction-details {
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+            padding: 20px 0;
+            margin-bottom: 30px;
+        }
+        .tx-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            color: #444;
+            font-size: 15px;
+        }
+        .tx-row span:first-child { color: #888; }
+        .tx-row span:last-child { font-weight: bold; color: #333; }
+        
+        .btn-home {
+            color: #005baa;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .btn-home:hover { text-decoration: underline; }
+    </style>
+</head>
+<body class="booking-page">
+    <div class="booking-inner">
+        <nav class="checkout-steps" aria-label="Tiến trình đặt vé">
+            <div class="step-item">
+                <div class="step-circle" style="background:#28a745; color:white; border:none;">✓</div>
+                <div class="step-label" style="color:#888;">Thông tin đặt vé</div>
+            </div>
+            <div class="step-item">
+                <div class="step-circle" style="background:#28a745; color:white; border:none;">✓</div>
+                <div class="step-label" style="color:#888;">Thanh toán</div>
+            </div>
+            <div class="step-item step-item--active">
+                <div class="step-circle">3</div>
+                <div class="step-label">Hoàn tất</div>
+            </div>
+        </nav>
+
+        <div class="success-card" id="successCard" style="display: none;">
+            <div class="success-icon">✓</div>
+            <h2>Giao Dịch Thanh Toán Thành Công</h2>
+            <h3>Thông tin giao dịch</h3>
+            
+            <div class="transaction-details">
+                <div class="tx-row">
+                    <span>Nội dung thanh toán</span>
+                    <span>Thanh toán vé xe TSH</span>
+                </div>
+                <div class="tx-row">
+                    <span>Cổng thanh toán</span>
+                    <span>VNPAY QR</span>
+                </div>
+                <div class="tx-row">
+                    <span>Mã đơn hàng</span>
+                    <span id="resBookingId">---</span>
+                </div>
+                <div class="tx-row">
+                    <span>Số tiền thanh toán</span>
+                    <span id="resAmount" style="color: #e53935; font-size: 18px;">---</span>
+                </div>
+            </div>
+
+            <a href="index.html" class="btn-home">Quay lại trang chủ</a>
+        </div>
+
+        <div class="success-card" id="failCard" style="display: none;">
+            <div class="success-icon" style="background-color: #e53935;">✕</div>
+            <h2 style="color: #e53935;">Giao Dịch Thất Bại Hoặc Đã Hủy</h2>
+            <p style="margin-bottom: 20px; color: #666;">Rất tiếc, quá trình thanh toán chưa được hoàn tất.</p>
+            <a href="index.html" class="btn-home">Quay lại trang chủ</a>
+        </div>
+
+    </div>
+
+    <script src="js/success.js"></script>
+</body>
+</html>

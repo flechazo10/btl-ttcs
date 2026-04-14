@@ -55,11 +55,11 @@ public class TripService {
         
         // Lấy số ghế đã đặt (Nếu bị null ở DB thì mặc định là 0)
         int booked = (trip.getBookedSeats() != null) ? trip.getBookedSeats() : 0;
-
+        
         // Gắn vào Response gửi về cho Frontend
         response.setTotalSeats(total);
         response.setBookedSeats(booked);
-        response.setAvailableSeats(total - booked);
+        response.setAvailableSeats(total - booked); // Phép tính quan trọng nhất!
         
         return response;
     }
