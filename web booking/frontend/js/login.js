@@ -31,6 +31,7 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
         // 3. Đăng nhập thành công -> Lưu trạng thái vào LocalStorage của trình duyệt
         localStorage.setItem('isLoggedIn', 'true');
         localStorage.setItem('currentUsername', userData.username);
+        localStorage.setItem('userId', userData.id);
         
         // 4. Chuyển thẳng về trang chủ (index.html)
         window.location.href = 'index.html';

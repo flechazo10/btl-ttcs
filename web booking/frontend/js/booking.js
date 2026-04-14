@@ -466,6 +466,7 @@
     const qty = validation.qty;
 
     const payload = {
+      userId: localStorage.getItem("userId"),
       tripId: currentTrip.id,
       passengerName: document.getElementById("fullName").value.trim(),
       passengerPhone: buildPhone(),

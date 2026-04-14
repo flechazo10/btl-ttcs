@@ -14,8 +14,8 @@
       <nav>
         <ul>
           <li><a href="index.html" class="active">Trang chủ</a></li>
-          <li><a href="#">Giới thiệu</a></li>
-          <li><a href="#">Tin tức</a></li>
+          <li><a href="introduce.html" target="_blank"">Giới thiệu</a></li>
+          <li><a href=""news.html" target="_blank"">Tin tức</a></li>
           <li><a href="tuyen-dung.html">Tuyển dụng</a></li>
           <li><a href="lien-he.html">Liên hệ</a></li>
         </ul>
@@ -40,25 +40,31 @@
             Đăng ký
           </button>
         </div>
-        <div class="auth-user" id="authUser" style="display: none">
-          <span class="greeting">HI <span id="userNameDisplay"></span></span>
-          <span class="divider">|</span>
-          <button class="btn-outline" id="btnLogout">Đăng xuất</button>
-        </div>
+      <div class="auth-user" id="authUser" style="display: none">
+  <span class="greeting">HI <span id="userNameDisplay"></span></span>
+  <span class="divider">|</span>
+  
+  <div class="user-dropdown">
+    <button class="btn-outline" style="background: #005baa; color: white; border: none; padding: 8px 20px; border-radius: 20px;">
+      Tài khoản <i class="fa-solid fa-chevron-down" style="font-size: 10px; margin-left: 5px;"></i>
+    </button>
+    <div class="dropdown-content">
+      <a href="history.html"><i class="fa-solid fa-clock-rotate-left"></i> Lịch sử đặt vé</a>
+      <hr>
+      <a href="#" id="btnLogout"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</a>
+    </div>
+  </div>
+</div>
       </div>
     </header>
 
     <div class="hero-banner">
-      <img
-        src="https://bizweb.dktcdn.net/100/512/250/files/z5768108137147-045345ce0bd57739faa1645d4c59f596.jpg?v=1724659700457"
-        alt="Banner Nhà Xe TSH"
-      />
+      <img src="images/app.jpeg" alt="Banner Nhà Xe TSH" />
     </div>
 
     <div class="search-container">
       <div class="trip-type">
         <label><input type="radio" name="trip" checked /> Một chiều</label>
-        <label><input type="radio" name="trip" /> Khứ hồi</label>
       </div>
       <form id="searchForm" class="search-box">
         <div class="input-group">
@@ -187,5 +193,60 @@
     </section>
 
     <script src="js/index.js"></script>
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="footer-container">
+        <!-- Cột 1 -->
+        <div class="footer-col">
+          <h3>Tuyến xe phổ biến</h3>
+          <ul>
+            <li>TP Thanh Hóa - Hà Nội</li>
+            <li>Hà Nội - TP Thanh Hóa</li>
+            <li>TP Hồ Chí Minh - Hà Nội</li>
+            <li>Hà Nội - Đà Nẵng</li>
+            <li>Sầm Sơn - BX Nước Ngầm</li>
+            <li>BX Nước Ngầm - Sầm Sơn</li>
+            <li>Đông Sơn - BX Nước Ngầm</li>
+            <li>BX Nước Ngầm - Huế</li>
+            <li>TP Hồ Chí Minh - BX Nước Ngầm</li>
+          </ul>
+        </div>
+
+        <!-- Cột 2 -->
+        <div class="footer-col">
+          <h3>Về chúng tôi</h3>
+          <ul>
+            <li>
+              <a href="introduce.html" target="_blank">
+                Giới thiệu Nhà xe TSH
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Cột 3 -->
+        <div class="footer-col">
+          <h3>Hỗ trợ</h3>
+          <ul>
+            <li>Hướng dẫn thanh toán VNPAY</li>
+            <li>Quy chế hoạt động</li>
+            <li>Quy định hoàn tiền</li>
+            <li>Hình thức thanh toán</li>
+            <li>Chính sách hủy vé</li>
+            <li>Chính sách vận chuyển</li>
+          </ul>
+        </div>
+
+        <!-- Cột 4 -->
+        <div class="footer-col company">
+          <h3>NHÀ XE TSH</h3>
+          <p>CÔNG TY TNHH DU LỊCH & VẬN TẢI TSH</p>
+          <p>Số ĐKKD: 0123456789</p>
+          <p>Địa chỉ: Thanh Hóa, Việt Nam</p>
+          <p>Website: tshbus.vn</p>
+          <p>Hotline: 0123 456 789</p>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>
