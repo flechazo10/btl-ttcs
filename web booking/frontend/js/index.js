@@ -321,3 +321,15 @@ function resetFilters() {
   document.getElementById("labelSeats").textContent = "0";
   applyFilters();
 }
+//14. HOÁN ĐỔI ĐIỂM ĐI VÀ ĐIỂM ĐẾN
+function swapLocations() {
+  const startSelect = document.getElementById("startProvince");
+  const endSelect = document.getElementById("endProvince");
+
+  // Lưu giá trị của điểm đi vào biến tạm
+  const tempValue = startSelect.value;
+
+  // Hoán đổi
+  startSelect.value = endSelect.value;
+  endSelect.value = tempValue;
+}
