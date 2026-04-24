@@ -17,6 +17,11 @@ public class Booking {
     @JoinColumn(name = "user_id")
     private User user;
 
+    // --- 🌟 THAY ĐỔI: Thêm liên kết với Trip ---
+    @ManyToOne
+    @JoinColumn(name = "trip_id")
+    private Trip trip;
+
     @Column(name = "passenger_name")
     private String passengerName;
 
@@ -40,6 +45,5 @@ public class Booking {
     @Column(name = "total_tickets")
     private Integer totalTickets = 1;
 
-    // --- CỘT MỚI: Trạng thái đơn hàng (PENDING, PAID, CANCELLED) ---
     private String status = "PENDING"; 
 }
