@@ -1,5 +1,8 @@
 package com.booking.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.booking.dto.request.LoginRequest; // Đã thêm import để hết báo đỏ
 import com.booking.dto.request.UserRequest;
 import com.booking.entity.User;
@@ -9,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.booking.service.EmailService;
 import com.booking.dto.response.UserResponse;
+import com.booking.config.JwtUtils;
 
 @RestController
 @RequestMapping("/api/users")
@@ -19,6 +23,8 @@ public class UserController {
     private UserService userService;
     @Autowired
     private EmailService emailService;
+    @Autowired
+    private JwtUtils jwtUtils;
 
     // --- API ĐĂNG KÝ ---
     @PostMapping("/register")
@@ -31,26 +37,32 @@ public class UserController {
         }
     }
 
-    // --- API ĐĂNG NHẬP MỚI THÊM ---
-    // API Đăng nhập
-    @PostMapping("/login")
+   @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
         try {
-            // 1. Gọi Service để check tài khoản (Nếu sai nó sẽ văng ra lỗi ở đây luôn)
+            // 1. Gọi Service xác thực
             User user = userService.loginUser(request);
             
-            // 2. Chuyển đổi từ Entity (có password) sang DTO (không có password)
-            UserResponse responseInfo = new UserResponse(
+            // 2. Tạo Token
+            String token = jwtUtils.generateJwtToken(user.getUsername());
+            
+            // 3. Sử dụng UserResponse DTO của bạn cho chuyên nghiệp
+            UserResponse userInfo = new UserResponse(
                 user.getId(),
                 user.getUsername(),
                 user.getFullName(),
                 user.getEmail(),
                 user.getPhone(),
-                user.getRole()
+                user.getRole(),
+                user.getStatus() // 🌟 Thêm trường status vào UserResponse để Frontend biết tài khoản có bị khóa hay không
             );
 
-            // 3. Trả về cho Frontend DTO an toàn này
-            return ResponseEntity.ok(responseInfo);
+            // 4. Gộp Token và UserInfo vào một Map để gửi về Frontend
+            Map<String, Object> response = new HashMap<>();
+            response.put("token", token);
+            response.put("user", userInfo); // Frontend sẽ nhận được object user bên trong
+
+            return ResponseEntity.ok(response);
             
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());

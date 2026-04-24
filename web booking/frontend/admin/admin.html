@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>TSH Admin Portal</title>
+    <link rel="stylesheet" href="https://npmcdn.com/flatpickr/dist/themes/material_blue.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/admin.css"> 
+</head>
+<body>
+    <header class="admin-header">
+        <div class="logo"><i class="fa-solid fa-bus"></i> TSH ADMIN PORTAL</div>
+        <button class="btn-logout" onclick="logout()">Đăng xuất</button>    
+    </header>
+
+    <div class="admin-layout">
+        <aside class="sidebar">
+            <ul class="nav-list">
+                <li class="nav-item active" onclick="switchTab('tripRealTab', this)"><i class="fa-solid fa-calendar-day"></i> Lịch trình Thực tế</li>
+                <li class="nav-item" onclick="switchTab('tripTemplateTab', this)"><i class="fa-solid fa-layer-group"></i> Lịch trình Mẫu</li>
+                
+                <li class="nav-item" onclick="switchTab('userTab', this)"><i class="fa-solid fa-users"></i> Quản lý User</li>
+                <li class="nav-item" onclick="switchTab('statsTab', this)"><i class="fa-solid fa-chart-pie"></i> Thống kê</li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            
+            <div id="tripRealTab" class="tab-content" style="display: block;">
+                <div class="toolbar">
+                    <div class="toolbar-left">
+                        <h2>Lịch trình Thực tế</h2>
+                        <div class="date-filter">
+                            <label>Ngày: </label>
+                            <input type="text" id="filterDateReal" placeholder="Chọn ngày...">
+                        </div>
+                    </div>
+                    <div class="toolbar-right">
+                        <button class="btn-primary" onclick="openAddRealTripModal()"><i class="fa-solid fa-plus"></i> Thêm chuyến (Ngày này)</button>
+                    </div>
+                </div>
+
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Tuyến đường</th>
+                            <th>Giờ đi</th>
+                            <th>Giờ đến</th>
+                            <th>Biển số xe</th>
+                            <th>Khách</th>
+                            <th>Trạng thái</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tripRealTableBody">
+                        </tbody>
+                </table>
+            </div>
+
+            <div id="tripTemplateTab" class="tab-content" style="display: none;">
+                <div class="toolbar">
+                    <div class="toolbar-left">
+                        <h2>Quản lý Lịch trình Mẫu</h2>
+                        <span class="badge badge-info" style="margin-top: 10px; display: inline-block;">Dữ liệu gốc: 01/01/2026</span>
+                    </div>
+                    <div class="toolbar-right">
+                        <input type="text" id="cloneDates" placeholder="Chọn các ngày để nhân bản..." style="width: 250px;">
+                        <button class="btn-warning" id="btnBulkClone" onclick="cloneTrips()"><i class="fa-solid fa-rocket"></i> Nhân bản</button>
+                        <button class="btn-primary" onclick="openAddTemplateTripModal()"><i class="fa-solid fa-plus"></i> Thêm chuyến mẫu</button>
+                    </div>
+                </div>
+
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Tuyến đường</th>
+                            <th>Giờ đi</th>
+                            <th>Giờ đến</th>
+                            <th>Biển số xe</th>
+                            <th>Giá vé cơ bản</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tripTemplateTableBody">
+                        </tbody>
+                </table>
+            </div>
+
+            <div id="userTab" class="tab-content" style="display: none;">
+                <div class="toolbar">
+                    <div class="toolbar-left">
+                        <h2>Quản lý người dùng</h2>
+                        <div class="user-stats">
+                            <span>Tổng: <b id="totalUser">0</b></span> | 
+                            <span style="color: #28a745;">Đang hoạt động: <b id="activeUser">0</b></span> | 
+                            <span style="color: #dc3545;">Đã khóa: <b id="bannedUser">0</b></span>
+                        </div>
+                    </div>
+                    <div class="toolbar-right">
+                        <div class="search-box-admin" style="position: relative;">
+                            <input type="text" id="searchUser" placeholder="Tìm tên, SĐT, email..." onkeyup="filterUserTable()" style="padding: 8px 12px; border-radius: 4px; border: 1px solid #ccc; width: 250px;">
+                        </div>
+                    </div>
+                </div>
+
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Họ Tên</th>
+                            <th>Tài khoản</th>
+                            <th>Email</th>
+                            <th>Số điện thoại</th>
+                            <th>Trạng thái</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody id="userTableBody"></tbody>
+                </table>
+            </div>
+
+            <div id="statsTab" class="tab-content" style="display: none;">
+                <h2>Thống kê doanh thu</h2>
+                <p>Tính năng đang được phát triển...</p>
+            </div>
+        </main>
+    </div>
+
+    <div id="logoutModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <h3 style="margin-top: 0;">Đăng xuất</h3>
+            <p style="margin-bottom: 25px; color: #555;">Bạn có chắc chắn muốn đăng xuất khỏi tài khoản?</p>
+            <div class="modal-buttons">
+                <button class="btn-cancel-logout" onclick="closeLogoutModal()">Hủy</button>
+                <button class="btn-confirm-logout" onclick="executeLogout()">Đăng xuất</button>
+            </div>
+        </div>
+    </div>
+
+   <div id="passengerModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-users-viewfinder"></i> Danh sách Hành khách</h3>
+                <button class="btn-close" onclick="closePassengerModal()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Mã vé</th>
+                            <th>Họ tên (SĐT)</th>
+                            <th>Điểm Đón -> Trả</th>
+                            <th>Ghi chú</th>
+                            <th>Số vé</th> 
+                            <th>Tổng tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody id="passengerTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://npmcdn.com/flatpickr/dist/l10n/vn.js"></script>
+    <script src="js/admin.js"></script>
+    
+</body>
+</html>

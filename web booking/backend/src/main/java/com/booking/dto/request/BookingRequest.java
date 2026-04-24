@@ -16,9 +16,7 @@ public class BookingRequest {
     
     // Đồng bộ tên biến với Entity cho dễ map dữ liệu
     private String passengerName;
-    private String passengerPhone;
-    private String customerEmail; 
-    
+    private String passengerPhone;    
     // --- ĐÃ ĐỔI TÊN & THÊM MỚI ---
     private Integer totalTickets; 
     

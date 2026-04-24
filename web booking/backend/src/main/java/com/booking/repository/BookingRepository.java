@@ -12,4 +12,5 @@ public interface BookingRepository extends JpaRepository<Booking, String> {
     // Tìm tất cả đơn hàng PAID của User, sắp xếp cái mới nhất lên đầu
     List<Booking> findByUserIdAndStatusOrderByBookingTimeDesc(Long userId, String status);
     List<Booking> findByStatusAndBookingTimeBefore(String status, LocalDateTime time);
+    List<Booking> findByTripIdAndStatus(Long tripId, String status);
 }

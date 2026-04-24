@@ -1,10 +1,30 @@
 document.addEventListener("DOMContentLoaded", function() {
     // Tạm thời lấy userId từ localStorage (giả định bạn đã lưu khi đăng nhập)
-    const userId = localStorage.getItem("userId") || 1; 
+    const userId = localStorage.getItem("userId"); 
+    
+    // 🌟 1. LẤY TOKEN TỪ TRÌNH DUYỆT
+    const token = localStorage.getItem("token");
+
+    // 🌟 2. KIỂM TRA ĐĂNG NHẬP: Không có token hoặc userId thì đuổi về trang Đăng nhập
+    if (!token || !userId) {
+        alert("Phiên làm việc đã hết hạn hoặc bạn chưa đăng nhập. Vui lòng đăng nhập lại!");
+        window.location.href = "login.html";
+        return; // Dừng luôn không chạy code bên dưới nữa
+    }
+
     const container = document.getElementById("historyContainer");
 
-    fetch(`http://localhost:8080/api/bookings/history/${userId}`)
-        .then(response => response.json())
+    // 🌟 3. NHÉT TOKEN VÀO YÊU CẦU FETCH
+    fetch(`http://localhost:8080/api/bookings/history/${userId}`, {
+        method: "GET",
+        headers: {
+            "Authorization": `Bearer ${token}` // Chiếc vé thông hành đây!
+        }
+    })
+        .then(response => {
+            if (!response.ok) throw new Error("Lỗi xác thực hoặc không tìm thấy dữ liệu");
+            return response.json();
+        })
         .then(data => {
             container.innerHTML = ""; // Xóa dòng chữ "Đang tải"
 
@@ -50,6 +70,6 @@ document.addEventListener("DOMContentLoaded", function() {
         })
         .catch(error => {
             console.error("Lỗi:", error);
-            container.innerHTML = `<div class="no-data">Không thể tải dữ liệu. Vui lòng thử lại sau!</div>`;
+            container.innerHTML = `<div class="no-data">Không thể tải dữ liệu. Bạn hãy đăng nhập lại nhé!</div>`;
         });
 });

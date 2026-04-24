@@ -1,9 +1,11 @@
-// --- js/login.js ---
-
 document.getElementById('loginForm').addEventListener('submit', function(event) {
-    event.preventDefault(); // Ngăn load lại trang
+    event.preventDefault(); 
 
-    // 1. Lấy dữ liệu từ form
+    // 🌟 Ẩn thông báo lỗi cũ đi mỗi khi bấm Đăng nhập lại
+    const errorDiv = document.getElementById('errorMessage');
+    const errorText = document.getElementById('errorText');
+    errorDiv.style.display = 'none';
+
     const usernameInput = document.getElementById('username').value;
     const passwordInput = document.getElementById('password').value;
 
@@ -12,7 +14,6 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
         password: passwordInput
     };
 
-    // 2. Gọi API Backend
     fetch('http://localhost:8080/api/users/login', {
         method: 'POST',
         headers: {
@@ -22,22 +23,41 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
     })
     .then(response => {
         if (response.ok) {
-            return response.json(); // Đọc dữ liệu User trả về từ Backend
+            return response.json(); 
         } else {
-            return response.text().then(text => { throw new Error(text) });
+            return response.text().then(text => { 
+                throw new Error(text || `Máy chủ từ chối (Mã HTTP: ${response.status})`); 
+            });
         }
     })
-    .then(userData => {
-        // 3. Đăng nhập thành công -> Lưu trạng thái vào LocalStorage của trình duyệt
+    .then(data => {
+        // Lưu LocalStorage
+        localStorage.setItem('token', data.token); 
         localStorage.setItem('isLoggedIn', 'true');
-        localStorage.setItem('currentUsername', userData.username);
-        localStorage.setItem('userId', userData.id);
+        localStorage.setItem('currentUsername', data.user.username);
+        localStorage.setItem('userId', data.user.id);
+        localStorage.setItem('role', data.user.role);
         
-        // 4. Chuyển thẳng về trang chủ (index.html)
-        window.location.href = 'index.html';
+        // Điều hướng
+        if (data.user.role === 'ADMIN') {
+            window.location.href = 'admin/admin.html';
+        } else {
+            window.location.href = 'index.html';
+        }
     })
     .catch(error => {
-        // Hiển thị lỗi nếu sai mật khẩu/tài khoản
-        alert('Lỗi: ' + error.message);
+        // 🌟 XỬ LÝ HIỂN THỊ LỖI LÊN GIAO DIỆN
+        const errorMsg = error.message.toLowerCase();
+        
+        // Nếu Backend trả về lỗi chứa chữ "khóa" hoặc "cấm"
+        if (errorMsg.includes('khóa') || errorMsg.includes('cấm')) {
+            errorText.innerText = 'Đăng nhập thất bại: Tài khoản đã bị cấm';
+        } else {
+            // Các lỗi sai tài khoản, sai mật khẩu
+            errorText.innerText = 'Đăng nhập thất bại: Tài khoản hoặc mật khẩu bị sai';
+        }
+
+        // Bật hiển thị cái khung đỏ lên
+        errorDiv.style.display = 'flex';
     });
 });
