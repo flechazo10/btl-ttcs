@@ -4,6 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Đặt Vé Xe TSH</title>
+    <link rel="stylesheet" href="https://npmcdn.com/flatpickr/dist/themes/material_blue.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
@@ -62,32 +64,49 @@
       <img src="images/app.jpeg" alt="Banner Nhà Xe TSH" />
     </div>
 
-    <div class="search-container">
-      <div class="trip-type">
-        <label><input type="radio" name="trip" checked /> Một chiều</label>
+   <div class="search-container">
+  <div class="trip-type">
+    <label><input type="radio" name="trip" checked /> Một chiều</label>
+  </div>
+  <form id="searchForm" class="search-box">
+    
+    <div class="input-group custom-dropdown-container">
+      <label>Điểm đi</label>
+      <input type="hidden" id="startProvince" required /> <div class="custom-dropdown-header" id="startHeader" onclick="toggleDropdown('startDropdown')">Chọn điểm đi</div>
+      
+      <div class="custom-dropdown-body" id="startDropdown">
+        <div class="dropdown-search">
+          <input type="text" placeholder="Tìm kiếm tỉnh, bến xe..." onkeyup="filterDropdown(this, 'startList')">
+        </div>
+        <div class="dropdown-list" id="startList">
+          </div>
       </div>
-      <form id="searchForm" class="search-box">
-        <div class="input-group">
-          <label>Điểm đi</label>
-          <select id="startProvince"></select>
-        </div>
-        <div class="swap-icon">⇄</div>
-        <div class="input-group">
-          <label>Điểm đến</label>
-          <select id="endProvince"></select>
-        </div>
-        <div class="input-group">
-          <label>Ngày đi</label>
-          <input type="date" id="departureDate" required />
-        </div>
-        <button type="submit" class="btn-search">🔍 Tìm Ngay</button>
-        <!-- THÊM DÒNG NÀY -->
-        <button type="button" class="btn-reset" onclick="resetSearch()">
-          ✕ Xóa
-        </button>
-      </form>
     </div>
 
+    <div class="swap-icon">⇄</div>
+
+    <div class="input-group custom-dropdown-container">
+      <label>Điểm đến</label>
+      <input type="hidden" id="endProvince" required /> <div class="custom-dropdown-header" id="endHeader" onclick="toggleDropdown('endDropdown')">Chọn điểm đến</div>
+      
+      <div class="custom-dropdown-body" id="endDropdown">
+        <div class="dropdown-search">
+          <input type="text" placeholder="Tìm kiếm tỉnh, bến xe..." onkeyup="filterDropdown(this, 'endList')">
+        </div>
+        <div class="dropdown-list" id="endList">
+          </div>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label>Ngày đi</label>
+      <input type="date" id="departureDate" required />
+    </div>
+    
+    <button type="submit" class="btn-search">🔍 Tìm Ngay</button>
+    <button type="button" class="btn-reset" onclick="resetSearch()">✕ Xóa</button>
+  </form>
+</div>
     <!-- KẾT QUẢ TÌM KIẾM -->
     <section class="results-section" id="resultsSection" style="display: none">
       <div class="results-header">
@@ -241,5 +260,7 @@
         </div>
       </div>
     </footer>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://npmcdn.com/flatpickr/dist/l10n/vn.js"></script>
   </body>
 </html>

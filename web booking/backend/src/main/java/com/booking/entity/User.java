@@ -12,7 +12,6 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // ĐÃ THÊM: Trường username để khớp với Database
     @Column(unique = true, nullable = false)
     private String username;
 
@@ -27,4 +26,7 @@ public class User {
     private String phone;
 
     private String role;
+
+    // 🌟 MỚI THÊM: Trường trạng thái để Admin khóa tài khoản
+    private String status = "ACTIVE";
 }

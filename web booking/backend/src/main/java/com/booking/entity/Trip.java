@@ -30,9 +30,9 @@ public class Trip {
 
     private BigDecimal price;
 
-    private String status;
+    // 🌟 ĐÃ SỬA: Gán mặc định là ACTIVE để khớp với Database
+    private String status = "ACTIVE";
 
-    // --- MỚI THÊM VÀO ĐÂY ---
     @Column(name = "booked_seats")
     private Integer bookedSeats = 0; 
 }

@@ -44,7 +44,7 @@ CREATE TABLE trip (
     departure_time DATETIME,
     arrival_time DATETIME,
     price DECIMAL(10,2),
-    status VARCHAR(50),
+    status VARCHAR(50) DEFAULT 'ACTIVE', -- 🌟 THAY ĐỔI TẠI ĐÂY: Thêm DEFAULT 'ACTIVE' để tiện cho việc tạo mới/nhân bản chuyến xe
     booked_seats INT NOT NULL DEFAULT 0,
     FOREIGN KEY (route_id) REFERENCES route(id),
     FOREIGN KEY (bus_id) REFERENCES bus(id)
@@ -57,14 +57,15 @@ CREATE TABLE user (
     password VARCHAR(255) NOT NULL,
     full_name VARCHAR(255) NOT NULL,
     phone VARCHAR(20),
-    role VARCHAR(50)
+    role VARCHAR(50),
+    status VARCHAR(50) DEFAULT 'ACTIVE' -- 🌟 THÊM MỚI TẠI ĐÂY: Thêm cột trạng thái để Khóa (Ban) người dùng thay vì xóa hẳn (Soft Delete)
 );
 
 -- CẬP NHẬT TẠI ĐÂY: Bảng Booking
 CREATE TABLE booking (
     id VARCHAR(50) PRIMARY KEY,
     user_id BIGINT,
-    trip_id BIGINT, -- 🌟 THAY ĐỔI 1: Thêm khóa ngoại để biết đơn này của chuyến nào
+    trip_id BIGINT, 
     passenger_name VARCHAR(255),
     passenger_phone VARCHAR(20),
     note TEXT,
@@ -75,7 +76,7 @@ CREATE TABLE booking (
     status VARCHAR(50) NOT NULL DEFAULT 'PENDING', 
     total_tickets INT NOT NULL DEFAULT 1,
     FOREIGN KEY (user_id) REFERENCES user(id),
-    FOREIGN KEY (trip_id) REFERENCES trip(id) -- 🌟 THAY ĐỔI 2: Khai báo liên kết với bảng TRIP
+    FOREIGN KEY (trip_id) REFERENCES trip(id) 
 );
 
 CREATE TABLE ticket (

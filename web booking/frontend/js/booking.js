@@ -459,6 +459,17 @@
     e.preventDefault();
     if (!currentTrip) return;
 
+    // 🌟 1. LẤY TOKEN VÀ ID NGƯỜI DÙNG TỪ BỘ NHỚ TRÌNH DUYỆT
+    const token = localStorage.getItem("token");
+    const userId = localStorage.getItem("userId");
+
+    // 🌟 2. KIỂM TRA ĐĂNG NHẬP TRƯỚC KHI GỬI
+    if (!token || !userId) {
+      alert("Vui lòng đăng nhập trước khi thực hiện đặt vé!");
+      window.location.href = "login.html";
+      return;
+    }
+
     const validation = validateForm();
     if (!validation.ok) return;
 
@@ -466,7 +477,7 @@
     const qty = validation.qty;
 
     const payload = {
-      userId: localStorage.getItem("userId"),
+      userId: userId, // Dùng đúng userId đã lưu
       tripId: currentTrip.id,
       passengerName: document.getElementById("fullName").value.trim(),
       passengerPhone: buildPhone(),
@@ -481,7 +492,10 @@
     try {
       const res = await fetch(`${API_BASE}/bookings`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}` // 🌟 3. TRÌNH VÉ TOKEN CHO SPRING BOOT DUYỆT
+        },
         body: JSON.stringify(payload),
       });
       const text = await res.text();
@@ -493,11 +507,13 @@
       }
 
       if (!res.ok) {
-        alert(typeof data === "string" ? data : "Đặt vé thất bại.");
+        // Nếu Backend báo lỗi (hết vé, lỗi token...), hiện thông báo
+        alert(typeof data === "string" ? data : "Đặt vé thất bại (Phiên đăng nhập có thể đã hết hạn).");
         btn.disabled = false;
         return;
       }
 
+      // Đặt vé thành công -> Chuyển sang VNPAY
       localStorage.setItem("lastBooking", JSON.stringify(data));
       const id = data && data.id ? encodeURIComponent(data.id) : "";
       window.location.href = id

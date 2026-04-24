@@ -45,8 +45,14 @@
                 <a href="forgot-password.html" id="forgotPwdLink">Quên mật khẩu?</a>
             </div>
             
-            <button type="submit" class="btn-submit">ĐĂNG NHẬP (SIGN IN)</button>
-        </form>
+<button type="submit" class="btn-submit">ĐĂNG NHẬP (SIGN IN)</button>
+            
+            <div id="errorMessage" class="error-msg" style="display: none;">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="#d9534f" style="min-width: 16px;">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"></path>
+                </svg>
+                <span id="errorText"></span>
+            </div>        </form>
 
         <div class="auth-links">
             <p>Chưa có tài khoản? <a href="register.html">Tạo tài khoản mới</a></p>

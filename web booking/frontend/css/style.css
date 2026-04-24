@@ -717,3 +717,81 @@ input[type="range"] {
   left: 0;
   background: transparent; /* Tàng hình nhưng vẫn nhận hover */
 }
+
+/* --- CSS CHO DROPDOWN TÙY CHỈNH --- */
+.custom-dropdown-container {
+    position: relative;
+    cursor: pointer;
+}
+.custom-dropdown-header {
+    font-size: 16px;
+    font-weight: 500;
+    padding: 8px 0;
+    border-bottom: 2px solid transparent;
+}
+.custom-dropdown-body {
+    display: none; /* Ẩn đi, bấm vào mới hiện */
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 300px;
+    background: #fff;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    border-radius: 8px;
+    z-index: 100;
+    padding: 10px;
+}
+.dropdown-search input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+.dropdown-list {
+    max-height: 250px;
+    overflow-y: auto;
+}
+.dropdown-group {
+    margin-bottom: 5px;
+}
+.group-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.group-header:hover { background: #ffede0; color: #ff6a00; }
+.group-items {
+    display: none; /* Ẩn bến xe, bấm Tỉnh mới xổ ra */
+    padding-left: 15px;
+}
+.group-items .item {
+    padding: 8px 10px;
+    font-size: 14px;
+    color: #555;
+    cursor: pointer;
+    border-bottom: 1px dashed #eee;
+}
+.group-items .item:hover { color: #ff6a00; }
+.group-items .item::before { content: "• "; color: #ff6a00; font-weight: bold; }
+
+/* TẮT ĐỘ TRỄ VÀ ÉP LỊCH FLATPICKR THU NHỎ NGAY LẬP TỨC */
+.flatpickr-calendar {
+    transform: scale(0.8) !important; /* Ép kích thước 0.8 */
+    transform-origin: top center !important; /* Giữ tâm thu nhỏ ở phía trên để không bị lệch vị trí */
+    transition: none !important; /* Tắt độ trễ chuyển đổi 0.5s */
+    animation: none !important; /* Tắt hiệu ứng mờ/nảy mặc định của Flatpickr */
+}
+
+/* Áp dụng cho cả lúc lịch vừa mở lên (class .open) */
+.flatpickr-calendar.open {
+    transform: scale(0.8) !important;
+    transition: none !important;
+    animation: none !important;
+}

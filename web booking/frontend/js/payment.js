@@ -1,6 +1,14 @@
 document.addEventListener("DOMContentLoaded", function () {
     const API_BASE = "http://localhost:8080/api";
     
+    // 🌟 KIỂM TRA TOKEN BẢO MẬT TRƯỚC KHI LÀM GÌ ĐÓ
+    const token = localStorage.getItem("token");
+    if (!token) {
+        alert("Bạn chưa đăng nhập. Vui lòng đăng nhập để tiếp tục thanh toán!");
+        window.location.href = "login.html";
+        return;
+    }
+
     // 1. Lấy mã Booking ID từ URL (Ví dụ: payment.html?bookingId=BK-1234)
     const urlParams = new URLSearchParams(window.location.search);
     const bookingId = urlParams.get('bookingId');
@@ -38,12 +46,16 @@ document.addEventListener("DOMContentLoaded", function () {
         try {
             // Gọi API xuống Spring Boot để xin link mã QR
             const response = await fetch(`${API_BASE}/payments/create-url?bookingId=${bookingId}`, {
-                method: 'GET'
+                method: 'GET',
+                // 🌟 THÊM HEADERS CHỨA TOKEN VÀO ĐÂY
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
             });
 
             if (!response.ok) {
                 const errorText = await response.text();
-                throw new Error(errorText || "Lỗi tạo giao dịch VNPAY");
+                throw new Error(errorText || "Lỗi tạo giao dịch VNPAY (Vui lòng thử đăng nhập lại)");
             }
 
             const data = await response.json();
