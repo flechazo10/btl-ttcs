@@ -16,8 +16,8 @@
           <li><a href="#" class="active">Trang chủ</a></li>
           <li><a href="introduce.html" target="_blank">Giới thiệu</a></li>
           <li><a href="news.html" target="_blank">Tin tức</a></li>
-          <li><a href="#">Tuyển dụng</a></li>
-          <li><a href="#">Liên hệ</a></li>
+          <li><a href="tuyen-dung.html">Tuyển dụng</a></li>
+          <li><a href="lien-he.html">Liên hệ</a></li>
         </ul>
       </nav>
 
@@ -71,7 +71,14 @@
           <label>Điểm đi</label>
           <select id="startProvince"></select>
         </div>
-        <div class="swap-icon">⇄</div>
+        <div
+          class="swap-icon"
+          onclick="swapLocations()"
+          style="cursor: pointer"
+          title="Hoán đổi điểm đi/đến"
+        >
+          ⇄
+        </div>
         <div class="input-group">
           <label>Điểm đến</label>
           <select id="endProvince"></select>
