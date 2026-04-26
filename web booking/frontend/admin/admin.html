@@ -162,6 +162,53 @@
             </div>
         </div>
     </div>
+    <div id="addTripModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content" style="width: 500px;">
+            <div class="modal-header">
+                <h3 id="modalTripTitle">Thêm Chuyến Xe</h3>
+                <button class="btn-close" onclick="closeAddTripModal()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form id="addTripForm" onsubmit="submitTrip(event)">
+                <div class="modal-body" style="text-align: left;">
+                    <input type="hidden" id="tripTargetDate">
+
+                    <div class="form-group">
+                        <label>Tuyến đường:</label>
+                        <select id="routeSelect" class="form-control" required>
+                            <option value="">-- Chọn tuyến đường --</option>
+                            </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Xe phục vụ:</label>
+                        <select id="busSelect" class="form-control" required>
+                            <option value="">-- Chọn xe --</option>
+                            </select>
+                    </div>
+
+                    <div style="display: flex; gap: 15px;">
+                        <div class="form-group" style="flex: 1;">
+                            <label>Giờ đi:</label>
+                            <input type="time" id="departureTime" class="form-control" required>
+                        </div>
+                        <div class="form-group" style="flex: 1;">
+                            <label>Giờ đến (dự kiến):</label>
+                            <input type="time" id="arrivalTime" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Giá vé (VNĐ):</label>
+                        <input type="number" id="tripPriceInput" class="form-control" placeholder="VD: 250000" required>
+                    </div>
+                </div>
+                <div class="modal-footer" style="padding: 15px; border-top: 1px solid #eee; text-align: right;">
+                    <button type="button" class="btn-cancel-logout" onclick="closeAddTripModal()">Hủy</button>
+                    <button type="submit" class="btn-primary">Lưu chuyến xe</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://npmcdn.com/flatpickr/dist/l10n/vn.js"></script>
