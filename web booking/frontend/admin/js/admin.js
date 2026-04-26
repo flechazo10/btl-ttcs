@@ -376,3 +376,122 @@ function executeLogout() {
     localStorage.clear(); 
     window.location.href = "../login.html"; 
 }
+
+// 1. Thêm chuyến THỰC TẾ (Lấy ngày từ ô lọc lịch)
+function openAddRealTripModal() {
+    const selectedDate = document.getElementById("filterDateReal").value;
+    if(!selectedDate) {
+        alert("Vui lòng chọn ngày trên lịch trước khi thêm!");
+        return;
+    }
+    
+    document.getElementById("modalTripTitle").innerText = "Thêm Chuyến Xe Ngày " + selectedDate;
+    document.getElementById("tripTargetDate").value = selectedDate; // Gán ngày đang xem
+    
+    prepareModalData(); // Load danh sách Route và Bus
+    document.getElementById("addTripModal").style.display = "flex";
+}
+
+// 2. Thêm chuyến MẪU (Mặc định ngày 01/01/2026)
+function openAddTemplateTripModal() {
+    document.getElementById("modalTripTitle").innerText = "Thêm Chuyến Xe Mẫu (01/01/2026)";
+    document.getElementById("tripTargetDate").value = "2026-01-01"; // Gán ngày mẫu cố định
+    
+    prepareModalData();
+    document.getElementById("addTripModal").style.display = "flex";
+}
+
+function closeAddTripModal() {
+    document.getElementById("addTripModal").style.display = "none";
+    document.getElementById("addTripForm").reset();
+}
+
+// Hàm này sẽ được gọi mỗi khi Admin bấm nút "Thêm chuyến"
+async function prepareModalData() {
+    const token = localStorage.getItem("token");
+    
+    // Tìm các thẻ select trong Modal
+    const routeSelect = document.getElementById("routeSelect");
+    const busSelect = document.getElementById("busSelect");
+
+    // Hiển thị trạng thái đang tải để Admin biết
+    routeSelect.innerHTML = '<option>Đang tải tuyến đường...</option>';
+    busSelect.innerHTML = '<option>Đang tải danh sách xe...</option>';
+
+    try {
+        // 1. Gọi API lấy Tuyến đường (Route)
+        const resRoutes = await fetch(`${API_BASE}/routes`, {
+            headers: { "Authorization": `Bearer ${token}` }
+        });
+        const routes = await resRoutes.json();
+
+        // 2. Gọi API lấy Xe (Bus)
+        const resBuses = await fetch(`${API_BASE}/buses`, {
+            headers: { "Authorization": `Bearer ${token}` }
+        });
+        const buses = await resBuses.json();
+
+        // 3. Đổ dữ liệu vào Select Tuyến đường
+        routeSelect.innerHTML = '<option value="">-- Chọn tuyến đường --</option>' + 
+            routes.map(r => `
+                <option value="${r.id}">${r.startStationName} → ${r.endStationName}</option>
+            `).join("");
+
+        // 4. Đổ dữ liệu vào Select Xe
+        busSelect.innerHTML = '<option value="">-- Chọn xe phục vụ --</option>' + 
+            buses.map(b => `
+                <option value="${b.id}">${b.licensePlate} (${b.busTypeName})</option>
+            `).join("");
+
+    } catch (error) {
+        console.error("Lỗi khi chuẩn bị dữ liệu Modal:", error);
+        alert("Không thể tải danh sách Tuyến đường hoặc Xe. Vui lòng kiểm tra lại kết nối Backend!");
+    }
+}
+
+async function submitTrip(event) {
+    event.preventDefault();
+    const token = localStorage.getItem("token");
+    
+    // Lấy các giá trị từ Form
+    const targetDate = document.getElementById("tripTargetDate").value;
+    const depTime = document.getElementById("departureTime").value; 
+    const arrTime = document.getElementById("arrivalTime").value; 
+    const routeId = document.getElementById("routeSelect").value;
+    const busId = document.getElementById("busSelect").value;
+    const price = document.getElementById("tripPriceInput").value;
+
+    // Đóng gói theo đúng cấu trúc Entity mà Backend mong đợi
+    const payload = {
+        departureTime: `${targetDate}T${depTime}:00`,
+        arrivalTime: `${targetDate}T${arrTime}:00`,
+        price: price,
+        status: "ACTIVE", // Mặc định chuyến mới là hoạt động
+        route: { id: parseInt(routeId) }, // Chỉ cần gửi ID để JPA tự map
+        bus: { id: parseInt(busId) }      // Chỉ cần gửi ID
+    };
+
+    try {
+        const res = await fetch(`${API_BASE}/admin/trips/createtrip`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+        if (res.ok) {
+            alert(data.message);
+            closeAddTripModal();
+            // Tải lại bảng để thấy chuyến xe mới vừa thêm
+            if (targetDate === "2026-01-01") loadTemplateTrips();
+            else loadRealTrips(targetDate);
+        } else {
+            alert("Lỗi: " + (data.error || "Không thể tạo chuyến xe"));
+        }
+    } catch (error) {
+        alert("Lỗi hệ thống: " + error.message);
+    }
+}

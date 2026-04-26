@@ -329,11 +329,14 @@ function applyFilters() {
   );
   const minSeats = parseInt(document.getElementById("rangeSeats")?.value ?? 0);
 
-let filtered = allTripsCache.filter((t) => {
+  // 🌟 LỚP BẢO VỆ 1: LẤY THỜI GIAN HIỆN TẠI + THÊM 30 PHÚT
+  const nowPlus30Mins = new Date();
+  nowPlus30Mins.setMinutes(nowPlus30Mins.getMinutes() + 30);
+
+  let filtered = allTripsCache.filter((t) => {
     const tripDate = t.departureTime.slice(0, 10);
     const tripHour = parseInt(t.departureTime.slice(11, 13));
     
-    // 🌟 SỬA DÒNG NÀY: Khớp nếu bằng Tên Tỉnh HOẶC bằng Tên Bến Xe
     const matchRoute =
       (t.startProvinceName === start || t.startStationName === start) &&
       (t.endProvinceName === end || t.endStationName === end);
@@ -343,8 +346,14 @@ let filtered = allTripsCache.filter((t) => {
     const matchHour = tripHour >= minHour && tripHour <= maxHour;
     const matchSeats = t.availableSeats >= minSeats;
     
-    return matchRoute && matchDate && matchType && matchHour && matchSeats;
+    // 🌟 ĐIỀU KIỆN MỚI: Đổi giờ khởi hành của chuyến xe ra dạng Date để so sánh
+    const tripDateTime = new Date(t.departureTime);
+    const isValidTime = tripDateTime > nowPlus30Mins; // Phải lớn hơn Hiện tại + 30p
+    
+    // Ghép thêm isValidTime vào kết quả lọc
+    return matchRoute && matchDate && matchType && matchHour && matchSeats && isValidTime;
   });
+
   const tripList = document.getElementById("tripList");
   const resultsCount = document.getElementById("resultsCount");
   const resultsEmpty = document.getElementById("resultsEmpty");
@@ -498,17 +507,14 @@ resetSearch = function() {
 
 document.addEventListener("DOMContentLoaded", function() {
     flatpickr("#departureDate", {
-        // 🌟 Định dạng ngầm để hệ thống JS và Backend đọc (Năm-Tháng-Ngày)
         dateFormat: "Y-m-d", 
-        
-        // 🌟 Bật chế độ "mặt nạ" để khách hàng nhìn thấy dạng Ngày/Tháng/Năm
         altInput: true,      
         altFormat: "d/m/Y",  
-        
         locale: "vn",        
-        defaultDate: "today", // 🌟 Tự động hiển thị ngày hôm nay khi mới vào web
-        allowInput: true     
+        defaultDate: "today", 
+        allowInput: true,
+        
+        // 🌟 BỎ DẤU // ĐỂ KÍCH HOẠT DÒNG NÀY:
+        minDate: "today" // Chặn khách hàng click vào các ngày trong quá khứ trên lịch
     });
 });
-
-        //minDate: "today",    // 🌟 Tiện thể: Chặn không cho khách chọn ngày trong quá khứ!
