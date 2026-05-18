@@ -350,23 +350,3 @@
   color: #1a428a;
   font-weight: bold;
 }
-
-/* Responsive */
-@media (max-width: 600px) {
-  .recruit-hero h1 {
-    font-size: 1.6rem;
-  }
-
-  .why-join-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .job-card__header {
-    flex-direction: column;
-  }
-
-  .job-card__info {
-    flex-direction: column;
-    gap: 8px;
-  }
-}

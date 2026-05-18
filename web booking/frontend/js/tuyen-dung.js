@@ -180,7 +180,7 @@ function openJobModal(index) {
     </div>
 
     <div style="margin-top:24px;padding-top:20px;border-top:1px solid #eee;display:flex;gap:12px">
-      <button class="btn-apply" onclick="applyJob('${job.title}')">Ứng tuyển ngay</button>
+      <button class="btn-apply" onclick="window.location.href = 'lien-he.html'">Ứng tuyển ngay</button>
       <button class="btn-detail" onclick="closeJobModal()">Đóng</button>
     </div>
   `;
@@ -190,13 +190,6 @@ function openJobModal(index) {
 
 function closeJobModal() {
   document.getElementById("jobModal").classList.remove("active");
-}
-
-function applyJob(jobTitle) {
-  alert(
-    `Cảm ơn bạn đã ứng tuyển vị trí "${jobTitle}"!\n\nVui lòng gửi CV qua email: hr@nhaxetsh.vn\nChúng tôi sẽ liên hệ trong vòng 3-5 ngày làm việc.`,
-  );
-  closeJobModal();
 }
 
 // Đóng modal khi click ra ngoài

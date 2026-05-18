@@ -228,19 +228,3 @@
 .btn-submit:hover {
   background: #0d3471;
 }
-
-/* Responsive */
-@media (max-width: 768px) {
-  .contact-container {
-    grid-template-columns: 1fr;
-    margin-top: -30px;
-  }
-
-  .form-row {
-    grid-template-columns: 1fr;
-  }
-
-  .contact-hero h1 {
-    font-size: 1.6rem;
-  }
-}
