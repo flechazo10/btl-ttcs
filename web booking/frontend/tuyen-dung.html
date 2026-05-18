@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tuyển dụng - Nhà Xe TSH</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/tuyen-dung.css" />
+  </head>
+  <body>
+    <header class="navbar">
+      <div class="logo">
+        <h2>NHÀ XE TSH</h2>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="index.html">Trang chủ</a></li>
+          <li><a href="#">Giới thiệu</a></li>
+          <li><a href="#">Tin tức</a></li>
+          <li><a href="tuyen-dung.html" class="active">Tuyển dụng</a></li>
+          <li><a href="lien-he.html">Liên hệ</a></li>
+        </ul>
+      </nav>
+      <div class="header-right">
+        <div class="lang">🇻🇳</div>
+        <div class="auth-guest" id="authGuest">
+          <button
+            class="btn-text"
+            onclick="window.location.href = 'login.html'"
+          >
+            Đăng nhập
+          </button>
+          <span class="divider">/</span>
+          <button
+            class="btn-text"
+            onclick="window.location.href = 'register.html'"
+          >
+            Đăng ký
+          </button>
+        </div>
+        <div class="auth-user" id="authUser" style="display: none">
+          <span class="greeting">HI <span id="userNameDisplay"></span></span>
+          <span class="divider">|</span>
+          <button class="btn-outline" id="btnLogout">Đăng xuất</button>
+        </div>
+      </div>
+    </header>
+
+    <section class="recruit-hero">
+      <h1>Tuyển dụng</h1>
+      <p>
+        Cùng TSH kiến tạo sự nghiệp - Gia nhập đội ngũ năng động và chuyên
+        nghiệp
+      </p>
+    </section>
+
+    <div class="recruit-container">
+      <!-- Tại sao chọn TSH -->
+      <div class="why-join">
+        <h2>Tại sao chọn TSH Bus?</h2>
+        <div class="why-join-grid">
+          <div class="why-card">
+            <div class="why-card__icon">💰</div>
+            <div class="why-card__title">Thu nhập hấp dẫn</div>
+            <div class="why-card__desc">
+              Lương cạnh tranh, thưởng hiệu suất, phụ cấp đặc biệt
+            </div>
+          </div>
+          <div class="why-card">
+            <div class="why-card__icon">🏥</div>
+            <div class="why-card__title">Bảo hiểm cao cấp</div>
+            <div class="why-card__desc">
+              BHXH, BHYT, BHTN đầy đủ theo quy định
+            </div>
+          </div>
+          <div class="why-card">
+            <div class="why-card__icon">🎓</div>
+            <div class="why-card__title">Đào tạo chuyên nghiệp</div>
+            <div class="why-card__desc">
+              Cơ hội học tập, nâng cao kỹ năng liên tục
+            </div>
+          </div>
+          <div class="why-card">
+            <div class="why-card__icon">🎉</div>
+            <div class="why-card__title">Phúc lợi đa dạng</div>
+            <div class="why-card__desc">
+              Du lịch, teambuilding, ngày lễ - Tết
+            </div>
+          </div>
+          <div class="why-card">
+            <div class="why-card__icon">⏰</div>
+            <div class="why-card__title">Lịch linh hoạt</div>
+            <div class="why-card__desc">
+              Thời gian làm việc linh hoạt, cân bằng cuộc sống
+            </div>
+          </div>
+          <div class="why-card">
+            <div class="why-card__icon">🚀</div>
+            <div class="why-card__title">Thăng tiến rõ ràng</div>
+            <div class="why-card__desc">
+              Lộ trình phát triển sự nghiệp minh bạch
+            </div>
+          </div>
+          <div class="why-card">
+            <div class="why-card__icon">🤝</div>
+            <div class="why-card__title">Văn hóa gắn kết</div>
+            <div class="why-card__desc">
+              Môi trường làm việc thân thiện, đồng nghiệp luôn sẵn sàng hỗ trợ
+            </div>
+          </div>
+          <div class="why-card">
+            <div class="why-card__icon">🛠️</div>
+            <div class="why-card__title">Trang thiết bị hiện đại</div>
+            <div class="why-card__desc">
+              Làm việc với đội xe đời mới và hệ thống quản lý công nghệ tiên
+              tiến
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Danh sách việc làm -->
+      <div class="job-listings">
+        <h2>Vị trí đang tuyển dụng</h2>
+
+        <!-- Job 1 -->
+        <div class="job-card">
+          <div class="job-card__header">
+            <div>
+              <div class="job-card__title">Nhân viên Tư vấn Khách hàng</div>
+              <div class="job-card__dept">Phòng Chăm sóc Khách hàng</div>
+            </div>
+            <div class="job-card__tags">
+              <span class="job-tag tag-hot">Tuyển gấp</span>
+              <span class="job-tag">Toàn thời gian</span>
+            </div>
+          </div>
+          <div class="job-card__info">
+            <div class="job-info-item"><span>📍</span> Hồ Chí Minh</div>
+            <div class="job-info-item"><span>💵</span> 8 - 12 triệu/tháng</div>
+            <div class="job-info-item"><span>👥</span> 3 vị trí</div>
+          </div>
+          <div class="job-card__desc">
+            Tiếp nhận và tư vấn khách hàng về dịch vụ xe khách, hỗ trợ đặt vé,
+            giải quyết khiếu nại. Yêu cầu: Giọng nói chuẩn, thân thiện, có kinh
+            nghiệm CSKH là điểm cộng.
+          </div>
+          <div class="job-card__actions">
+            <button
+              class="btn-apply"
+              onclick="applyJob('Nhân viên Tư vấn Khách hàng')"
+            >
+              Ứng tuyển ngay
+            </button>
+            <button class="btn-detail" onclick="openJobModal(0)">
+              Xem chi tiết
+            </button>
+          </div>
+        </div>
+
+        <!-- Job 2 -->
+        <div class="job-card">
+          <div class="job-card__header">
+            <div>
+              <div class="job-card__title">Tài xế Xe khách Đường dài</div>
+              <div class="job-card__dept">Phòng Vận hành</div>
+            </div>
+            <div class="job-card__tags">
+              <span class="job-tag">Toàn thời gian</span>
+              <span class="job-tag">Lương cao</span>
+            </div>
+          </div>
+          <div class="job-card__info">
+            <div class="job-info-item"><span>📍</span> Hồ Chí Minh, Hà Nội</div>
+            <div class="job-info-item"><span>💵</span> 15 - 25 triệu/tháng</div>
+            <div class="job-info-item"><span>👥</span> 5 vị trí</div>
+          </div>
+          <div class="job-card__desc">
+            Lái xe khách đường dài tuyến Bắc - Nam, đảm bảo an toàn hành khách.
+            Yêu cầu: Bằng lái xe hạng D, kinh nghiệm lái xe từ 3 năm trở lên.
+          </div>
+          <div class="job-card__actions">
+            <button
+              class="btn-apply"
+              onclick="applyJob('Tài xế Xe khách Đường dài')"
+            >
+              Ứng tuyển ngay
+            </button>
+            <button class="btn-detail" onclick="openJobModal(1)">
+              Xem chi tiết
+            </button>
+          </div>
+        </div>
+
+        <!-- Job 3 -->
+        <div class="job-card">
+          <div class="job-card__header">
+            <div>
+              <div class="job-card__title">Nhân viên Kế toán Tổng hợp</div>
+              <div class="job-card__dept">Phòng Tài chính - Kế toán</div>
+            </div>
+            <div class="job-card__tags">
+              <span class="job-tag">Toàn thời gian</span>
+            </div>
+          </div>
+          <div class="job-card__info">
+            <div class="job-info-item"><span>📍</span> Hồ Chí Minh</div>
+            <div class="job-info-item"><span>💵</span> 10 - 15 triệu/tháng</div>
+            <div class="job-info-item"><span>👥</span> 1 vị trí</div>
+          </div>
+          <div class="job-card__desc">
+            Thực hiện các nghiệp vụ kế toán tổng hợp, lập báo cáo tài chính,
+            quản lý thu chi. Yêu cầu: Tốt nghiệp ĐH Kinh tế, chứng chỉ CPA là
+            điểm cộng.
+          </div>
+          <div class="job-card__actions">
+            <button
+              class="btn-apply"
+              onclick="applyJob('Nhân viên Kế toán Tổng hợp')"
+            >
+              Ứng tuyển ngay
+            </button>
+            <button class="btn-detail" onclick="openJobModal(2)">
+              Xem chi tiết
+            </button>
+          </div>
+        </div>
+
+        <!-- Job 4 -->
+        <div class="job-card">
+          <div class="job-card__header">
+            <div>
+              <div class="job-card__title">
+                Lập trình viên Full-stack (Java/React)
+              </div>
+              <div class="job-card__dept">Phòng Công nghệ Thông tin</div>
+            </div>
+            <div class="job-card__tags">
+              <span class="job-tag tag-hot">Tuyển gấp</span>
+              <span class="job-tag">Remote OK</span>
+            </div>
+          </div>
+          <div class="job-card__info">
+            <div class="job-info-item">
+              <span>📍</span> Hồ Chí Minh / Remote
+            </div>
+            <div class="job-info-item"><span>💵</span> 20 - 35 triệu/tháng</div>
+            <div class="job-info-item"><span>👥</span> 2 vị trí</div>
+          </div>
+          <div class="job-card__desc">
+            Phát triển và bảo trì hệ thống quản lý bán vé xe khách. Yêu cầu: 2+
+            năm kinh nghiệm Java Spring Boot, React, PostgreSQL/MySQL.
+          </div>
+          <div class="job-card__actions">
+            <button
+              class="btn-apply"
+              onclick="applyJob('Lập trình viên Full-stack (Java/React)')"
+            >
+              Ứng tuyển ngay
+            </button>
+            <button class="btn-detail" onclick="openJobModal(3)">
+              Xem chi tiết
+            </button>
+          </div>
+        </div>
+
+        <!-- Job 5 -->
+        <div class="job-card">
+          <div class="job-card__header">
+            <div>
+              <div class="job-card__title">
+                Nhân viên Vệ sinh & Bảo dưỡng Xe
+              </div>
+              <div class="job-card__dept">Phòng Vận hành</div>
+            </div>
+            <div class="job-card__tags">
+              <span class="job-tag">Bán thời gian</span>
+            </div>
+          </div>
+          <div class="job-card__info">
+            <div class="job-info-item"><span>📍</span> Hồ Chí Minh</div>
+            <div class="job-info-item"><span>💵</span> 6 - 8 triệu/tháng</div>
+            <div class="job-info-item"><span>👥</span> 4 vị trí</div>
+          </div>
+          <div class="job-card__desc">
+            Vệ sinh, dọn dẹp nội ngoại thất xe khách; kiểm tra bảo dưỡng định
+            kỳ. Yêu cầu: Siêng năng, cẩn thận, không yêu cầu kinh nghiệm.
+          </div>
+          <div class="job-card__actions">
+            <button
+              class="btn-apply"
+              onclick="applyJob('Nhân viên Vệ sinh & Bảo dưỡng Xe')"
+            >
+              Ứng tuyển ngay
+            </button>
+            <button class="btn-detail" onclick="openJobModal(4)">
+              Xem chi tiết
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="recruit-cta">
+        <h2>Không tìm thấy vị trí phù hợp?</h2>
+        <p>Gửi CV của bạn, chúng tôi sẽ liên hệ khi có vị trí phù hợp</p>
+        <button class="btn-cta" onclick="window.location.href = 'lien-he.html'">
+          📧 Gửi CV ngay
+        </button>
+      </div>
+    </div>
+
+    <!-- Job Detail Modal -->
+    <div class="modal-overlay" id="jobModal">
+      <div class="modal-content">
+        <button class="modal-close" onclick="closeJobModal()">×</button>
+        <div id="modalContent"></div>
+      </div>
+    </div>
+
+    <script src="js/tuyen-dung.js"></script>
+  </body>
+</html>

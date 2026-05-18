@@ -12,57 +12,59 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("userNameDisplay").innerText = currentUsername;
   }
 
-// 2. ĐĂNG XUẤT trong index.js
-document.getElementById("btnLogout")?.addEventListener("click", (e) => {
+  // 2. ĐĂNG XUẤT trong index.js
+  document.getElementById("btnLogout")?.addEventListener("click", (e) => {
     e.preventDefault(); // 🌟 THÊM DÒNG NÀY ĐỂ CHẶN NHẢY TRANG #
-    
-    console.log("Đang đăng xuất..."); 
+
+    console.log("Đang đăng xuất...");
     localStorage.removeItem("isLoggedIn");
     localStorage.removeItem("currentUsername");
-    localStorage.removeItem("userId"); 
+    localStorage.removeItem("userId");
     localStorage.removeItem("token"); // 🌟 Xóa sạch Token
-    localStorage.removeItem("role");  // 🌟 Xóa luôn quyền
+    localStorage.removeItem("role"); // 🌟 Xóa luôn quyền
 
-    window.location.href = "index.html"; 
-});
+    window.location.href = "index.html";
+  });
 
-// 3. LOAD TỈNH THÀNH VÀ BẾN XE CHO DROPDOWN TÙY CHỈNH
+  // 3. LOAD TỈNH THÀNH VÀ BẾN XE CHO DROPDOWN TÙY CHỈNH
   async function loadLocations() {
     try {
-        // 1. Lấy danh sách Tỉnh (API này của bạn đang chạy tốt nên chắc chắn sẽ có Tỉnh)
-        const resProv = await fetch("http://localhost:8080/api/provinces");
-        const provinces = await resProv.json();
+      // 1. Lấy danh sách Tỉnh (API này của bạn đang chạy tốt nên chắc chắn sẽ có Tỉnh)
+      const resProv = await fetch("http://localhost:8080/api/provinces");
+      const provinces = await resProv.json();
 
-        // 2. Lấy danh sách Bến xe (Dùng try-catch riêng biệt để nếu lỗi thì web vẫn không bị sập)
-        let stations = [];
-        try {
-            const resStat = await fetch("http://localhost:8080/api/stations");
-            if (resStat.ok) {
-                stations = await resStat.json();
-            } else {
-                console.warn("API Bến xe bị lỗi (Có thể chưa có data hoặc lỗi code Backend).");
-            }
-        } catch (e) {
-            console.warn("Chưa gọi được API Bến xe:", e);
+      // 2. Lấy danh sách Bến xe (Dùng try-catch riêng biệt để nếu lỗi thì web vẫn không bị sập)
+      let stations = [];
+      try {
+        const resStat = await fetch("http://localhost:8080/api/stations");
+        if (resStat.ok) {
+          stations = await resStat.json();
+        } else {
+          console.warn(
+            "API Bến xe bị lỗi (Có thể chưa có data hoặc lỗi code Backend).",
+          );
         }
+      } catch (e) {
+        console.warn("Chưa gọi được API Bến xe:", e);
+      }
 
-        // 3. Gom bến xe vào từng tỉnh tương ứng
-        const groupedData = {};
-        provinces.forEach(p => groupedData[p.name] = []); // Mở sẵn các "thư mục" Tỉnh
-        
-        stations.forEach(s => {
-            // Đảm bảo khớp với DTO StationResponse của Backend
-            const pName = s.provinceName || (s.province && s.province.name);
-            if (pName && groupedData[pName]) {
-                groupedData[pName].push(s);
-            }
-        });
+      // 3. Gom bến xe vào từng tỉnh tương ứng
+      const groupedData = {};
+      provinces.forEach((p) => (groupedData[p.name] = [])); // Mở sẵn các "thư mục" Tỉnh
 
-        // 4. Hàm sinh mã HTML cho danh sách phân cấp (Tỉnh -> Bến xe)
-        function buildListHtml(targetHeaderId, targetInputId, targetDropdownId) {
-            let html = '';
-            for (const [provinceName, stationList] of Object.entries(groupedData)) {
-                html += `
+      stations.forEach((s) => {
+        // Đảm bảo khớp với DTO StationResponse của Backend
+        const pName = s.provinceName || (s.province && s.province.name);
+        if (pName && groupedData[pName]) {
+          groupedData[pName].push(s);
+        }
+      });
+
+      // 4. Hàm sinh mã HTML cho danh sách phân cấp (Tỉnh -> Bến xe)
+      function buildListHtml(targetHeaderId, targetInputId, targetDropdownId) {
+        let html = "";
+        for (const [provinceName, stationList] of Object.entries(groupedData)) {
+          html += `
                 <div class="dropdown-group">
                     <div class="group-header" onclick="toggleAccordion(this)">
                         <span style="flex-grow: 1">
@@ -74,26 +76,38 @@ document.getElementById("btnLogout")?.addEventListener("click", (e) => {
                     </div>
                     
                     <div class="group-items">
-                        ${stationList.length > 0 
-                            ? stationList.map(st => `
+                        ${
+                          stationList.length > 0
+                            ? stationList
+                                .map(
+                                  (st) => `
                                 <div class="item" onclick="selectLocation('${targetInputId}', '${targetHeaderId}', '${targetDropdownId}', '${provinceName}', '${st.name}')">
                                     ${st.name}
                                 </div>
-                            `).join("")
+                            `,
+                                )
+                                .join("")
                             : `<div class="item" style="color:#aaa; cursor:default; font-size:13px; font-style:italic;">Chưa có bến xe</div>`
                         }
                     </div>
                 </div>`;
-            }
-            return html;
         }
+        return html;
+      }
 
-        // 5. Đổ dữ liệu HTML vừa tạo vào 2 hộp Dropdown (Điểm đi & Điểm đến)
-        document.getElementById("startList").innerHTML = buildListHtml('startHeader', 'startProvince', 'startDropdown');
-        document.getElementById("endList").innerHTML = buildListHtml('endHeader', 'endProvince', 'endDropdown');
-
+      // 5. Đổ dữ liệu HTML vừa tạo vào 2 hộp Dropdown (Điểm đi & Điểm đến)
+      document.getElementById("startList").innerHTML = buildListHtml(
+        "startHeader",
+        "startProvince",
+        "startDropdown",
+      );
+      document.getElementById("endList").innerHTML = buildListHtml(
+        "endHeader",
+        "endProvince",
+        "endDropdown",
+      );
     } catch (err) {
-        console.error("Lỗi nghiêm trọng khi tải danh sách Tỉnh:", err);
+      console.error("Lỗi nghiêm trọng khi tải danh sách Tỉnh:", err);
     }
   }
 
@@ -105,16 +119,16 @@ document.getElementById("btnLogout")?.addEventListener("click", (e) => {
     .then((trips) => {
       const popularList = document.getElementById("popularList");
       const seen = new Set();
-      
+
       const uniqueRoutes = trips.filter((t) => {
         // 🌟 Ưu tiên dùng tên Bến xe, nếu chuyến nào chưa gán bến thì lùi về dùng tên Tỉnh
         const startName = t.startStationName || t.startProvinceName;
         const endName = t.endStationName || t.endProvinceName;
-        
+
         const key = `${startName}-${endName}`;
         if (seen.has(key)) return false;
         seen.add(key);
-        
+
         // Lưu lại tên hiển thị vào object để lúc render tái sử dụng
         t.displayStartName = startName;
         t.displayEndName = endName;
@@ -122,7 +136,8 @@ document.getElementById("btnLogout")?.addEventListener("click", (e) => {
       });
 
       if (!uniqueRoutes.length) {
-        popularList.innerHTML = '<p style="color:#888;text-align:center">Chưa có tuyến xe nào.</p>';
+        popularList.innerHTML =
+          '<p style="color:#888;text-align:center">Chưa có tuyến xe nào.</p>';
         return;
       }
 
@@ -163,23 +178,23 @@ document.getElementById("btnLogout")?.addEventListener("click", (e) => {
     .catch((err) => console.error("Lỗi load tuyến:", err));
 
   // 5. TÌM KIẾM
-document
+  document
     .getElementById("searchForm")
     ?.addEventListener("submit", async (e) => {
       e.preventDefault();
-      
+
       const start = document.getElementById("startProvince").value;
       const end = document.getElementById("endProvince").value;
       const date = document.getElementById("departureDate").value;
 
       // 🌟 Nhắc nhở nếu khách quên chưa chọn
       if (!start) {
-          alert("Vui lòng chọn Điểm đi!");
-          return;
+        alert("Vui lòng chọn Điểm đi!");
+        return;
       }
       if (!end) {
-          alert("Vui lòng chọn Điểm đến!");
-          return;
+        alert("Vui lòng chọn Điểm đến!");
+        return;
       }
 
       // Vượt qua kiểm tra thì mới tiến hành tìm kiếm
@@ -188,14 +203,14 @@ document
         .getElementById("resultsSection")
         .scrollIntoView({ behavior: "smooth" });
     });
-  });
+});
 
 // 6. TÌM KIẾM NHANH TỪ CARD PHỔ BIẾN
 function quickSearch(start, end) {
   const startEl = document.getElementById("startProvince");
   const endEl = document.getElementById("endProvince");
   const dateEl = document.getElementById("departureDate");
-  
+
   // 1. Gán giá trị vào thẻ input ẩn để submit form
   startEl.value = start;
   endEl.value = end;
@@ -204,7 +219,7 @@ function quickSearch(start, end) {
   document.getElementById("startHeader").innerText = start;
   document.getElementById("startHeader").style.fontWeight = "bold";
   document.getElementById("startHeader").style.color = "#333";
-  
+
   document.getElementById("endHeader").innerText = end;
   document.getElementById("endHeader").style.fontWeight = "bold";
   document.getElementById("endHeader").style.color = "#333";
@@ -336,22 +351,30 @@ function applyFilters() {
   let filtered = allTripsCache.filter((t) => {
     const tripDate = t.departureTime.slice(0, 10);
     const tripHour = parseInt(t.departureTime.slice(11, 13));
-    
+
     const matchRoute =
       (t.startProvinceName === start || t.startStationName === start) &&
       (t.endProvinceName === end || t.endStationName === end);
 
     const matchDate = tripDate === date;
-    const matchType = checkedTypes.length === 0 || checkedTypes.includes(t.busTypeName);
+    const matchType =
+      checkedTypes.length === 0 || checkedTypes.includes(t.busTypeName);
     const matchHour = tripHour >= minHour && tripHour <= maxHour;
     const matchSeats = t.availableSeats >= minSeats;
-    
+
     // 🌟 ĐIỀU KIỆN MỚI: Đổi giờ khởi hành của chuyến xe ra dạng Date để so sánh
     const tripDateTime = new Date(t.departureTime);
     const isValidTime = tripDateTime > nowPlus30Mins; // Phải lớn hơn Hiện tại + 30p
-    
+
     // Ghép thêm isValidTime vào kết quả lọc
-    return matchRoute && matchDate && matchType && matchHour && matchSeats && isValidTime;
+    return (
+      matchRoute &&
+      matchDate &&
+      matchType &&
+      matchHour &&
+      matchSeats &&
+      isValidTime
+    );
   });
 
   const tripList = document.getElementById("tripList");
@@ -436,67 +459,112 @@ function resetFilters() {
   applyFilters();
 }
 
+// 14. HOÁN ĐỔI ĐIỂM ĐI VÀ ĐIỂM ĐẾN
+function swapLocations() {
+  // Lấy các thẻ chứa giá trị ẩn
+  const startInput = document.getElementById("startProvince");
+  const endInput = document.getElementById("endProvince");
+
+  // Lấy các thẻ hiển thị văn bản (giao diện)
+  const startHeader = document.getElementById("startHeader");
+  const endHeader = document.getElementById("endHeader");
+
+  // Hoán đổi giá trị (value) của 2 input ẩn
+  const tempValue = startInput.value;
+  startInput.value = endInput.value;
+  endInput.value = tempValue;
+
+  // Hoán đổi văn bản hiển thị trên giao diện
+  const tempText = startHeader.innerText;
+  const startDefaultText = "Chọn điểm đi";
+  const endDefaultText = "Chọn điểm đến";
+
+  // Cập nhật text cho điểm đi (nếu điểm đến chưa chọn thì trả về text mặc định)
+  if (endHeader.innerText === endDefaultText) {
+    startHeader.innerText = startDefaultText;
+  } else {
+    startHeader.innerText = endHeader.innerText;
+  }
+
+  // Cập nhật text cho điểm đến (nếu điểm đi chưa chọn thì trả về text mặc định)
+  if (tempText === startDefaultText) {
+    endHeader.innerText = endDefaultText;
+  } else {
+    endHeader.innerText = tempText;
+  }
+}
 // ==========================================
 // CÁC HÀM HỖ TRỢ CHO DROPDOWN TÌM KIẾM MỚI
 // ==========================================
 
 // Bật/tắt menu to
 function toggleDropdown(dropdownId) {
-  document.querySelectorAll('.custom-dropdown-body').forEach(el => {
-      if(el.id !== dropdownId) el.style.display = 'none'; // Đóng các hộp khác
+  document.querySelectorAll(".custom-dropdown-body").forEach((el) => {
+    if (el.id !== dropdownId) el.style.display = "none"; // Đóng các hộp khác
   });
   const el = document.getElementById(dropdownId);
-  el.style.display = el.style.display === 'block' ? 'none' : 'block';
+  el.style.display = el.style.display === "block" ? "none" : "block";
 }
 
 // Bật/tắt Accordion (Xổ bến xe con ra khi bấm mũi tên)
 function toggleAccordion(element) {
   // element bây giờ chính là thẻ div.group-header
   const itemsDiv = element.nextElementSibling; // Lấy thẻ div.group-items ngay dưới nó
-  
+
   // Đóng/mở
-  itemsDiv.style.display = itemsDiv.style.display === 'block' ? 'none' : 'block';
+  itemsDiv.style.display =
+    itemsDiv.style.display === "block" ? "none" : "block";
 }
 
 // Khi khách hàng bấm chọn Tỉnh hoặc Bến xe
 // Thay vì gán provinceName, chúng ta gán chính xác displayValue (chữ hiển thị)
-function selectLocation(inputId, headerId, dropdownId, provinceName, displayValue) {
+function selectLocation(
+  inputId,
+  headerId,
+  dropdownId,
+  provinceName,
+  displayValue,
+) {
   const headerEl = document.getElementById(headerId);
   headerEl.innerText = displayValue;
   headerEl.style.fontWeight = "bold";
   headerEl.style.color = "#333";
-  
+
   // 🌟 SỬA DÒNG NÀY: Lưu chính xác Tên Tỉnh hoặc Tên Bến xe khách vừa chọn
-  document.getElementById(inputId).value = displayValue; 
-  
-  document.getElementById(dropdownId).style.display = 'none';
+  document.getElementById(inputId).value = displayValue;
+
+  document.getElementById(dropdownId).style.display = "none";
 }
 
 // Lọc tìm kiếm khi gõ chữ vào ô input của Dropdown
 function filterDropdown(input, listId) {
   const filter = input.value.toLowerCase();
-  const groups = document.getElementById(listId).getElementsByClassName('dropdown-group');
-  
+  const groups = document
+    .getElementById(listId)
+    .getElementsByClassName("dropdown-group");
+
   for (let i = 0; i < groups.length; i++) {
-      const text = groups[i].innerText.toLowerCase();
-      if (text.includes(filter)) {
-          groups[i].style.display = "";
-      } else {
-          groups[i].style.display = "none";
-      }
+    const text = groups[i].innerText.toLowerCase();
+    if (text.includes(filter)) {
+      groups[i].style.display = "";
+    } else {
+      groups[i].style.display = "none";
+    }
   }
 }
 
 // Tự động đóng hộp chọn nếu click chuột ra ngoài vùng trống của web
-document.addEventListener('click', function(event) {
-  if (!event.target.closest('.custom-dropdown-container')) {
-      document.querySelectorAll('.custom-dropdown-body').forEach(el => el.style.display = 'none');
+document.addEventListener("click", function (event) {
+  if (!event.target.closest(".custom-dropdown-container")) {
+    document
+      .querySelectorAll(".custom-dropdown-body")
+      .forEach((el) => (el.style.display = "none"));
   }
 });
 
 // Cập nhật lại Hàm Xóa (Phần 7) để nó Reset luôn cả mặt chữ của Dropdown
 const oldResetSearch = resetSearch; // Lưu đè hàm cũ
-resetSearch = function() {
+resetSearch = function () {
   oldResetSearch(); // Gọi logic xóa cũ
   // Trả lại mặt chữ mặc định cho hộp Dropdown
   document.getElementById("startHeader").innerText = "Chọn điểm đi";
@@ -505,16 +573,16 @@ resetSearch = function() {
   document.getElementById("endHeader").style.fontWeight = "500";
 };
 
-document.addEventListener("DOMContentLoaded", function() {
-    flatpickr("#departureDate", {
-        dateFormat: "Y-m-d", 
-        altInput: true,      
-        altFormat: "d/m/Y",  
-        locale: "vn",        
-        defaultDate: "today", 
-        allowInput: true,
-        
-        // 🌟 BỎ DẤU // ĐỂ KÍCH HOẠT DÒNG NÀY:
-        minDate: "today" // Chặn khách hàng click vào các ngày trong quá khứ trên lịch
-    });
+document.addEventListener("DOMContentLoaded", function () {
+  flatpickr("#departureDate", {
+    dateFormat: "Y-m-d",
+    altInput: true,
+    altFormat: "d/m/Y",
+    locale: "vn",
+    defaultDate: "today",
+    allowInput: true,
+
+    // 🌟 BỎ DẤU // ĐỂ KÍCH HOẠT DÒNG NÀY:
+    minDate: "today", // Chặn khách hàng click vào các ngày trong quá khứ trên lịch
+  });
 });
