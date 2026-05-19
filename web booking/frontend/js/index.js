@@ -586,3 +586,154 @@ document.addEventListener("DOMContentLoaded", function () {
     minDate: "today", // Chặn khách hàng click vào các ngày trong quá khứ trên lịch
   });
 });
+
+// ============================================================
+// CHATBOT AI WIDGET - Nhà Xe TSH
+// ============================================================
+(function () {
+  const CHAT_API = "http://localhost:8080/api/chat";
+  let isChatOpen = false;
+  let isWaiting = false; // Đang chờ phản hồi từ AI
+
+  // === Toggle mở / đóng cửa sổ chat ===
+  function toggleChat() {
+    isChatOpen = !isChatOpen;
+    const widget = document.getElementById("chatWidget");
+    const btn = document.getElementById("chatToggleBtn");
+
+    if (isChatOpen) {
+      widget.classList.add("chat-open");
+      btn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+      // Ẩn badge khi mở
+      document.getElementById("chatBadge").style.display = "none";
+      // Scroll xuống dưới cùng
+      scrollToBottom();
+      // Focus vào ô nhập
+      setTimeout(() => document.getElementById("chatInput").focus(), 300);
+    } else {
+      widget.classList.remove("chat-open");
+      btn.innerHTML = '<i class="fa-solid fa-comment-dots"></i>';
+    }
+  }
+
+  // === Thêm bubble tin nhắn ===
+  function appendMessage(text, role) {
+    const messages = document.getElementById("chatMessages");
+
+    // Xóa typing indicator nếu có
+    const typingEl = messages.querySelector(".chat-typing");
+    if (typingEl) typingEl.remove();
+
+    const bubble = document.createElement("div");
+    bubble.classList.add("chat-bubble", role);
+
+    // Render xuống dòng & markdown đơn giản
+    bubble.innerHTML = text
+      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+      .replace(/\*(.*?)\*/g, "<em>$1</em>")
+      .replace(/\n/g, "<br>");
+
+    messages.appendChild(bubble);
+    scrollToBottom();
+  }
+
+  // === Hiện typing indicator ===
+  function showTyping() {
+    const messages = document.getElementById("chatMessages");
+    const typing = document.createElement("div");
+    typing.classList.add("chat-typing");
+    typing.innerHTML = "<span></span><span></span><span></span>";
+    messages.appendChild(typing);
+    scrollToBottom();
+  }
+
+  // === Scroll xuống dưới cùng ===
+  function scrollToBottom() {
+    const messages = document.getElementById("chatMessages");
+    messages.scrollTop = messages.scrollHeight;
+  }
+
+  // === Gửi tin nhắn ===
+  async function sendMessage() {
+    if (isWaiting) return;
+
+    const input = document.getElementById("chatInput");
+    const sendBtn = document.getElementById("chatSendBtn");
+    const userText = input.value.trim();
+
+    if (!userText) return;
+
+    // Hiển thị bubble người dùng
+    appendMessage(userText, "user");
+    input.value = "";
+    input.style.height = "auto";
+
+    // Khóa gửi, hiện typing
+    isWaiting = true;
+    sendBtn.disabled = true;
+    showTyping();
+
+    try {
+      const response = await fetch(CHAT_API, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: userText }),
+      });
+
+      const data = await response.json();
+
+      if (data.reply) {
+        appendMessage(data.reply, "bot");
+      } else if (data.error) {
+        appendMessage("⚠️ Có lỗi xảy ra, vui lòng thử lại.", "bot");
+      }
+    } catch (err) {
+      console.error("Chat error:", err);
+      // Xóa typing indicator
+      const typingEl = document.getElementById("chatMessages").querySelector(".chat-typing");
+      if (typingEl) typingEl.remove();
+      appendMessage("⚠️ Không thể kết nối đến server. Vui lòng kiểm tra lại.", "bot");
+    } finally {
+      isWaiting = false;
+      sendBtn.disabled = false;
+      input.focus();
+    }
+  }
+
+  // === Khởi tạo sự kiện sau khi DOM sẵn sàng ===
+  document.addEventListener("DOMContentLoaded", function () {
+    const toggleBtn = document.getElementById("chatToggleBtn");
+    const closeBtn = document.getElementById("chatCloseBtn");
+    const sendBtn = document.getElementById("chatSendBtn");
+    const input = document.getElementById("chatInput");
+
+    if (!toggleBtn) return; // Phòng trường hợp widget chưa được render
+
+    toggleBtn.addEventListener("click", toggleChat);
+    closeBtn.addEventListener("click", toggleChat);
+    sendBtn.addEventListener("click", sendMessage);
+
+    // Enter để gửi, Shift+Enter để xuống dòng
+    input.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    });
+
+    // Auto-resize textarea khi gõ
+    input.addEventListener("input", function () {
+      this.style.height = "auto";
+      this.style.height = Math.min(this.scrollHeight, 90) + "px";
+    });
+
+    // Hiện badge sau 3 giây (gợi ý người dùng click vào chat)
+    setTimeout(() => {
+      if (!isChatOpen) {
+        const badge = document.getElementById("chatBadge");
+        badge.style.display = "flex";
+        badge.textContent = "1";
+      }
+    }, 3000);
+  });
+})();
