@@ -4,8 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Đặt Vé Xe TSH</title>
-    <link rel="stylesheet" href="https://npmcdn.com/flatpickr/dist/themes/material_blue.css"> 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+      rel="stylesheet"
+      href="https://npmcdn.com/flatpickr/dist/themes/material_blue.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
@@ -18,8 +24,8 @@
           <li><a href="#" class="active">Trang chủ</a></li>
           <li><a href="introduce.html" target="_blank">Giới thiệu</a></li>
           <li><a href="news.html" target="_blank">Tin tức</a></li>
-          <li><a href="#">Tuyển dụng</a></li>
-          <li><a href="#">Liên hệ</a></li>
+          <li><a href="tuyen-dung.html">Tuyển dụng</a></li>
+          <li><a href="lien-he.html">Liên hệ</a></li>
         </ul>
       </nav>
 
@@ -42,21 +48,38 @@
             Đăng ký
           </button>
         </div>
-      <div class="auth-user" id="authUser" style="display: none">
-  <span class="greeting">HI <span id="userNameDisplay"></span></span>
-  <span class="divider">|</span>
-  
-  <div class="user-dropdown">
-    <button class="btn-outline" style="background: #005baa; color: white; border: none; padding: 8px 20px; border-radius: 20px;">
-      Tài khoản <i class="fa-solid fa-chevron-down" style="font-size: 10px; margin-left: 5px;"></i>
-    </button>
-    <div class="dropdown-content">
-      <a href="history.html"><i class="fa-solid fa-clock-rotate-left"></i> Lịch sử đặt vé</a>
-      <hr>
-      <a href="#" id="btnLogout"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</a>
-    </div>
-  </div>
-</div>
+        <div class="auth-user" id="authUser" style="display: none">
+          <span class="greeting">HI <span id="userNameDisplay"></span></span>
+          <span class="divider">|</span>
+
+          <div class="user-dropdown">
+            <button
+              class="btn-outline"
+              style="
+                background: #005baa;
+                color: white;
+                border: none;
+                padding: 8px 20px;
+                border-radius: 20px;
+              "
+            >
+              Tài khoản
+              <i
+                class="fa-solid fa-chevron-down"
+                style="font-size: 10px; margin-left: 5px"
+              ></i>
+            </button>
+            <div class="dropdown-content">
+              <a href="history.html"
+                ><i class="fa-solid fa-clock-rotate-left"></i> Lịch sử đặt vé</a
+              >
+              <hr />
+              <a href="#" id="btnLogout"
+                ><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</a
+              >
+            </div>
+          </div>
+        </div>
       </div>
     </header>
 
@@ -64,49 +87,77 @@
       <img src="images/app.jpeg" alt="Banner Nhà Xe TSH" />
     </div>
 
-   <div class="search-container">
-  <div class="trip-type">
-    <label><input type="radio" name="trip" checked /> Một chiều</label>
-  </div>
-  <form id="searchForm" class="search-box">
-    
-    <div class="input-group custom-dropdown-container">
-      <label>Điểm đi</label>
-      <input type="hidden" id="startProvince" required /> <div class="custom-dropdown-header" id="startHeader" onclick="toggleDropdown('startDropdown')">Chọn điểm đi</div>
-      
-      <div class="custom-dropdown-body" id="startDropdown">
-        <div class="dropdown-search">
-          <input type="text" placeholder="Tìm kiếm tỉnh, bến xe..." onkeyup="filterDropdown(this, 'startList')">
-        </div>
-        <div class="dropdown-list" id="startList">
-          </div>
+    <div class="search-container">
+      <div class="trip-type">
+        <label><input type="radio" name="trip" checked /> Một chiều</label>
       </div>
-    </div>
-
-    <div class="swap-icon">⇄</div>
-
-    <div class="input-group custom-dropdown-container">
-      <label>Điểm đến</label>
-      <input type="hidden" id="endProvince" required /> <div class="custom-dropdown-header" id="endHeader" onclick="toggleDropdown('endDropdown')">Chọn điểm đến</div>
-      
-      <div class="custom-dropdown-body" id="endDropdown">
-        <div class="dropdown-search">
-          <input type="text" placeholder="Tìm kiếm tỉnh, bến xe..." onkeyup="filterDropdown(this, 'endList')">
-        </div>
-        <div class="dropdown-list" id="endList">
+      <form id="searchForm" class="search-box">
+        <div class="input-group custom-dropdown-container">
+          <label>Điểm đi</label>
+          <input type="hidden" id="startProvince" required />
+          <div
+            class="custom-dropdown-header"
+            id="startHeader"
+            onclick="toggleDropdown('startDropdown')"
+          >
+            Chọn điểm đi
           </div>
-      </div>
-    </div>
 
-    <div class="input-group">
-      <label>Ngày đi</label>
-      <input type="date" id="departureDate" required />
+          <div class="custom-dropdown-body" id="startDropdown">
+            <div class="dropdown-search">
+              <input
+                type="text"
+                placeholder="Tìm kiếm tỉnh, bến xe..."
+                onkeyup="filterDropdown(this, 'startList')"
+              />
+            </div>
+            <div class="dropdown-list" id="startList"></div>
+          </div>
+        </div>
+
+        <div
+          class="swap-icon"
+          onclick="swapLocations()"
+          style="cursor: pointer"
+          title="Hoán đổi điểm đi/đến"
+        >
+          ⇄
+        </div>
+
+        <div class="input-group custom-dropdown-container">
+          <label>Điểm đến</label>
+          <input type="hidden" id="endProvince" required />
+          <div
+            class="custom-dropdown-header"
+            id="endHeader"
+            onclick="toggleDropdown('endDropdown')"
+          >
+            Chọn điểm đến
+          </div>
+
+          <div class="custom-dropdown-body" id="endDropdown">
+            <div class="dropdown-search">
+              <input
+                type="text"
+                placeholder="Tìm kiếm tỉnh, bến xe..."
+                onkeyup="filterDropdown(this, 'endList')"
+              />
+            </div>
+            <div class="dropdown-list" id="endList"></div>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label>Ngày đi</label>
+          <input type="date" id="departureDate" required />
+        </div>
+
+        <button type="submit" class="btn-search">🔍 Tìm Ngay</button>
+        <button type="button" class="btn-reset" onclick="resetSearch()">
+          ✕ Xóa
+        </button>
+      </form>
     </div>
-    
-    <button type="submit" class="btn-search">🔍 Tìm Ngay</button>
-    <button type="button" class="btn-reset" onclick="resetSearch()">✕ Xóa</button>
-  </form>
-</div>
     <!-- KẾT QUẢ TÌM KIẾM -->
     <section class="results-section" id="resultsSection" style="display: none">
       <div class="results-header">
@@ -261,6 +312,6 @@
       </div>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-<script src="https://npmcdn.com/flatpickr/dist/l10n/vn.js"></script>
+    <script src="https://npmcdn.com/flatpickr/dist/l10n/vn.js"></script>
   </body>
 </html>
