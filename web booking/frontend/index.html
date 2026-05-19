@@ -313,5 +313,50 @@
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://npmcdn.com/flatpickr/dist/l10n/vn.js"></script>
+
+    <!-- ===== CHATBOT AI WIDGET ===== -->
+    <!-- Nút mở chat nổi góc dưới phải -->
+    <button id="chatToggleBtn" title="Chat với trợ lý AI TSH" aria-label="Mở hộp chat AI">
+      <i class="fa-solid fa-comment-dots"></i>
+      <span id="chatBadge">1</span>
+    </button>
+
+    <!-- Cửa sổ chat -->
+    <div id="chatWidget" role="dialog" aria-label="Hộp thoại chat AI">
+      <!-- Header -->
+      <div class="chat-header">
+        <div class="chat-header-avatar">🤖</div>
+        <div class="chat-header-info">
+          <h4>Trợ lý AI TSH</h4>
+          <p><span class="chat-online-dot"></span>Đang hoạt động</p>
+        </div>
+        <button id="chatCloseBtn" aria-label="Đóng chat">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Khu vực tin nhắn -->
+      <div id="chatMessages">
+        <!-- Tin nhắn chào mặc định của bot -->
+        <div class="chat-bubble bot">
+          👋 Xin chào! Tôi là trợ lý AI của <strong>Nhà xe TSH</strong>.<br>
+          Hãy hỏi tôi về lịch trình, giá vé, hoặc cách đặt vé nhé!
+        </div>
+      </div>
+
+      <!-- Ô nhập tin nhắn -->
+      <div class="chat-footer">
+        <textarea
+          id="chatInput"
+          placeholder="Nhập câu hỏi..."
+          rows="1"
+          aria-label="Ô nhập tin nhắn"
+        ></textarea>
+        <button id="chatSendBtn" aria-label="Gửi tin nhắn">
+          <i class="fa-solid fa-paper-plane"></i>
+        </button>
+      </div>
+    </div>
+    <!-- ===== KẾT THÚC CHATBOT WIDGET ===== -->
   </body>
 </html>
