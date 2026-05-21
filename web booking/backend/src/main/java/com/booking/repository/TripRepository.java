@@ -5,6 +5,7 @@ import com.booking.entity.Trip;
 import com.booking.dto.response.TripAIContextDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -30,6 +31,7 @@ public interface TripRepository extends JpaRepository<Trip, Long> {
            "JOIN es.province ep " +
            "JOIN t.bus b " +
            "JOIN b.busType bt " +
-           "WHERE t.status = 'ACTIVE'")
-    List<TripAIContextDTO> getTripDataForAI();
+           "WHERE t.status = 'ACTIVE' AND t.departureTime >= :from " +
+           "ORDER BY t.departureTime ASC")
+    List<TripAIContextDTO> getTripDataForAI(@Param("from") LocalDateTime from);
 }
