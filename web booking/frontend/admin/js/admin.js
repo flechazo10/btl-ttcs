@@ -30,6 +30,9 @@ document.addEventListener("DOMContentLoaded", function () {
     loadRealTrips(todayStr); // Tải chuyến hôm nay
     loadTemplateTrips();     // Tải chuyến mẫu
     loadAllUsers();          // Tải danh sách khách
+
+    // 4. KHỞI TẠO SELECT NĂM CHO THỐNG KÊ
+    initStatsYearSelect();
 });
 
 // Chuyển đổi giữa các Tab ở Sidebar
@@ -38,6 +41,11 @@ function switchTab(tabId, element) {
     element.classList.add('active');
     document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
     document.getElementById(tabId).style.display = 'block';
+
+    // Tự động tải thống kê khi chuyển sang tab Thống kê
+    if (tabId === 'statsTab') {
+        loadStatistics();
+    }
 }
 
 // ==========================================
@@ -494,4 +502,249 @@ async function submitTrip(event) {
     } catch (error) {
         alert("Lỗi hệ thống: " + error.message);
     }
+}
+
+// ==========================================
+// 📊 THỐNG KÊ DOANH THU (DASHBOARD)
+// ==========================================
+let monthlyChart = null;
+let routesChart = null;
+
+// Khởi tạo Select chọn năm
+function initStatsYearSelect() {
+    const select = document.getElementById("statsYearSelect");
+    const currentYear = new Date().getFullYear();
+    let html = '';
+    
+    // Tạo danh sách từ năm hiện tại + 1 xuống 2024
+    for (let y = currentYear + 1; y >= 2024; y--) {
+        const selected = (y === currentYear) ? 'selected' : '';
+        html += `<option value="${y}" ${selected}>${y}</option>`;
+    }
+    select.innerHTML = html;
+}
+
+// Gọi API và render tất cả thống kê
+async function loadStatistics() {
+    const token = localStorage.getItem("token");
+    const year = document.getElementById("statsYearSelect").value;
+
+    try {
+        const res = await fetch(`${API_BASE}/admin/statistics?year=${year}`, {
+            headers: { "Authorization": `Bearer ${token}` }
+        });
+
+        if (!res.ok) throw new Error("Lỗi tải dữ liệu thống kê");
+        const data = await res.json();
+
+        // 1. Cập nhật Summary Cards
+        document.getElementById("statTotalRevenue").innerText = formatCurrency(data.totalRevenue);
+        document.getElementById("statTotalTickets").innerText = formatNumber(data.totalTicketsSold);
+        document.getElementById("statTotalBookings").innerText = formatNumber(data.totalBookings);
+        document.getElementById("statTotalCustomers").innerText = formatNumber(data.totalCustomers);
+
+        // 2. Vẽ biểu đồ doanh thu theo tháng
+        renderMonthlyRevenueChart(data.monthlyRevenue);
+
+        // 3. Vẽ biểu đồ top tuyến đường
+        renderTopRoutesChart(data.topRoutes);
+
+        // 4. Render bảng doanh thu theo xe
+        renderBusRevenueTable(data.busRevenue);
+
+    } catch (error) {
+        console.error("Lỗi thống kê:", error);
+    }
+}
+
+// Format tiền VNĐ
+function formatCurrency(value) {
+    if (!value || value == 0) return "0đ";
+    return Number(value).toLocaleString("vi-VN") + "đ";
+}
+
+// Format số
+function formatNumber(value) {
+    if (!value) return "0";
+    return Number(value).toLocaleString("vi-VN");
+}
+
+// ======= BIỂU ĐỒ DOANH THU THEO THÁNG =======
+function renderMonthlyRevenueChart(monthlyData) {
+    const ctx = document.getElementById("monthlyRevenueChart").getContext("2d");
+    
+    // Hủy biểu đồ cũ nếu có (tránh vẽ đè)
+    if (monthlyChart) monthlyChart.destroy();
+
+    const labels = monthlyData.map(m => `T${m.month}`);
+    const revenues = monthlyData.map(m => Number(m.revenue));
+
+    // Tạo gradient
+    const gradient = ctx.createLinearGradient(0, 0, 0, 350);
+    gradient.addColorStop(0, 'rgba(102, 126, 234, 0.85)');
+    gradient.addColorStop(1, 'rgba(118, 75, 162, 0.35)');
+
+    monthlyChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Doanh thu (VNĐ)',
+                data: revenues,
+                backgroundColor: gradient,
+                borderColor: 'rgba(102, 126, 234, 1)',
+                borderWidth: 2,
+                borderRadius: 8,
+                borderSkipped: false,
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    backgroundColor: 'rgba(44, 62, 80, 0.95)',
+                    titleFont: { size: 13 },
+                    bodyFont: { size: 12 },
+                    padding: 12,
+                    cornerRadius: 8,
+                    callbacks: {
+                        label: function(context) {
+                            return 'Doanh thu: ' + Number(context.raw).toLocaleString('vi-VN') + 'đ';
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: { color: 'rgba(0,0,0,0.05)' },
+                    ticks: {
+                        callback: function(value) {
+                            if (value >= 1000000) return (value / 1000000).toFixed(1) + 'tr';
+                            if (value >= 1000) return (value / 1000) + 'k';
+                            return value;
+                        },
+                        font: { size: 11 }
+                    }
+                },
+                x: {
+                    grid: { display: false },
+                    ticks: { font: { size: 12, weight: '600' } }
+                }
+            }
+        }
+    });
+}
+
+// ======= BIỂU ĐỒ TOP TUYẾN ĐƯỜNG =======
+function renderTopRoutesChart(routeData) {
+    const ctx = document.getElementById("topRoutesChart").getContext("2d");
+    
+    if (routesChart) routesChart.destroy();
+
+    if (!routeData || routeData.length === 0) {
+        // Không có dữ liệu -> Hiển thị chart trống
+        routesChart = new Chart(ctx, {
+            type: 'bar',
+            data: { labels: ['Chưa có dữ liệu'], datasets: [{ data: [0], backgroundColor: '#dfe6e9' }] },
+            options: { responsive: true, indexAxis: 'y', plugins: { legend: { display: false } } }
+        });
+        return;
+    }
+
+    const labels = routeData.map(r => {
+        // Rút gọn tên nếu quá dài
+        const name = r.routeName;
+        return name.length > 25 ? name.substring(0, 22) + '...' : name;
+    });
+    const bookings = routeData.map(r => Number(r.totalBookings));
+
+    const colors = [
+        'rgba(243, 156, 18, 0.85)',  // Vàng
+        'rgba(52, 152, 219, 0.85)',  // Xanh dương
+        'rgba(46, 204, 113, 0.85)',  // Xanh lá
+        'rgba(231, 76, 60, 0.85)',   // Đỏ
+        'rgba(155, 89, 182, 0.85)',  // Tím
+    ];
+
+    routesChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Số đơn đặt',
+                data: bookings,
+                backgroundColor: colors.slice(0, routeData.length),
+                borderRadius: 6,
+                borderSkipped: false,
+            }]
+        },
+        options: {
+            indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    backgroundColor: 'rgba(44, 62, 80, 0.95)',
+                    padding: 12,
+                    cornerRadius: 8,
+                    callbacks: {
+                        afterLabel: function(context) {
+                            const route = routeData[context.dataIndex];
+                            return `Vé bán: ${route.totalTickets}\nDoanh thu: ${Number(route.totalRevenue).toLocaleString('vi-VN')}đ`;
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    grid: { color: 'rgba(0,0,0,0.05)' },
+                    ticks: { 
+                        stepSize: 1,
+                        font: { size: 11 } 
+                    }
+                },
+                y: {
+                    grid: { display: false },
+                    ticks: { font: { size: 11 } }
+                }
+            }
+        }
+    });
+}
+
+// ======= BẢNG DOANH THU THEO XE =======
+function renderBusRevenueTable(busData) {
+    const tbody = document.getElementById("busRevenueTableBody");
+    
+    if (!busData || busData.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding: 30px; color: #999;">
+            <i class="fa-solid fa-chart-simple" style="font-size: 32px; margin-bottom: 10px; display: block;"></i>
+            Chưa có dữ liệu doanh thu trong năm này
+        </td></tr>`;
+        return;
+    }
+
+    tbody.innerHTML = busData.map((bus, index) => {
+        // Rank badge
+        let rankHtml;
+        if (index === 0) rankHtml = `<span class="rank-badge rank-1">🥇</span>`;
+        else if (index === 1) rankHtml = `<span class="rank-badge rank-2">🥈</span>`;
+        else if (index === 2) rankHtml = `<span class="rank-badge rank-3">🥉</span>`;
+        else rankHtml = `<span class="rank-badge rank-default">${index + 1}</span>`;
+
+        return `
+        <tr>
+            <td style="text-align: center;">${rankHtml}</td>
+            <td style="font-weight: 700;">${bus.licensePlate}</td>
+            <td>${bus.busTypeName}</td>
+            <td style="text-align: center;">${bus.totalTrips}</td>
+            <td style="text-align: center;">${bus.totalPassengers}</td>
+            <td class="revenue-text">${Number(bus.totalRevenue).toLocaleString('vi-VN')}đ</td>
+        </tr>`;
+    }).join("");
 }
