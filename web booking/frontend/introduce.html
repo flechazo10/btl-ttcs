@@ -4,87 +4,208 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Giới thiệu - Nhà xe TSH</title>
+    <!-- CSS hệ thống và CSS riêng cho trang giới thiệu -->
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/introduce.css" />
+    <!-- FontAwesome để dùng icon đồng bộ với trang tuyển dụng nếu cần -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
   </head>
   <body>
-    <!-- HEADER (GIỮ NGUYÊN) -->
+    <!-- HEADER -->
     <header class="navbar">
-      <div class="logo">
-        <h2>NHÀ XE TSH</h2>
-      </div>
+      <div class="logo"><h2>NHÀ XE TSH</h2></div>
       <nav>
         <ul>
           <li><a href="index.html">Trang chủ</a></li>
           <li><a href="#" class="active">Giới thiệu</a></li>
           <li><a href="news.html">Tin tức</a></li>
-          <li><a href="#">Tuyển dụng</a></li>
-          <li><a href="#">Liên hệ</a></li>
+          <li><a href="tuyen-dung.html">Tuyển dụng</a></li>
+          <li><a href="lien-he.html">Liên hệ</a></li>
         </ul>
       </nav>
-
       <div class="header-right">
         <div class="lang">🇻🇳</div>
-        <div class="auth-guest">
-          <button
-            class="btn-text"
-            onclick="window.location.href = 'login.html'"
-          >
-            Đăng nhập
-          </button>
-          <span class="divider">/</span>
-          <button
-            class="btn-text"
-            onclick="window.location.href = 'register.html'"
-          >
-            Đăng ký
-          </button>
+        <!-- Vùng Auth được đồng bộ cấu trúc class/id để JS dễ dàng thao tác -->
+        <div class="auth-container" id="authContainer">
+          <div class="auth-guest" id="authGuest">
+            <button
+              class="btn-text"
+              onclick="window.location.href = 'login.html'"
+            >
+              Đăng nhập
+            </button>
+            <span class="divider">/</span>
+            <button
+              class="btn-text"
+              onclick="window.location.href = 'register.html'"
+            >
+              Đăng ký
+            </button>
+          </div>
+          <div class="auth-user" id="authUser" style="display: none">
+            <span class="welcome-text"
+              >Xin chào, <b id="usernameDisplay">User</b></span
+            >
+            <button class="btn-logout" id="btnLogout">Đăng xuất</button>
+          </div>
         </div>
       </div>
     </header>
 
-    <!-- BANNER -->
+    <!-- HERO BANNER -->
     <div class="hero-banner">
       <img
-        src="https://bizweb.dktcdn.net/100/512/250/files/z5768108137147-045345ce0bd57739faa1645d4c59f596.jpg?v=1724659700457"
+        src="https://cdn2.tuoitre.vn/471584752817336320/2025/4/15/base64-17447265315171061462140.jpeg"
         alt="Banner Nhà Xe TSH"
       />
+      <div class="hero-overlay">
+        <div class="hero-text-box">
+          <h1>HÀNH TRÌNH TẬN TÂM - KẾT NỐI NIỀM TIN</h1>
+        </div>
+      </div>
     </div>
 
-    <!-- NỘI DUNG GIỚI THIỆU -->
-    <section class="about-section">
-      <div class="about-container">
-        <h1>Giới thiệu Nhà xe TSH</h1>
-
-        <p>
-          Nhà xe TSH là đơn vị vận tải hành khách uy tín, chuyên cung cấp các
-          tuyến xe chất lượng cao trên toàn quốc. Với nhiều năm kinh nghiệm
-          trong lĩnh vực vận tải, chúng tôi cam kết mang đến cho khách hàng
-          những chuyến đi an toàn, tiện nghi và đúng giờ.
+    <!-- NỘI DUNG GIỚI THIỆU CHÍNH -->
+    <main class="about-wrapper">
+      <!-- Khối tổng quan -->
+      <section class="intro-overview">
+        <h2>Về Chúng Tôi</h2>
+        <p class="lead-text">
+          Nhà xe TSH là đơn vị vận tải hành khách uy tín chuyên khai thác các
+          tuyến xe chất lượng cao kết nối Thanh Hóa – Hà Nội và nhiều tỉnh thành
+          trên cả nước.
         </p>
-
-        <h3>Sứ mệnh</h3>
+        <blockquote class="slogan-quote">
+          “An toàn – Đúng giờ – Chuyên nghiệp – Tận tâm”
+        </blockquote>
         <p>
-          Mang đến trải nghiệm di chuyển tốt nhất cho khách hàng với dịch vụ
-          chuyên nghiệp và giá cả hợp lý.
+          Trải qua nhiều năm hoạt động trong lĩnh vực vận tải hành khách, Nhà xe
+          TSH đã xây dựng được uy tín vững chắc nhờ hệ thống vận hành chuyên
+          nghiệp, đội ngũ tài xế giàu kinh nghiệm và phong cách phục vụ tận
+          tình. Mỗi năm, TSH phục vụ hàng nghìn lượt hành khách trên các tuyến
+          cố định và luôn nhận được sự tin tưởng tuyệt đối từ khách hàng.
         </p>
+      </section>
 
-        <h3>Tầm nhìn</h3>
-        <p>
-          Trở thành nhà xe hàng đầu Việt Nam trong lĩnh vực vận tải hành khách.
-        </p>
+      <!-- Khối Sứ mệnh & Tầm nhìn (Chia layout 2 cột bằng Grid) -->
+      <section class="vision-mission-section">
+        <div class="vision-mission-grid">
+          <div class="vm-card mission">
+            <div class="card-icon"><i class="fa-solid fa-rocket"></i></div>
+            <h3>Sứ mệnh</h3>
+            <p>
+              Mang đến trải nghiệm di chuyển an toàn, tiện nghi và đáng tin cậy
+              cho mọi hành khách thông qua dịch vụ vận tải chất lượng cao, đội
+              ngũ phục vụ chuyên nghiệp và hệ thống vận hành hiện đại.
+            </p>
+          </div>
+          <div class="vm-card vision">
+            <div class="card-icon"><i class="fa-solid fa-eye"></i></div>
+            <h3>Tầm nhìn</h3>
+            <p>
+              Trở thành một trong những thương hiệu vận tải hành khách hàng đầu
+              Việt Nam, tiên phong trong việc ứng dụng công nghệ và nâng cao
+              tiêu chuẩn phục vụ khách hàng trong ngành vận tải đường bộ.
+            </p>
+          </div>
+        </div>
+      </section>
 
-        <h3>Dịch vụ nổi bật</h3>
-        <ul>
-          <li>Xe giường nằm cao cấp</li>
-          <li>Đặt vé online nhanh chóng</li>
-          <li>Hỗ trợ khách hàng 24/7</li>
-          <li>Đón/trả tận nơi</li>
-        </ul>
-      </div>
-    </section>
+      <!-- Khối Giá trị cốt lõi (Grid 4 cột đồng bộ style với why-join-grid bên tuyển dụng) -->
+      <section class="core-values-section">
+        <h3 class="section-title">Giá Trị Cốt Lõi</h3>
+        <div class="values-grid">
+          <div class="value-card">
+            <div class="value-icon">
+              <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            <h4>An toàn</h4>
+            <p>
+              Đặt sự an toàn tính mạng và tài sản của hành khách lên hàng đầu
+              trong mọi hoàn cảnh.
+            </p>
+          </div>
+          <div class="value-card">
+            <div class="value-icon"><i class="fa-solid fa-handshake"></i></div>
+            <h4>Uy tín</h4>
+            <p>
+              Hoạt động minh bạch, đi đúng lộ trình, cam kết đúng giờ và giữ
+              vững lời hứa.
+            </p>
+          </div>
+          <div class="value-card">
+            <div class="value-icon"><i class="fa-solid fa-user-tie"></i></div>
+            <h4>Chuyên nghiệp</h4>
+            <p>
+              Đội ngũ nhân viên văn phòng, điều hành và tài xế được đào tạo bài
+              bản, chuẩn mực.
+            </p>
+          </div>
+          <div class="value-card">
+            <div class="value-icon"><i class="fa-solid fa-heart"></i></div>
+            <h4>Tận tâm</h4>
+            <p>
+              Luôn lắng nghe, thấu hiểu và hết lòng hỗ trợ hành khách trong suốt
+              hành trình di chuyển.
+            </p>
+          </div>
+        </div>
+      </section>
 
-    <!-- FOOTER (GIỮ NGUYÊN) -->
+      <!-- Khối Dịch vụ & Cam kết (Bố cục song song) -->
+      <section class="features-section">
+        <div class="features-grid">
+          <div class="feature-box">
+            <h3><i class="fa-solid fa-star"></i> Dịch vụ nổi bật</h3>
+            <ul>
+              <li>
+                <i class="fa-solid fa-circle-check"></i> Xe giường nằm và
+                limousine cao cấp, nội thất hiện đại.
+              </li>
+              <li>
+                <i class="fa-solid fa-circle-check"></i> Đặt vé online nhanh
+                chóng và thuận tiện.
+              </li>
+              <li>
+                <i class="fa-solid fa-circle-check"></i> Hỗ trợ khách hàng 24/7
+                qua hotline và các kênh trực tuyến.
+              </li>
+              <li>
+                <i class="fa-solid fa-circle-check"></i> Dịch vụ đón/trả khách
+                linh hoạt tại nhiều điểm cố định.
+              </li>
+              <li>
+                <i class="fa-solid fa-circle-check"></i> Lịch trình nhiều chuyến
+                trong ngày, đúng giờ và ổn định.
+              </li>
+              <li>
+                <i class="fa-solid fa-circle-check"></i> Hệ thống điều hòa, wifi
+                tốc độ cao và các tiện ích đi kèm.
+              </li>
+            </ul>
+          </div>
+          <div class="feature-box commitment-box">
+            <h3><i class="fa-solid fa-award"></i> Cam kết từ TSH</h3>
+            <p>
+              Nhà xe TSH liên tục đầu tư và nâng cấp đội xe nhằm đảm bảo chất
+              lượng phục vụ tốt nhất. Các phương tiện đều được kiểm tra kỹ thuật
+              định kỳ nghiêm ngặt, vệ sinh sạch sẽ trước mỗi chuyến đi.
+            </p>
+            <p>
+              Chúng tôi cam kết mang đến dịch vụ vận tải chất lượng cao với mức
+              giá vé hợp lý, lịch trình minh bạch và thái độ phục vụ lịch sự.
+              TSH luôn nỗ lực cải tiến không ngừng để mỗi chuyến đi không chỉ là
+              di chuyển, mà còn là một trải nghiệm đáng nhớ.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- FOOTER -->
     <footer class="footer">
       <div class="footer-container">
         <div class="footer-col">
@@ -94,14 +215,12 @@
             <li>Hà Nội - TP Thanh Hóa</li>
           </ul>
         </div>
-
         <div class="footer-col">
           <h3>Về chúng tôi</h3>
           <ul>
             <li><a href="introduce.html">Giới thiệu Nhà xe TSH</a></li>
           </ul>
         </div>
-
         <div class="footer-col">
           <h3>Hỗ trợ</h3>
           <ul>
@@ -109,7 +228,6 @@
             <li>Chính sách hoàn tiền</li>
           </ul>
         </div>
-
         <div class="footer-col company">
           <h3>NHÀ XE TSH</h3>
           <p>Thanh Hóa, Việt Nam</p>
@@ -117,5 +235,33 @@
         </div>
       </div>
     </footer>
+
+    <!-- Khởi chạy script chung cho trang (Ví dụ: logic đổi trạng thái header giống tuyen-dung.js) -->
+    <script>
+      // Bạn có thể nhúng trực tiếp đoạn xử lý Auth giống bên tuyen-dung.html vào đây
+      // hoặc link tới một file js dùng chung để đảm bảo tính đồng bộ hoàn toàn.
+      document.addEventListener("DOMContentLoaded", function () {
+        const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+        const authGuest = document.getElementById("authGuest");
+        const authUser = document.getElementById("authUser");
+        const usernameDisplay = document.getElementById("usernameDisplay");
+        const btnLogout = document.getElementById("btnLogout");
+
+        if (currentUser && authGuest && authUser) {
+          authGuest.style.display = "none";
+          authUser.style.display = "flex";
+          if (usernameDisplay)
+            usernameDisplay.textContent =
+              currentUser.name || currentUser.username;
+        }
+
+        if (btnLogout) {
+          btnLogout.addEventListener("click", function () {
+            localStorage.removeItem("currentUser");
+            window.location.reload();
+          });
+        }
+      });
+    </script>
   </body>
 </html>
