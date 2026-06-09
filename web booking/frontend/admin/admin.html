@@ -122,8 +122,80 @@
             </div>
 
             <div id="statsTab" class="tab-content" style="display: none;">
-                <h2>Thống kê doanh thu</h2>
-                <p>Tính năng đang được phát triển...</p>
+                <!-- TOOLBAR: Tiêu đề + Bộ lọc năm -->
+                <div class="toolbar">
+                    <div class="toolbar-left">
+                        <h2><i class="fa-solid fa-chart-line"></i> Thống kê Doanh thu</h2>
+                    </div>
+                    <div class="toolbar-right">
+                        <label style="font-weight: 600; margin-right: 5px;">Năm:</label>
+                        <select id="statsYearSelect" class="form-control" style="width: 120px;" onchange="loadStatistics()">
+                        </select>
+                    </div>
+                </div>
+
+                <!-- SUMMARY CARDS: 4 thẻ tổng quan -->
+                <div class="stats-cards">
+                    <div class="stat-card stat-card-revenue">
+                        <div class="stat-card-icon"><i class="fa-solid fa-sack-dollar"></i></div>
+                        <div class="stat-card-info">
+                            <span class="stat-card-label">Tổng Doanh thu</span>
+                            <span class="stat-card-value" id="statTotalRevenue">0đ</span>
+                        </div>
+                    </div>
+                    <div class="stat-card stat-card-tickets">
+                        <div class="stat-card-icon"><i class="fa-solid fa-ticket"></i></div>
+                        <div class="stat-card-info">
+                            <span class="stat-card-label">Vé đã bán</span>
+                            <span class="stat-card-value" id="statTotalTickets">0</span>
+                        </div>
+                    </div>
+                    <div class="stat-card stat-card-bookings">
+                        <div class="stat-card-icon"><i class="fa-solid fa-clipboard-list"></i></div>
+                        <div class="stat-card-info">
+                            <span class="stat-card-label">Đơn đặt vé</span>
+                            <span class="stat-card-value" id="statTotalBookings">0</span>
+                        </div>
+                    </div>
+                    <div class="stat-card stat-card-customers">
+                        <div class="stat-card-icon"><i class="fa-solid fa-user-group"></i></div>
+                        <div class="stat-card-info">
+                            <span class="stat-card-label">Khách hàng</span>
+                            <span class="stat-card-value" id="statTotalCustomers">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CHARTS ROW: Biểu đồ doanh thu + Top tuyến đường -->
+                <div class="stats-charts-row">
+                    <div class="stats-chart-box stats-chart-wide">
+                        <h3><i class="fa-solid fa-chart-column"></i> Doanh thu theo tháng</h3>
+                        <canvas id="monthlyRevenueChart"></canvas>
+                    </div>
+                    <div class="stats-chart-box stats-chart-narrow">
+                        <h3><i class="fa-solid fa-fire-flame-curved"></i> Top tuyến đường</h3>
+                        <canvas id="topRoutesChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- TABLE: Doanh thu theo xe -->
+                <div class="stats-bus-table-wrap">
+                    <h3><i class="fa-solid fa-bus"></i> Doanh thu theo từng xe</h3>
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Hạng</th>
+                                <th>Biển số xe</th>
+                                <th>Loại xe</th>
+                                <th>Số chuyến</th>
+                                <th>Lượt khách</th>
+                                <th>Doanh thu</th>
+                            </tr>
+                        </thead>
+                        <tbody id="busRevenueTableBody">
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </main>
     </div>
@@ -212,6 +284,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://npmcdn.com/flatpickr/dist/l10n/vn.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <script src="js/admin.js"></script>
     
 </body>
