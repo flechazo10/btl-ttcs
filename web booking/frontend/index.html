@@ -22,8 +22,8 @@
       <nav>
         <ul>
           <li><a href="#" class="active">Trang chủ</a></li>
-          <li><a href="introduce.html" target="_blank">Giới thiệu</a></li>
-          <li><a href="news.html" target="_blank">Tin tức</a></li>
+          <li><a href="introduce.html">Giới thiệu</a></li>
+          <li><a href="news.html">Tin tức</a></li>
           <li><a href="tuyen-dung.html">Tuyển dụng</a></li>
           <li><a href="lien-he.html">Liên hệ</a></li>
         </ul>
@@ -311,12 +311,18 @@
         </div>
       </div>
     </footer>
+    <!-- Nhúng qua CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://npmcdn.com/flatpickr/dist/l10n/vn.js"></script>
 
     <!-- ===== CHATBOT AI WIDGET ===== -->
     <!-- Nút mở chat nổi góc dưới phải -->
-    <button id="chatToggleBtn" title="Chat với trợ lý AI TSH" aria-label="Mở hộp chat AI">
+    <button
+      id="chatToggleBtn"
+      title="Chat với trợ lý AI TSH"
+      aria-label="Mở hộp chat AI"
+    >
       <i class="fa-solid fa-comment-dots"></i>
       <span id="chatBadge">1</span>
     </button>
@@ -339,7 +345,7 @@
       <div id="chatMessages">
         <!-- Tin nhắn chào mặc định của bot -->
         <div class="chat-bubble bot">
-          👋 Xin chào! Tôi là trợ lý AI của <strong>Nhà xe TSH</strong>.<br>
+          👋 Xin chào! Tôi là trợ lý AI của <strong>Nhà xe TSH</strong>.<br />
           Hãy hỏi tôi về lịch trình, giá vé, hoặc cách đặt vé nhé!
         </div>
       </div>

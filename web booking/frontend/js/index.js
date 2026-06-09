@@ -189,11 +189,54 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // 🌟 Nhắc nhở nếu khách quên chưa chọn
       if (!start) {
-        alert("Vui lòng chọn Điểm đi!");
+        Swal.fire({
+          title:
+            '<span style="color: #005baa; font-size: 22px; font-weight: bold;">Chưa chọn Điểm đi!</span>',
+          html: `
+            <div style="text-align: center; margin-bottom: 15px;">
+                <i class="fa-solid fa-location-dot" style="font-size: 48px; color: #ff4d4f; animation: bounce 1s infinite;"></i>
+            </div>
+            <p style="color: #555; font-size: 15px; margin: 0;">Vui lòng chọn <b>Tỉnh thành hoặc Bến xe xuất phát</b> để Nhà xe TSH có thể tìm kiếm chuyến xe chính xác nhất cho bạn.</p>
+        `,
+          confirmButtonText: "Tôi hiểu rồi",
+          confirmButtonColor: "#005baa",
+          customClass: {
+            popup: "tsh-swal-popup",
+            confirmButton: "tsh-swal-button",
+          },
+          showClass: {
+            popup: "animate__animated animate__fadeInUp animate__faster", // Hiệu ứng trượt nhẹ từ dưới lên
+          },
+          hideClass: {
+            popup: "animate__animated animate__fadeOutDown animate__faster",
+          },
+        });
         return;
       }
+
       if (!end) {
-        alert("Vui lòng chọn Điểm đến!");
+        Swal.fire({
+          title:
+            '<span style="color: #005baa; font-size: 22px; font-weight: bold;">Chưa chọn Điểm đến!</span>',
+          html: `
+            <div style="text-align: center; margin-bottom: 15px;">
+                <i class="fa-solid fa-map-location-dot" style="font-size: 48px; color: #ff4d4f; animation: bounce 1s infinite;"></i>
+            </div>
+            <p style="color: #555; font-size: 15px; margin: 0;">Hành trình của bạn chưa trọn vẹn nếu thiếu điểm đến. Vui lòng chọn <b>Nơi bạn muốn đến</b> nhé!</p>
+        `,
+          confirmButtonText: "Tôi hiểu rồi",
+          confirmButtonColor: "#005baa",
+          customClass: {
+            popup: "tsh-swal-popup",
+            confirmButton: "tsh-swal-button",
+          },
+          showClass: {
+            popup: "animate__animated animate__fadeInUp animate__faster",
+          },
+          hideClass: {
+            popup: "animate__animated animate__fadeOutDown animate__faster",
+          },
+        });
         return;
       }
 
@@ -690,9 +733,14 @@ document.addEventListener("DOMContentLoaded", function () {
     } catch (err) {
       console.error("Chat error:", err);
       // Xóa typing indicator
-      const typingEl = document.getElementById("chatMessages").querySelector(".chat-typing");
+      const typingEl = document
+        .getElementById("chatMessages")
+        .querySelector(".chat-typing");
       if (typingEl) typingEl.remove();
-      appendMessage("⚠️ Không thể kết nối đến server. Vui lòng kiểm tra lại.", "bot");
+      appendMessage(
+        "⚠️ Không thể kết nối đến server. Vui lòng kiểm tra lại.",
+        "bot",
+      );
     } finally {
       isWaiting = false;
       sendBtn.disabled = false;
