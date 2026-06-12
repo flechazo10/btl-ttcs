@@ -1,0 +1,464 @@
+/* ==========================================================================
+   NEWS DETAIL PAGE - CSS
+   Trang chi tiết bài viết tin tức
+   ========================================================================== */
+
+/* --- Breadcrumb điều hướng --- */
+.breadcrumb {
+  max-width: 900px;
+  margin: 20px auto 0;
+  padding: 0 20px;
+  font-size: 14px;
+  color: #888;
+}
+
+.breadcrumb a {
+  color: #1a428a;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.breadcrumb a:hover {
+  color: #ff5722;
+}
+
+.breadcrumb .separator {
+  margin: 0 8px;
+  color: #ccc;
+}
+
+.breadcrumb .current {
+  color: #555;
+  font-weight: 600;
+}
+
+/* --- Layout chính: Bài viết + Sidebar --- */
+.detail-layout {
+  max-width: 1100px;
+  margin: 25px auto 50px;
+  padding: 0 20px;
+  display: flex;
+  gap: 35px;
+  align-items: flex-start;
+}
+
+/* --- Nội dung bài viết (cột trái) --- */
+.article-main {
+  flex: 1;
+  min-width: 0;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  animation: fadeInUp 0.5s ease both;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Ảnh bìa bài viết */
+.article-hero {
+  position: relative;
+  width: 100%;
+  height: 380px;
+  overflow: hidden;
+}
+
+.article-hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.article-main:hover .article-hero img {
+  transform: scale(1.02);
+}
+
+.article-hero .news-tag {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  z-index: 2;
+}
+
+/* Gradient phủ dưới ảnh */
+.article-hero::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 120px;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.3));
+  pointer-events: none;
+}
+
+/* Phần nội dung bài viết */
+.article-body {
+  padding: 30px 35px 40px;
+}
+
+.article-body .article-title {
+  font-size: 26px;
+  font-weight: 800;
+  color: #2c3e50;
+  line-height: 1.4;
+  margin-bottom: 15px;
+}
+
+/* Meta info: ngày đăng, tác giả */
+.article-meta {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding-bottom: 20px;
+  margin-bottom: 25px;
+  border-bottom: 2px solid #f0f0f0;
+  font-size: 13.5px;
+  color: #888;
+}
+
+.article-meta i {
+  margin-right: 5px;
+  color: #aaa;
+}
+
+.article-meta .meta-author {
+  color: #1a428a;
+  font-weight: 600;
+}
+
+/* Nội dung bài viết */
+.article-content {
+  font-size: 15.5px;
+  line-height: 1.85;
+  color: #444;
+  text-align: justify;
+}
+
+.article-content p {
+  margin-bottom: 18px;
+}
+
+.article-content h3 {
+  font-size: 20px;
+  color: #2c3e50;
+  margin: 30px 0 15px;
+  padding-left: 14px;
+  border-left: 4px solid #ff5722;
+}
+
+.article-content img {
+  width: 100%;
+  border-radius: 10px;
+  margin: 20px 0;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.article-content .highlight-box {
+  background: linear-gradient(135deg, #fff8e1, #fff3e0);
+  border-left: 5px solid #f39c12;
+  padding: 18px 22px;
+  border-radius: 0 10px 10px 0;
+  margin: 25px 0;
+  font-style: italic;
+  color: #5d4037;
+}
+
+.article-content ul, .article-content ol {
+  padding-left: 25px;
+  margin-bottom: 18px;
+}
+
+.article-content li {
+  margin-bottom: 8px;
+  line-height: 1.7;
+}
+
+/* Khối chia sẻ / tags ở cuối bài */
+.article-footer {
+  margin-top: 35px;
+  padding-top: 25px;
+  border-top: 2px solid #f0f0f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.article-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.article-tags span {
+  background: #e8f4fd;
+  color: #1565c0;
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-size: 12.5px;
+  font-weight: 600;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.article-tags span:hover {
+  background: #1565c0;
+  color: #fff;
+}
+
+.article-share {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: #888;
+}
+
+.article-share .share-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  color: #fff;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.share-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.share-fb {
+  background: #1877f2;
+}
+.share-tw {
+  background: #1da1f2;
+}
+.share-link {
+  background: #555;
+}
+
+/* --- Sidebar (cột phải) --- */
+.article-sidebar {
+  width: 300px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 20px;
+  animation: fadeInUp 0.5s ease 0.15s both;
+}
+
+.sidebar-box {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  padding: 22px;
+  margin-bottom: 25px;
+}
+
+.sidebar-box h4 {
+  font-size: 16px;
+  color: #2c3e50;
+  margin-bottom: 18px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #f0f0f0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sidebar-box h4 i {
+  color: #f39c12;
+}
+
+/* Card bài viết liên quan */
+.related-card {
+  display: flex;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid #f5f5f5;
+  text-decoration: none;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.related-card:last-child {
+  border-bottom: none;
+}
+
+.related-card:hover {
+  background: #f8f9fa;
+  margin: 0 -10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 8px;
+}
+
+.related-card img {
+  width: 80px;
+  height: 60px;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.related-card-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.related-card-info h5 {
+  font-size: 13.5px;
+  color: #2c3e50;
+  line-height: 1.4;
+  margin: 0 0 5px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.related-card:hover .related-card-info h5 {
+  color: #ff5722;
+}
+
+.related-card-info .related-date {
+  font-size: 12px;
+  color: #aaa;
+}
+
+/* Box thông tin nhà xe */
+.info-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.info-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid #f5f5f5;
+  font-size: 14px;
+  color: #555;
+}
+
+.info-list li:last-child {
+  border-bottom: none;
+}
+
+.info-list li i {
+  width: 32px;
+  height: 32px;
+  background: #e8f4fd;
+  color: #1565c0;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+/* Nút quay lại */
+.btn-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #1a428a, #2563eb);
+  color: #fff;
+  padding: 12px 28px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 14px;
+  text-decoration: none;
+  transition: all 0.3s;
+  box-shadow: 0 4px 15px rgba(26, 66, 138, 0.3);
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  justify-content: center;
+}
+
+.btn-back:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(26, 66, 138, 0.4);
+}
+
+.btn-back i {
+  transition: transform 0.2s;
+}
+
+.btn-back:hover i {
+  transform: translateX(-4px);
+}
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+@media (max-width: 900px) {
+  .detail-layout {
+    flex-direction: column;
+  }
+
+  .article-sidebar {
+    width: 100%;
+    position: static;
+  }
+
+  .article-hero {
+    height: 250px;
+  }
+
+  .article-body {
+    padding: 20px 22px 30px;
+  }
+
+  .article-body .article-title {
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 500px) {
+  .article-hero {
+    height: 200px;
+  }
+
+  .article-body .article-title {
+    font-size: 19px;
+  }
+
+  .article-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .article-footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
