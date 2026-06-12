@@ -1,6 +1,132 @@
 const API_BASE = "http://localhost:8080/api";
 const TEMPLATE_DATE = "2026-01-01"; // Ngày gốc mặc định cho dữ liệu mẫu
 
+// ==========================================
+// 🎨 HỆ THỐNG THÔNG BÁO TÙY CHỈNH (Custom Modal)
+// Thay thế alert() và confirm() mặc định của trình duyệt
+// ==========================================
+
+// Icon map cho từng loại thông báo
+const MODAL_ICONS = {
+    success: '<i class="fa-solid fa-check"></i>',
+    error: '<i class="fa-solid fa-xmark"></i>',
+    warning: '<i class="fa-solid fa-exclamation"></i>',
+    info: '<i class="fa-solid fa-info"></i>',
+    confirm: '<i class="fa-solid fa-question"></i>'
+};
+
+const MODAL_TITLES = {
+    success: 'Thành công!',
+    error: 'Có lỗi xảy ra!',
+    warning: 'Cảnh báo!',
+    info: 'Thông báo',
+    confirm: 'Xác nhận'
+};
+
+/**
+ * Hiển thị thông báo dạng modal (thay thế alert)
+ * @param {string} message - Nội dung thông báo
+ * @param {string} type - Loại: 'success' | 'error' | 'warning' | 'info'
+ * @returns {Promise} - Resolve khi người dùng bấm OK
+ */
+function showAlert(message, type = 'info') {
+    return new Promise((resolve) => {
+        // Tạo overlay
+        const overlay = document.createElement('div');
+        overlay.className = 'custom-modal-overlay';
+
+        overlay.innerHTML = `
+            <div class="custom-modal-box">
+                <div class="custom-modal-icon icon-${type}">
+                    ${MODAL_ICONS[type] || MODAL_ICONS.info}
+                </div>
+                <div class="custom-modal-title">${MODAL_TITLES[type] || 'Thông báo'}</div>
+                <div class="custom-modal-message">${message}</div>
+                <div class="custom-modal-buttons">
+                    <button class="custom-modal-btn custom-modal-btn-primary" id="customModalOk">OK</button>
+                </div>
+            </div>
+        `;
+
+        document.body.appendChild(overlay);
+
+        // Trigger animation
+        requestAnimationFrame(() => overlay.classList.add('show'));
+
+        // Đóng modal
+        const closeModal = () => {
+            overlay.classList.remove('show');
+            setTimeout(() => {
+                overlay.remove();
+                resolve();
+            }, 300);
+        };
+
+        overlay.querySelector('#customModalOk').addEventListener('click', closeModal);
+
+        // Click ra ngoài cũng đóng
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) closeModal();
+        });
+    });
+}
+
+/**
+ * Hiển thị hộp thoại xác nhận dạng modal (thay thế confirm)
+ * @param {string} message - Nội dung câu hỏi xác nhận
+ * @param {object} options - Tùy chọn { type, confirmText, cancelText, isDanger }
+ * @returns {Promise<boolean>} - true nếu bấm Xác nhận, false nếu bấm Hủy
+ */
+function showConfirm(message, options = {}) {
+    const {
+        type = 'confirm',
+        title = MODAL_TITLES[type] || 'Xác nhận',
+        confirmText = 'Xác nhận',
+        cancelText = 'Hủy',
+        isDanger = false
+    } = options;
+
+    return new Promise((resolve) => {
+        const overlay = document.createElement('div');
+        overlay.className = 'custom-modal-overlay';
+
+        const btnClass = isDanger ? 'custom-modal-btn-danger' : 'custom-modal-btn-primary';
+
+        overlay.innerHTML = `
+            <div class="custom-modal-box">
+                <div class="custom-modal-icon icon-${type}">
+                    ${MODAL_ICONS[type] || MODAL_ICONS.confirm}
+                </div>
+                <div class="custom-modal-title">${title}</div>
+                <div class="custom-modal-message">${message}</div>
+                <div class="custom-modal-buttons">
+                    <button class="custom-modal-btn custom-modal-btn-cancel" id="customModalCancel">${cancelText}</button>
+                    <button class="custom-modal-btn ${btnClass}" id="customModalConfirm">${confirmText}</button>
+                </div>
+            </div>
+        `;
+
+        document.body.appendChild(overlay);
+        requestAnimationFrame(() => overlay.classList.add('show'));
+
+        const closeModal = (result) => {
+            overlay.classList.remove('show');
+            setTimeout(() => {
+                overlay.remove();
+                resolve(result);
+            }, 300);
+        };
+
+        overlay.querySelector('#customModalConfirm').addEventListener('click', () => closeModal(true));
+        overlay.querySelector('#customModalCancel').addEventListener('click', () => closeModal(false));
+
+        // Click ra ngoài => Hủy
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) closeModal(false);
+        });
+    });
+}
+
 document.addEventListener("DOMContentLoaded", function () {
     // 1. CẤU HÌNH LỊCH CHO LỊCH TRÌNH THỰC TẾ
     flatpickr("#filterDateReal", {
@@ -189,7 +315,13 @@ function closePassengerModal() {
 
 // 2. Xóa vĩnh viễn (Chỉ dùng cho chuyến mẫu)
 async function deleteTemplateTrip(tripId) {
-    if(confirm("CẢNH BÁO: Hành động này sẽ XÓA VĨNH VIỄN chuyến xe mẫu. Bạn có chắc chắn không?")) {
+    const confirmed = await showConfirm("Hành động này sẽ <b>XÓA VĨNH VIỄN</b> chuyến xe mẫu. Bạn có chắc chắn không?", {
+        type: 'warning',
+        title: 'Cảnh báo!',
+        confirmText: 'Xóa vĩnh viễn',
+        isDanger: true
+    });
+    if (confirmed) {
         const token = localStorage.getItem("token");
         try {
             const res = await fetch(`${API_BASE}/admin/trips/${tripId}`, {
@@ -199,20 +331,25 @@ async function deleteTemplateTrip(tripId) {
             const data = await res.json();
             
             if (res.ok) {
-                alert(data.message);
-                loadTemplateTrips(); // Tải lại bảng mẫu
+                await showAlert(data.message, 'success');
+                loadTemplateTrips();
             } else {
-                alert("Lỗi: " + (data.error || "Không thể xóa"));
+                showAlert("Lỗi: " + (data.error || "Không thể xóa"), 'error');
             }
         } catch (error) {
-            alert("Lỗi kết nối máy chủ!");
+            showAlert("Lỗi kết nối máy chủ!", 'error');
         }
     }
 }
 
 // 3. Hủy chuyến (Cho lịch trình thực tế)
 async function cancelTrip(tripId) {
-    if(confirm("Bạn có chắc chắn muốn hủy chuyến xe này? Hệ thống sẽ tự động hoàn tiền cho khách!")) {
+    const confirmed = await showConfirm("Bạn có chắc chắn muốn <b>hủy chuyến xe</b> này?<br>Hệ thống sẽ tự động hoàn tiền cho khách!", {
+        type: 'warning',
+        confirmText: 'Hủy chuyến',
+        isDanger: true
+    });
+    if (confirmed) {
         const token = localStorage.getItem("token");
         try {
             const res = await fetch(`${API_BASE}/admin/trips/${tripId}/cancel`, {
@@ -222,15 +359,14 @@ async function cancelTrip(tripId) {
             const data = await res.json();
             
             if (res.ok) {
-                alert(data.message);
-                // Load lại bảng thực tế của ngày đang xem
+                await showAlert(data.message, 'success');
                 const currentDate = document.getElementById("filterDateReal").value || new Date().toISOString().split('T')[0];
                 loadRealTrips(currentDate); 
             } else {
-                alert("Lỗi: " + (data.error || "Không thể hủy chuyến"));
+                showAlert("Lỗi: " + (data.error || "Không thể hủy chuyến"), 'error');
             }
         } catch (error) {
-            alert("Lỗi kết nối máy chủ!");
+            showAlert("Lỗi kết nối máy chủ!", 'error');
         }
     }
 }
@@ -241,17 +377,21 @@ async function cloneTrips() {
     const datesToClone = document.getElementById("cloneDates").value; 
     
     if (!datesToClone) {
-        alert("Vui lòng chọn ít nhất 1 ngày để nhân bản!");
+        showAlert("Vui lòng chọn ít nhất 1 ngày để nhân bản!", 'warning');
         return;
     }
 
     const dateArray = datesToClone.split(", ");
     const payload = {
-        sourceDate: TEMPLATE_DATE, // Lấy từ 01/01/2026
+        sourceDate: TEMPLATE_DATE,
         targetDates: dateArray    
     };
 
-    if (confirm(`Hệ thống sẽ sao chép lịch trình gốc sang ${dateArray.length} ngày đã chọn. Tiếp tục?`)) {
+    const confirmed = await showConfirm(`Hệ thống sẽ sao chép lịch trình gốc sang <b>${dateArray.length} ngày</b> đã chọn. Tiếp tục?`, {
+        type: 'info',
+        confirmText: 'Nhân bản',
+    });
+    if (confirmed) {
         try {
             const res = await fetch(`${API_BASE}/admin/trips/clone-bulk`, {
                 method: "POST",
@@ -265,17 +405,16 @@ async function cloneTrips() {
             const data = await res.json();
 
             if (res.ok) {
-                alert(data.message); 
+                await showAlert(data.message, 'success'); 
                 document.getElementById("cloneDates")._flatpickr.clear(); 
                 
-                // Cập nhật lại lịch trình thực tế để xem ngay
                 const currentDate = document.getElementById("filterDateReal").value || new Date().toISOString().split('T')[0];
                 loadRealTrips(currentDate);
             } else {
-                alert("Lỗi: " + (data.error || "Không thể nhân bản"));
+                showAlert("Lỗi: " + (data.error || "Không thể nhân bản"), 'error');
             }
         } catch (err) {
-            alert("Lỗi kết nối máy chủ khi nhân bản!");
+            showAlert("Lỗi kết nối máy chủ khi nhân bản!", 'error');
         }
     }
 }
@@ -354,7 +493,11 @@ function filterUserTable() {
 }
 
 async function banUser(userId) {
-    if(confirm("Xác nhận thay đổi trạng thái tài khoản này?")) {
+    const confirmed = await showConfirm("Xác nhận thay đổi trạng thái tài khoản này?", {
+        type: 'confirm',
+        confirmText: 'Xác nhận',
+    });
+    if (confirmed) {
         const token = localStorage.getItem("token");
         try {
             // 🌟 Đã cập nhật đường dẫn sang AdminUserController
@@ -364,13 +507,13 @@ async function banUser(userId) {
             });
             const data = await res.json();
             if (res.ok) {
-                alert(data.message);
+                await showAlert(data.message, 'success');
                 loadAllUsers(); 
             } else {
-                alert("Lỗi: " + (data.error || "Không thể thay đổi trạng thái"));
+                showAlert("Lỗi: " + (data.error || "Không thể thay đổi trạng thái"), 'error');
             }
         } catch (error) {
-            alert("Lỗi kết nối máy chủ!");
+            showAlert("Lỗi kết nối máy chủ!", 'error');
         }
     }
 }
@@ -389,7 +532,7 @@ function executeLogout() {
 function openAddRealTripModal() {
     const selectedDate = document.getElementById("filterDateReal").value;
     if(!selectedDate) {
-        alert("Vui lòng chọn ngày trên lịch trước khi thêm!");
+        showAlert("Vui lòng chọn ngày trên lịch trước khi thêm!", 'warning');
         return;
     }
     
@@ -453,7 +596,7 @@ async function prepareModalData() {
 
     } catch (error) {
         console.error("Lỗi khi chuẩn bị dữ liệu Modal:", error);
-        alert("Không thể tải danh sách Tuyến đường hoặc Xe. Vui lòng kiểm tra lại kết nối Backend!");
+        showAlert("Không thể tải danh sách Tuyến đường hoặc Xe. Vui lòng kiểm tra lại kết nối Backend!", 'error');
     }
 }
 
@@ -491,16 +634,16 @@ async function submitTrip(event) {
 
         const data = await res.json();
         if (res.ok) {
-            alert(data.message);
             closeAddTripModal();
+            await showAlert(data.message, 'success');
             // Tải lại bảng để thấy chuyến xe mới vừa thêm
             if (targetDate === "2026-01-01") loadTemplateTrips();
             else loadRealTrips(targetDate);
         } else {
-            alert("Lỗi: " + (data.error || "Không thể tạo chuyến xe"));
+            showAlert("Lỗi: " + (data.error || "Không thể tạo chuyến xe"), 'error');
         }
     } catch (error) {
-        alert("Lỗi hệ thống: " + error.message);
+        showAlert("Lỗi hệ thống: " + error.message, 'error');
     }
 }
 

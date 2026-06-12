@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title id="pageTitle">Chi tiết tin tức - Nhà xe TSH</title>
+    <meta name="description" content="Tin tức mới nhất từ Nhà xe TSH - Cập nhật các sự kiện, khuyến mãi và hoạt động nổi bật." />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/news.css" />
+    <link rel="stylesheet" href="css/news-detail.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- HEADER -->
+    <header class="navbar">
+      <div class="logo">
+        <h2>NHÀ XE TSH</h2>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="index.html">Trang chủ</a></li>
+          <li><a href="introduce.html">Giới thiệu</a></li>
+          <li><a href="news.html" class="active">Tin tức</a></li>
+          <li><a href="tuyen-dung.html">Tuyển dụng</a></li>
+          <li><a href="lien-he.html">Liên hệ</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-right">
+        <div class="lang">🇻🇳</div>
+        <div class="auth-container" id="authContainer">
+          <div class="auth-guest" id="authGuest">
+            <button class="btn-text" onclick="window.location.href = 'login.html'">
+              Đăng nhập
+            </button>
+            <span class="divider">/</span>
+            <button class="btn-text" onclick="window.location.href = 'register.html'">
+              Đăng ký
+            </button>
+          </div>
+          <div class="auth-user" id="authUser" style="display: none">
+            <span class="welcome-text">Xin chào, <b id="usernameDisplay">User</b></span>
+            <button class="btn-logout" id="btnLogout">Đăng xuất</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- BREADCRUMB -->
+    <div class="breadcrumb" id="breadcrumb">
+      <a href="index.html">Trang chủ</a>
+      <span class="separator">›</span>
+      <a href="news.html">Tin tức</a>
+      <span class="separator">›</span>
+      <span class="current" id="breadcrumbTitle">Đang tải...</span>
+    </div>
+
+    <!-- LAYOUT CHÍNH -->
+    <div class="detail-layout">
+      <!-- CỘT TRÁI: BÀI VIẾT -->
+      <article class="article-main" id="articleMain">
+        <!-- Nội dung sẽ được JS render vào đây -->
+        <div style="text-align: center; padding: 60px 20px; color: #999;">
+          <i class="fa-solid fa-spinner fa-spin" style="font-size: 32px; margin-bottom: 15px;"></i>
+          <p>Đang tải bài viết...</p>
+        </div>
+      </article>
+
+      <!-- CỘT PHẢI: SIDEBAR -->
+      <aside class="article-sidebar">
+        <!-- Bài viết liên quan -->
+        <div class="sidebar-box">
+          <h4><i class="fa-solid fa-fire"></i> Tin tức khác</h4>
+          <div id="relatedArticles">
+            <!-- JS sẽ render danh sách bài liên quan -->
+          </div>
+        </div>
+
+        <!-- Thông tin nhà xe -->
+        <div class="sidebar-box">
+          <h4><i class="fa-solid fa-bus"></i> Nhà xe TSH</h4>
+          <ul class="info-list">
+            <li>
+              <i class="fa-solid fa-phone"></i>
+              <span>Hotline: <b>0123 456 789</b></span>
+            </li>
+            <li>
+              <i class="fa-solid fa-envelope"></i>
+              <span>Email: info@tshbus.vn</span>
+            </li>
+            <li>
+              <i class="fa-solid fa-location-dot"></i>
+              <span>Thanh Hóa, Việt Nam</span>
+            </li>
+            <li>
+              <i class="fa-solid fa-clock"></i>
+              <span>Hoạt động: 05:00 - 22:00</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Nút quay lại -->
+        <a href="news.html" class="btn-back">
+          <i class="fa-solid fa-arrow-left"></i> Quay lại trang Tin tức
+        </a>
+      </aside>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="footer-container">
+        <div class="footer-col">
+          <h3>Tuyến xe phổ biến</h3>
+          <ul>
+            <li>TP Thanh Hóa - Hà Nội</li>
+            <li>Hà Nội - TP Thanh Hóa</li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h3>Về chúng tôi</h3>
+          <ul>
+            <li><a href="introduce.html">Giới thiệu Nhà xe TSH</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h3>Hỗ trợ</h3>
+          <ul>
+            <li>Hướng dẫn thanh toán</li>
+            <li>Chính sách hoàn tiền</li>
+          </ul>
+        </div>
+        <div class="footer-col company">
+          <h3>NHÀ XE TSH</h3>
+          <p>Thanh Hóa, Việt Nam</p>
+          <p>Hotline: 0123 456 789</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- SCRIPT -->
+    <script>
+      // ==========================================
+      // DỮ LIỆU BÀI VIẾT (Hardcode)
+      // ==========================================
+      const NEWS_DATA = [
+        {
+          id: 1,
+          title: "KHAI TRƯƠNG TUYẾN MỚI VĨNH LỘC ⇔ HÀ NỘI & THẠCH THÀNH ⇔ HÀ NỘI",
+          date: "03:50 - 04/07/2025",
+          author: "Ban Truyền thông TSH",
+          tag: "🚍 Mở rộng mạng lưới",
+          tagClass: "badge-route",
+          image: "https://www.misa.vn/Portals/0/Upload2012/yahoocomvn/Images/10/mo_rong_mang_luoi_cac_moi_quan_he_de_thanh_cong.jpg",
+          tags: ["Tuyến mới", "Mở rộng", "Vĩnh Lộc", "Thạch Thành"],
+          content: `
+            <p>Sáng nay 03/07/2025, Nhà xe TSH chính thức đưa vào vận hành <b>2 tuyến xe mới</b>: <b>VĨNH LỘC ⇔ HÀ NỘI</b> và <b>THẠCH THÀNH ⇔ HÀ NỘI</b>, đánh dấu thêm một bước tiến mạnh mẽ trong việc phủ kín các huyện trọng điểm của tỉnh Thanh Hóa.</p>
+
+            <div class="highlight-box">
+              "Chúng tôi luôn đặt mục tiêu mở rộng mạng lưới tuyến xe để phục vụ bà con từ mọi miền quê thuận lợi nhất. Hai tuyến mới này là minh chứng cho cam kết đó." — <b>Ông Nguyễn Văn A</b>, Giám đốc Nhà xe TSH.
+            </div>
+
+            <h3>Thông tin chi tiết các tuyến mới</h3>
+            <p>Hai tuyến xe mới sẽ hoạt động với <b>tần suất liên tục từ 05:00 đến 20:00 hàng ngày</b>, phục vụ nhu cầu đi lại ngày càng tăng cao của người dân hai huyện Vĩnh Lộc và Thạch Thành.</p>
+
+            <ul>
+              <li><b>Tuyến Vĩnh Lộc ⇔ Hà Nội:</b> Khởi hành từ trung tâm thị trấn Vĩnh Lộc, đi qua Hà Trung, Bỉm Sơn rồi lên cao tốc Mai Sơn - QL45 về Hà Nội. Thời gian di chuyển ước tính: <b>3 giờ 30 phút</b>.</li>
+              <li><b>Tuyến Thạch Thành ⇔ Hà Nội:</b> Xuất phát từ Bến xe Thạch Thành, đi qua Cẩm Thủy, Ngọc Lặc trước khi hòa nhập cao tốc. Thời gian di chuyển ước tính: <b>4 giờ</b>.</li>
+            </ul>
+
+            <h3>Ưu đãi chào mừng khai trương</h3>
+            <p>Nhân dịp khai trương, Nhà xe TSH triển khai chương trình <b>giảm giá 20%</b> cho tất cả các vé đặt trên 2 tuyến mới trong <b>2 tuần đầu tiên</b> (từ 04/07 đến 18/07/2025). Khách hàng chỉ cần đặt vé trực tuyến trên website hoặc gọi hotline 0123 456 789.</p>
+
+            <img src="https://bsgroup.com.vn/wp-content/uploads/2021/04/%C4%90%C3%A1ng-nh%E1%BB%9B.jpg" alt="Khai trương tuyến xe mới TSH" />
+
+            <h3>Cam kết từ Nhà xe TSH</h3>
+            <p>Với đội ngũ tài xế giàu kinh nghiệm, xe đời mới đầy đủ tiện nghi (wifi, ổ cắm sạc, nước uống miễn phí), Nhà xe TSH cam kết mang đến trải nghiệm di chuyển an toàn, thoải mái và đúng giờ nhất cho quý khách hàng.</p>
+
+            <p>Hãy đặt vé ngay hôm nay để trải nghiệm 2 tuyến xe mới!</p>
+          `
+        },
+        {
+          id: 2,
+          title: "Nhà xe TSH ký hợp đồng mua 250 xe ô tô KimLong 99 và KimLong X9",
+          date: "11:53 - 20/12/2024",
+          author: "Phòng Truyền thông",
+          tag: "📝 Đầu tư lớn",
+          tagClass: "badge-invest",
+          image: "https://cafefcdn.com/thumb_w/640/203337114487263232/2022/1/30/photo1643549257814-16435492582981790684739.jpeg",
+          tags: ["Đầu tư", "KimLong", "Đội xe mới", "Nâng cấp"],
+          content: `
+            <p>Hướng đến mục tiêu mở rộng phạm vi hoạt động trải dài khắp cả nước và nâng cao chất lượng phục vụ, ngày <b>10/12/2024</b>, tại Khu Kinh tế Chân Mây, Nhà xe TSH đã chính thức ký kết hợp đồng bàn giao <b>250 xe ô tô</b> thuộc hai dòng sản phẩm cao cấp: <b>KimLong 99</b> và <b>KimLong X9</b>.</p>
+
+            <div class="highlight-box">
+              Đây là thương vụ có tổng giá trị lên tới <b>hàng trăm tỷ đồng</b>, thể hiện tầm nhìn chiến lược và quyết tâm đầu tư mạnh mẽ của TSH vào chất lượng dịch vụ.
+            </div>
+
+            <h3>Về dòng xe KimLong 99 và KimLong X9</h3>
+            <p>Hai dòng xe KimLong 99 và KimLong X9 là sản phẩm <b>thế hệ mới nhất</b> của nhà sản xuất ô tô KimLong, được thiết kế riêng cho thị trường vận tải hành khách đường dài tại Việt Nam. Các tính năng nổi bật bao gồm:</p>
+
+            <ul>
+              <li><b>Động cơ Euro 5:</b> Tiết kiệm nhiên liệu, thân thiện với môi trường.</li>
+              <li><b>Ghế ngồi cao cấp:</b> Ghế massage tích hợp, có thể ngả 160 độ, phù hợp cho các chặng đường dài.</li>
+              <li><b>Hệ thống giải trí:</b> Wifi tốc độ cao, màn hình cá nhân, ổ cắm USB cho từng hành khách.</li>
+              <li><b>An toàn tối đa:</b> Hệ thống phanh ABS, cảnh báo va chạm, camera 360 độ và hộp đen hành trình.</li>
+              <li><b>Tiện nghi:</b> Điều hòa 2 chiều, nhà vệ sinh trên xe, hệ thống lọc không khí.</li>
+            </ul>
+
+            <img src="https://cafefcdn.com/thumb_w/640/203337114487263232/2022/1/30/photo1643549257814-16435492582981790684739.jpeg" alt="Lễ ký kết mua xe KimLong" />
+
+            <h3>Kế hoạch triển khai</h3>
+            <p>250 xe mới sẽ được đưa vào hoạt động theo lộ trình:</p>
+            <ol>
+              <li><b>Giai đoạn 1 (Q1/2025):</b> 80 xe đầu tiên phục vụ tuyến Thanh Hóa - Hà Nội.</li>
+              <li><b>Giai đoạn 2 (Q2/2025):</b> 100 xe tiếp theo mở rộng ra các tuyến liên tỉnh miền Trung.</li>
+              <li><b>Giai đoạn 3 (Q3/2025):</b> 70 xe còn lại phủ kín tuyến Bắc - Nam.</li>
+            </ol>
+
+            <p>Với sự đầu tư bài bản và quy mô này, TSH kỳ vọng sẽ nâng tổng số đội xe lên <b>hơn 500 chiếc</b>, trở thành một trong những nhà xe có đội xe lớn và hiện đại nhất Việt Nam.</p>
+          `
+        },
+        {
+          id: 3,
+          title: "1 TIẾNG/CHUYẾN - CHUYÊN NGHIỆP, ĐÚNG GIỜ CÙNG NHÀ XE TSH",
+          date: "04:01 - 27/09/2024",
+          author: "Phòng Marketing",
+          tag: "⏰ Cam kết chất lượng",
+          tagClass: "badge-quality",
+          image: "https://tapdoanxedien.vn/upfiles/image/tin-tuc/cam-ket-hai-long.jpg",
+          tags: ["Đúng giờ", "Chất lượng", "1 tiếng/chuyến", "Cam kết"],
+          content: `
+            <p>Nhà xe TSH tự hào là đơn vị <b>tiên phong</b> áp dụng chuẩn <b>"1 tiếng/chuyến"</b> trên tuyến đường huyết mạch Thanh Hóa - Hà Nội. Với lịch trình dày đặc và tần suất liên tục, khách hàng hoàn toàn chủ động thời gian đi lại mà không phải lo chờ đợi lâu.</p>
+
+            <div class="highlight-box">
+              Cứ mỗi <b>60 phút</b>, một chuyến xe TSH xuất bến. Bạn không cần đặt trước, chỉ cần đến bến xe và lên chuyến gần nhất!
+            </div>
+
+            <h3>"1 tiếng/chuyến" nghĩa là gì?</h3>
+            <p>Đây là cam kết của TSH về tần suất hoạt động: mỗi <b>1 tiếng đồng hồ</b>, sẽ có ít nhất 1 chuyến xe xuất phát từ mỗi đầu bến. Điều này đồng nghĩa với việc:</p>
+
+            <ul>
+              <li>Bạn <b>không phải chờ đợi lâu</b> tại bến xe.</li>
+              <li>Lịch trình <b>linh hoạt tối đa</b>, phù hợp mọi khung giờ trong ngày.</li>
+              <li>Giảm thiểu tình trạng <b>quá tải hành khách</b> vào giờ cao điểm.</li>
+              <li>Dễ dàng <b>bắt chuyến tiếp</b> nếu lỡ chuyến trước.</li>
+            </ul>
+
+            <h3>Bảng giờ xuất bến tham khảo</h3>
+            <p>Dưới đây là lịch trình xuất bến trong ngày trên tuyến chính <b>Thanh Hóa ⇔ Hà Nội</b>:</p>
+
+            <ul>
+              <li><b>Sáng sớm:</b> 05:00 - 06:00 - 07:00 - 08:00</li>
+              <li><b>Buổi trưa:</b> 09:00 - 10:00 - 11:00 - 12:00</li>
+              <li><b>Buổi chiều:</b> 13:00 - 14:00 - 15:00 - 16:00</li>
+              <li><b>Buổi tối:</b> 17:00 - 18:00 - 19:00 - 20:00</li>
+            </ul>
+
+            <img src="https://tapdoanxedien.vn/upfiles/image/tin-tuc/cam-ket-hai-long.jpg" alt="Cam kết chất lượng TSH" />
+
+            <h3>Chất lượng đồng hành cùng tần suất</h3>
+            <p>Không chỉ tăng tần suất, TSH còn đảm bảo <b>chất lượng đồng nhất</b> trên mọi chuyến xe:</p>
+            <ul>
+              <li>100% xe đời mới, máy lạnh, wifi miễn phí.</li>
+              <li>Tài xế được đào tạo chuyên nghiệp, lái xe an toàn.</li>
+              <li>Phục vụ nước uống, khăn lạnh miễn phí trên xe.</li>
+              <li>Đón/trả khách tận nơi trong nội thành (theo lịch trình).</li>
+            </ul>
+
+            <p>Hãy trải nghiệm dịch vụ <b>"1 tiếng/chuyến"</b> của Nhà xe TSH ngay hôm nay. Đặt vé nhanh chóng tại website hoặc gọi hotline: <b>0123 456 789</b>!</p>
+          `
+        }
+      ];
+
+      // ==========================================
+      // RENDER BÀI VIẾT THEO ID TỪ URL
+      // ==========================================
+      document.addEventListener("DOMContentLoaded", function () {
+        // 1. Xác thực đăng nhập
+        const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+        const authGuest = document.getElementById("authGuest");
+        const authUser = document.getElementById("authUser");
+        const usernameDisplay = document.getElementById("usernameDisplay");
+        const btnLogout = document.getElementById("btnLogout");
+
+        if (currentUser && authGuest && authUser) {
+          authGuest.style.display = "none";
+          authUser.style.display = "flex";
+          if (usernameDisplay)
+            usernameDisplay.textContent = currentUser.name || currentUser.username;
+        }
+
+        if (btnLogout) {
+          btnLogout.addEventListener("click", function () {
+            localStorage.removeItem("currentUser");
+            window.location.reload();
+          });
+        }
+
+        // 2. Lấy ID bài viết từ URL
+        const params = new URLSearchParams(window.location.search);
+        const articleId = parseInt(params.get("id"));
+
+        // 3. Tìm bài viết theo ID
+        const article = NEWS_DATA.find(a => a.id === articleId);
+
+        if (!article) {
+          document.getElementById("articleMain").innerHTML = `
+            <div style="text-align: center; padding: 80px 20px;">
+              <i class="fa-solid fa-face-sad-tear" style="font-size: 48px; color: #ddd; margin-bottom: 15px;"></i>
+              <h3 style="color: #999; margin-bottom: 10px;">Không tìm thấy bài viết</h3>
+              <p style="color: #bbb;">Bài viết này có thể đã bị xóa hoặc không tồn tại.</p>
+              <a href="news.html" class="btn-back" style="display: inline-flex; margin-top: 20px; width: auto;">
+                <i class="fa-solid fa-arrow-left"></i> Quay lại Tin tức
+              </a>
+            </div>
+          `;
+          return;
+        }
+
+        // 4. Cập nhật tiêu đề trang
+        document.getElementById("pageTitle").textContent = article.title + " - Nhà xe TSH";
+        document.getElementById("breadcrumbTitle").textContent = article.title.length > 50
+          ? article.title.substring(0, 50) + '...'
+          : article.title;
+
+        // 5. Render nội dung bài viết
+        document.getElementById("articleMain").innerHTML = `
+          <div class="article-hero">
+            <img src="${article.image}" alt="${article.title}" />
+            <span class="news-tag ${article.tagClass}">${article.tag}</span>
+          </div>
+          <div class="article-body">
+            <h1 class="article-title">${article.title}</h1>
+            <div class="article-meta">
+              <span><i class="fa-regular fa-clock"></i> ${article.date}</span>
+              <span><i class="fa-regular fa-user"></i> <span class="meta-author">${article.author}</span></span>
+              <span><i class="fa-regular fa-eye"></i> ${Math.floor(Math.random() * 3000 + 500)} lượt xem</span>
+            </div>
+            <div class="article-content">
+              ${article.content}
+            </div>
+            <div class="article-footer">
+              <div class="article-tags">
+                ${article.tags.map(t => `<span>${t}</span>`).join('')}
+              </div>
+              <div class="article-share">
+                <span>Chia sẻ:</span>
+                <button class="share-btn share-fb" title="Facebook"><i class="fa-brands fa-facebook-f"></i></button>
+                <button class="share-btn share-tw" title="Twitter"><i class="fa-brands fa-twitter"></i></button>
+                <button class="share-btn share-link" title="Sao chép link"><i class="fa-solid fa-link"></i></button>
+              </div>
+            </div>
+          </div>
+        `;
+
+        // 6. Render bài viết liên quan (sidebar)
+        const relatedArticles = NEWS_DATA.filter(a => a.id !== articleId);
+        document.getElementById("relatedArticles").innerHTML = relatedArticles.map(a => `
+          <a class="related-card" href="news-detail.html?id=${a.id}">
+            <img src="${a.image}" alt="${a.title}" />
+            <div class="related-card-info">
+              <h5>${a.title}</h5>
+              <span class="related-date"><i class="fa-regular fa-clock"></i> ${a.date}</span>
+            </div>
+          </a>
+        `).join('');
+      });
+    </script>
+  </body>
+</html>

@@ -42,7 +42,7 @@ public class PaymentController {
         if (vnp_OrderInfo != null) {
         bookingId = vnp_OrderInfo.replace("Thanh toan don hang ", "").trim();        }
         
-        String frontendUrl = "http://127.0.0.1:5500/success.html";
+        String frontendUrl = "http://127.0.0.1:5501/success.html";
 
         if ("00".equals(vnp_ResponseCode)) {
             paymentService.updatePaymentStatus(request);
