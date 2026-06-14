@@ -28,29 +28,25 @@
       </nav>
       <div class="header-right">
         <div class="lang">🇻🇳</div>
-        <!-- Vùng Auth được đồng bộ cấu trúc class/id để JS dễ dàng thao tác -->
-        <div class="auth-container" id="authContainer">
-          <div class="auth-guest" id="authGuest">
-            <button
-              class="btn-text"
-              onclick="window.location.href = 'login.html'"
-            >
-              Đăng nhập
-            </button>
-            <span class="divider">/</span>
-            <button
-              class="btn-text"
-              onclick="window.location.href = 'register.html'"
-            >
-              Đăng ký
-            </button>
-          </div>
-          <div class="auth-user" id="authUser" style="display: none">
-            <span class="welcome-text"
-              >Xin chào, <b id="usernameDisplay">User</b></span
-            >
-            <button class="btn-logout" id="btnLogout">Đăng xuất</button>
-          </div>
+        <div class="auth-guest" id="authGuest">
+          <button
+            class="btn-text"
+            onclick="window.location.href = 'login.html'"
+          >
+            Đăng nhập
+          </button>
+          <span class="divider">/</span>
+          <button
+            class="btn-text"
+            onclick="window.location.href = 'register.html'"
+          >
+            Đăng ký
+          </button>
+        </div>
+        <div class="auth-user" id="authUser" style="display: none">
+          <span class="greeting">HI <span id="userNameDisplay"></span></span>
+          <span class="divider">|</span>
+          <button class="btn-outline" id="btnLogout">Đăng xuất</button>
         </div>
       </div>
     </header>
@@ -79,7 +75,7 @@
           trên cả nước.
         </p>
         <blockquote class="slogan-quote">
-          “An toàn – Đúng giờ – Chuyên nghiệp – Tận tâm”
+          "An toàn – Đúng giờ – Chuyên nghiệp – Tận tâm"
         </blockquote>
         <p>
           Trải qua nhiều năm hoạt động trong lĩnh vực vận tải hành khách, Nhà xe
@@ -236,32 +232,7 @@
       </div>
     </footer>
 
-    <!-- Khởi chạy script chung cho trang (Ví dụ: logic đổi trạng thái header giống tuyen-dung.js) -->
-    <script>
-      // Bạn có thể nhúng trực tiếp đoạn xử lý Auth giống bên tuyen-dung.html vào đây
-      // hoặc link tới một file js dùng chung để đảm bảo tính đồng bộ hoàn toàn.
-      document.addEventListener("DOMContentLoaded", function () {
-        const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-        const authGuest = document.getElementById("authGuest");
-        const authUser = document.getElementById("authUser");
-        const usernameDisplay = document.getElementById("usernameDisplay");
-        const btnLogout = document.getElementById("btnLogout");
-
-        if (currentUser && authGuest && authUser) {
-          authGuest.style.display = "none";
-          authUser.style.display = "flex";
-          if (usernameDisplay)
-            usernameDisplay.textContent =
-              currentUser.name || currentUser.username;
-        }
-
-        if (btnLogout) {
-          btnLogout.addEventListener("click", function () {
-            localStorage.removeItem("currentUser");
-            window.location.reload();
-          });
-        }
-      });
-    </script>
+    <!-- Script đồng bộ trạng thái đăng nhập -->
+    <script src="js/auth.js"></script>
   </body>
 </html>
