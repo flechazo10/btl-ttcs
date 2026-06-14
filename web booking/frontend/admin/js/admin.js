@@ -210,7 +210,7 @@ async function loadRealTrips(dateStr) {
                 : '<span class="badge badge-active">Hoạt động</span>';
             
             // Nếu đã hủy thì ẩn nút Hủy đi, chỉ hiện nút xem khách
-            const btnCancel = isCancelled ? '' : `<button class="btn-danger-outline" onclick="cancelTrip(${t.id})"><i class="fa-solid fa-ban"></i> Hủy chuyến</button>`;
+            const btnCancel = isCancelled ? '' : `<button class="btn-danger-outline" onclick="cancelTrip(${t.id}, '${t.departureTime}')"><i class="fa-solid fa-ban"></i> Hủy chuyến</button>`;
             const btnView = `<button class="btn-info-outline" onclick="viewPassengers(${t.id})"><i class="fa-solid fa-users"></i> Xem khách</button>`;
 
             return `
@@ -343,7 +343,39 @@ async function deleteTemplateTrip(tripId) {
 }
 
 // 3. Hủy chuyến (Cho lịch trình thực tế)
-async function cancelTrip(tripId) {
+async function cancelTrip(tripId, departureTime) {
+    // 🌟 KIỂM TRA THỜI GIAN: Không cho hủy chuyến đã chạy hoặc sắp chạy trong 30 phút
+    const now = new Date();
+    const depTime = new Date(departureTime);
+    const timeDiffMinutes = (depTime - now) / (1000 * 60); // Chênh lệch tính bằng phút
+
+    if (timeDiffMinutes <= 30) {
+        // Chuyến đã khởi hành hoặc sắp khởi hành trong 30 phút
+        const depTimeFormatted = depTime.toLocaleString('vi-VN', {
+            hour: '2-digit', minute: '2-digit',
+            day: '2-digit', month: '2-digit', year: 'numeric'
+        });
+
+        if (timeDiffMinutes <= 0) {
+            // Chuyến đã khởi hành
+            await showAlert(
+                `Không thể hủy chuyến xe này!<br><br>` +
+                `<b>Lý do:</b> Chuyến xe đã khởi hành lúc <b>${depTimeFormatted}</b>.<br>` +
+                `Chỉ có thể hủy các chuyến xe chưa khởi hành và còn cách giờ chạy ít nhất <b>30 phút</b>.`,
+                'error'
+            );
+        } else {
+            // Chuyến sắp khởi hành trong 30 phút
+            await showAlert(
+                `Không thể hủy chuyến xe này!<br><br>` +
+                `<b>Lý do:</b> Chuyến xe sẽ khởi hành lúc <b>${depTimeFormatted}</b> (còn chưa đến 30 phút).<br>` +
+                `Để đảm bảo quyền lợi hành khách, chỉ được hủy chuyến trước giờ khởi hành ít nhất <b>30 phút</b>.`,
+                'error'
+            );
+        }
+        return; // Dừng lại, không cho hủy
+    }
+
     const confirmed = await showConfirm("Bạn có chắc chắn muốn <b>hủy chuyến xe</b> này?<br>Hệ thống sẽ tự động hoàn tiền cho khách!", {
         type: 'warning',
         confirmText: 'Hủy chuyến',

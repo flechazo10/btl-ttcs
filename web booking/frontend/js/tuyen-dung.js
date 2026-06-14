@@ -1,20 +1,5 @@
-// Kiểm tra đăng nhập
-document.addEventListener("DOMContentLoaded", function () {
-  const isLoggedIn = localStorage.getItem("isLoggedIn");
-  const currentUsername = localStorage.getItem("currentUsername");
+// Kiểm tra đăng nhập - được xử lý bởi js/auth.js
 
-  if (isLoggedIn === "true" && currentUsername) {
-    document.getElementById("authGuest").style.display = "none";
-    document.getElementById("authUser").style.display = "flex";
-    document.getElementById("userNameDisplay").innerText = currentUsername;
-  }
-
-  document.getElementById("btnLogout")?.addEventListener("click", () => {
-    localStorage.removeItem("isLoggedIn");
-    localStorage.removeItem("currentUsername");
-    window.location.reload();
-  });
-});
 
 // Dữ liệu việc làm chi tiết
 const jobDetails = [

@@ -31,20 +31,19 @@
 
       <div class="header-right">
         <div class="lang">🇻🇳</div>
-        <div class="auth-container" id="authContainer">
-          <div class="auth-guest" id="authGuest">
-            <button class="btn-text" onclick="window.location.href = 'login.html'">
-              Đăng nhập
-            </button>
-            <span class="divider">/</span>
-            <button class="btn-text" onclick="window.location.href = 'register.html'">
-              Đăng ký
-            </button>
-          </div>
-          <div class="auth-user" id="authUser" style="display: none">
-            <span class="welcome-text">Xin chào, <b id="usernameDisplay">User</b></span>
-            <button class="btn-logout" id="btnLogout">Đăng xuất</button>
-          </div>
+        <div class="auth-guest" id="authGuest">
+          <button class="btn-text" onclick="window.location.href = 'login.html'">
+            Đăng nhập
+          </button>
+          <span class="divider">/</span>
+          <button class="btn-text" onclick="window.location.href = 'register.html'">
+            Đăng ký
+          </button>
+        </div>
+        <div class="auth-user" id="authUser" style="display: none">
+          <span class="greeting">HI <span id="userNameDisplay"></span></span>
+          <span class="divider">|</span>
+          <button class="btn-outline" id="btnLogout">Đăng xuất</button>
         </div>
       </div>
     </header>
@@ -139,6 +138,9 @@
         </div>
       </div>
     </footer>
+
+    <!-- Script đồng bộ trạng thái đăng nhập -->
+    <script src="js/auth.js"></script>
 
     <!-- SCRIPT -->
     <script>
@@ -277,26 +279,7 @@
       // RENDER BÀI VIẾT THEO ID TỪ URL
       // ==========================================
       document.addEventListener("DOMContentLoaded", function () {
-        // 1. Xác thực đăng nhập
-        const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-        const authGuest = document.getElementById("authGuest");
-        const authUser = document.getElementById("authUser");
-        const usernameDisplay = document.getElementById("usernameDisplay");
-        const btnLogout = document.getElementById("btnLogout");
-
-        if (currentUser && authGuest && authUser) {
-          authGuest.style.display = "none";
-          authUser.style.display = "flex";
-          if (usernameDisplay)
-            usernameDisplay.textContent = currentUser.name || currentUser.username;
-        }
-
-        if (btnLogout) {
-          btnLogout.addEventListener("click", function () {
-            localStorage.removeItem("currentUser");
-            window.location.reload();
-          });
-        }
+        // 1. Xác thực đăng nhập - handled by auth.js
 
         // 2. Lấy ID bài viết từ URL
         const params = new URLSearchParams(window.location.search);
